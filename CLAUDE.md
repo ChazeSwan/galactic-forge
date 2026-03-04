@@ -109,3 +109,5 @@ real Shopify theme development skills.
 - Design decisions wait until Phase 3 — no visual choices before then
 - Always commit to Git before starting something new
 - Celebrate small wins — this is a learning journey
+- When asked to generate a session handoff, save it to HANDOFF.md in the project root
+- If chaz says anything that signals he is stepping away — taking a break, leavcing, done for the day, etc — automatically generate and save a handoff to HANDOFF.md before responding
