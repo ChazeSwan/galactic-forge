@@ -79,6 +79,45 @@ real Shopify theme development skills.
 - Lightsaber variant selector with animated transitions between parts
 - Theme settings for both Light Side and Dark Side variations
 
+## Locked Decisions
+
+### Phase 1 — Complete
+- Shopify CLI installed and authenticated
+- Skeleton theme initialized and connected to Galactic Forge dev store
+
+### Phase 2 — Complete
+- 10 products added to Shopify admin
+- Light Side: Jedi Poster, R2-D2, Clone Trooper, Luke Skywalker, Luke's Lightsaber
+- Dark Side: Sith Poster, Imperial Probe Droid, Battle Droid, Darth Vader, Vader's Lightsaber
+- Clone Trooper variants: 501st Legion, 212th Attack Battalion
+- Battle Droid variants: B1 Series, B2 Super Battle Droid
+- Lightsaber variants: 3 options (Emitter, Hilt, Pommel) × 2 styles each = 8 variants per saber
+- Luke's Lightsaber price: 249.99 | Vader's Lightsaber price: 249.99
+- All other products priced at 49.99
+
+### Phase 3 — Complete
+- Entry experience: full screen split — Light Side left, Dark Side right, click to choose
+- Page structure: Homepage, Collection page, Product page (V2 for anything additional)
+- Lightsaber product page: visual part configurator with left/right arrows per part,
+  animated transitions — customer configures all 3 parts then adds to cart
+
+**Light Side (Jedi) Design:**
+- Font: Cinzel (Google Fonts)
+- Background: #F7FAFC
+- Text: #1A1A2E
+- Primary accent (Jedi blue): #2B6CB0
+- Energy/glow (Force blue): #90CDF4
+- Secondary accent (saber green): #48BB78
+
+**Dark Side (Sith) Design:**
+- Font: Bebas Neue (Google Fonts)
+- Background: #0D0D0D
+- Text: #E2E8F0
+- Primary accent (Sith crimson): #C53030
+- Secondary accent (deep red): #742A2A
+- Neutral (dark grey): #4A5568
+- Energy/glow (lightning white): #EBF8FF
+
 ## Technical Constraints
 
 ### Always Use
