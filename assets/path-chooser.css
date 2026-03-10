@@ -1,0 +1,608 @@
+/* =============================================================================
+   path-chooser.css
+   ─────────────────────────────────────────────────────────────────────────────
+   Styles for the Galactic Forge entry screen.
+   Visitor chooses Light Side or Dark Side before entering the store.
+
+   Sections:
+   1. Fonts
+   2. Entry Screen Container
+   3. Intro Overlay ("A long time ago...")
+   4. Split Screen Layout
+   5. Individual Panels
+   6. Lightsaber Lines (hover ignition effect)
+   7. Center Divider
+   8. Panel Content (emblem, title, subtitle, button)
+   9. Emblems / SVG icons
+   10. Titles
+   11. Subtitles
+   12. Enter Buttons
+   13. Exit Transition
+   14. Mobile
+   ============================================================================= */
+
+
+/* 1. Fonts
+   ─────────────────────────────────────────────────────────────────────────────
+   Cinzel  — elegant serif for the Jedi / Light Side
+   Bebas Neue — bold, condensed display type for the Sith / Dark Side
+   ───────────────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Bebas+Neue&family=Oswald:wght@400;600;700&display=swap');
+
+
+/* 2. Entry Screen Container
+   ─────────────────────────────────────────────────────────────────────────────
+   Fixed overlay covering the full viewport.
+   Sits above all other page content while active.
+   ───────────────────────────────────────────────────────────────────────────── */
+#gf-entry-screen {
+  position: fixed;
+  inset: 0; /* top: 0; right: 0; bottom: 0; left: 0 */
+  z-index: 9999;
+  overflow: hidden;
+  background: #000; /* Ensures no page content bleeds through during transitions */
+}
+
+
+/* 3. Intro Overlay — "A long time ago..."
+   ─────────────────────────────────────────────────────────────────────────────
+   Full-screen black panel shown before the split screen appears.
+   The intro text CSS animation runs for 5s, then JS fades the overlay away.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-intro {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: opacity 0.8s ease;
+}
+
+/* JS adds this class when the intro animation is done */
+.gf-intro.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gf-intro__text {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.95rem, 2vw, 1.4rem);
+  color: #9bb0d4; /* Classic Star Wars opening crawl blue */
+  letter-spacing: 0.1em;
+  text-align: center;
+  max-width: 560px;
+  padding: 0 2rem;
+  opacity: 0; /* Starts invisible — animation handles reveal */
+  animation: gfIntroText 3.5s ease forwards;
+}
+
+/* Intro text: fade in → hold → fade out */
+@keyframes gfIntroText {
+  0%   { opacity: 0; }
+  18%  { opacity: 1; }
+  72%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+/* 4. Split Screen Layout
+   ─────────────────────────────────────────────────────────────────────────────
+   Two panels sit side by side, filling the full viewport.
+   Hidden on load — JS adds `.is-visible` after the intro finishes.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-split {
+  position: relative; /* Contains the absolute divider line */
+  display: flex;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+/* JS adds this class to reveal the split screen */
+.gf-split.is-visible {
+  opacity: 1;
+}
+
+
+/* 5. Individual Panels
+   ─────────────────────────────────────────────────────────────────────────────
+   Each panel takes up 50% by default. On hover, the hovered side expands to
+   ~60% and the other contracts to ~40% using CSS flexbox ratios.
+   CSS :has() makes this work without any JavaScript.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-panel {
+  position: relative;
+  flex: 1; /* Equal 50/50 split by default */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hovered panel expands to 60%, other contracts to 40% */
+.gf-split:has(.gf-panel--light:hover) .gf-panel--light,
+.gf-split:has(.gf-panel--dark:hover) .gf-panel--dark {
+  flex: 1.5; /* 1.5 / (1.5 + 1) = 60% */
+}
+
+/* Light Side — clean, bright background */
+.gf-panel--light {
+  background: #F7FAFC;
+}
+
+/* Dark Side — near-black background */
+.gf-panel--dark {
+  background: #0D0D0D;
+}
+
+/* Dim the non-hovered panel slightly */
+.gf-split:has(.gf-panel--light:hover) .gf-panel--dark,
+.gf-split:has(.gf-panel--dark:hover) .gf-panel--light {
+  filter: brightness(0.85);
+  transition: filter 0.5s ease, flex 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* 6. Lightsaber Blade — ignition animation on the emblem
+   ─────────────────────────────────────────────────────────────────────────────
+   The .ls-blade group inside each lightsaber SVG starts at scaleY(0) —
+   invisible. On panel hover it scales up to 1, growing from the hilt upward.
+
+   `transform-box: fill-box` makes transform-origin relative to the element's
+   own bounding box rather than the SVG canvas — essential for scaleY to work
+   correctly inside an SVG.
+
+   `transform-origin: bottom center` means the blade grows from its bottom
+   edge (the guard junction) upward toward the tip.
+   ───────────────────────────────────────────────────────────────────────────── */
+.ls-blade {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  transform: scaleY(0);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gf-panel:hover .ls-blade {
+  transform: scaleY(1);
+}
+
+/* Glow effect on the blade — applied to the SVG element on hover */
+.gf-panel--light:hover .gf-emblem svg {
+  filter:
+    drop-shadow(0 0 6px #90CDF4)
+    drop-shadow(0 0 18px #2B6CB0);
+}
+
+.gf-panel--dark:hover .gf-emblem svg {
+  filter:
+    drop-shadow(0 0 6px #FC8181)
+    drop-shadow(0 0 18px #C53030);
+}
+
+
+/* 8. Panel Content
+   ─────────────────────────────────────────────────────────────────────────────
+   Inner container for the emblem, title, subtitle, and button.
+   Content elements are staggered — each has a slightly longer animation-delay
+   so they appear sequentially after the split screen fades in.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-panel__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 3;
+}
+
+/* All content starts invisible; staggered fadeInUp animation kicks in
+   once the parent split screen becomes visible (.is-visible) */
+.gf-split.is-visible .gf-emblem          { animation: gfFadeInUp 0.7s ease 0.3s both; }
+.gf-split.is-visible .gf-panel__title    { animation: gfFadeInUp 0.7s ease 0.6s both; }
+.gf-split.is-visible .gf-panel__subtitle { animation: gfFadeInUp 0.7s ease 0.9s both; }
+.gf-split.is-visible .gf-btn             { animation: gfFadeInUp 0.7s ease 1.2s both; }
+
+@keyframes gfFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* 9. Emblems / SVG Icons
+   ─────────────────────────────────────────────────────────────────────────────
+   The SVG snippets use `currentColor` — setting `color` on the wrapper
+   controls the SVG fill without touching the SVG markup itself.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-emblem {
+  width: 44px;   /* Narrow to match the lightsaber's slim profile */
+  height: 180px; /* Tall to give the blade room to grow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gf-emblem svg {
+  width: 100%;
+  height: 100%;
+  transition: filter 0.4s ease;
+}
+
+/* Jedi lightsaber: blue */
+.gf-panel--light .gf-emblem {
+  color: #2B6CB0;
+}
+
+/* Sith lightsaber: crimson */
+.gf-panel--dark .gf-emblem {
+  color: #C53030;
+}
+
+
+/* 10. Titles
+   ─────────────────────────────────────────────────────────────────────────────
+   Each side uses its own font — this is where the personality lives.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-panel__title {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.gf-panel--light .gf-panel__title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: #1A1A2E;
+  letter-spacing: 0.18em;
+}
+
+.gf-panel--dark .gf-panel__title {
+  font-family: 'Bebas Neue', sans-serif;
+  color: #E2E8F0;
+  letter-spacing: 0.25em;
+}
+
+
+/* 11. Subtitles
+   ─────────────────────────────────────────────────────────────────────────────
+   The quiet line beneath each title — "Choose your path" / "Embrace your destiny"
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-panel__subtitle {
+  margin: 0;
+  font-size: clamp(0.75rem, 1.4vw, 0.95rem);
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.gf-panel--light .gf-panel__subtitle {
+  font-family: 'Cinzel', serif;
+  color: #1A1A2E;
+  letter-spacing: 0.12em;
+}
+
+.gf-panel--dark .gf-panel__subtitle {
+  font-family: 'Bebas Neue', sans-serif;
+  color: #E2E8F0;
+  letter-spacing: 0.2em;
+}
+
+
+/* 12. Enter Buttons
+   ─────────────────────────────────────────────────────────────────────────────
+   Transparent buttons with a colored border. Fill on hover to confirm the choice.
+   tabindex="-1" on the button means the panel div handles keyboard focus — not the button.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.75rem 2.5rem;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  pointer-events: none; /* Panel div handles clicks, not the button */
+}
+
+.gf-btn--light {
+  font-family: 'Cinzel', serif;
+  color: #2B6CB0;
+  border: 1.5px solid #2B6CB0;
+}
+
+.gf-panel--light:hover .gf-btn--light {
+  background: #2B6CB0;
+  color: #F7FAFC;
+  box-shadow: 0 0 18px rgba(144, 205, 244, 0.45);
+}
+
+.gf-btn--dark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  color: #C53030;
+  border: 1.5px solid #C53030;
+}
+
+.gf-panel--dark:hover .gf-btn--dark {
+  background: #C53030;
+  color: #E2E8F0;
+  box-shadow: 0 0 18px rgba(197, 48, 48, 0.5);
+}
+
+
+/* 13. Exit Transition
+   ─────────────────────────────────────────────────────────────────────────────
+   When the user makes their choice, JS adds `.is-exiting` to the entry screen.
+   This fades it out before removing it from the DOM.
+   ───────────────────────────────────────────────────────────────────────────── */
+#gf-entry-screen.is-exiting {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+
+/* 14. Mobile — stacked vertical layout
+   ─────────────────────────────────────────────────────────────────────────────
+   On small screens the panels stack top-to-bottom instead of side-by-side.
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+
+  /* Stack panels vertically */
+  .gf-split {
+    flex-direction: column;
+  }
+
+  /* Hovered panel expands vertically */
+  .gf-split:has(.gf-panel--light:hover) .gf-panel--light,
+  .gf-split:has(.gf-panel--dark:hover) .gf-panel--dark {
+    flex: 1.5;
+  }
+
+  /* Smaller lightsabers on mobile — keep the tall/narrow ratio */
+  .gf-emblem {
+    width: 32px;
+    height: 130px;
+  }
+
+  .gf-panel__inner {
+    gap: 0.875rem;
+  }
+}
+
+
+/* 15a. Mobile — lightsabers always ignited
+   ─────────────────────────────────────────────────────────────────────────────
+   Touch devices have no hover state, so we ignite the blades immediately.
+   `(hover: none)` targets devices where hover is not the primary input —
+   phones and tablets. The glow is also applied immediately.
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (hover: none) {
+  .ls-blade {
+    transform: scaleY(1);
+  }
+
+  .gf-panel--light .gf-emblem svg {
+    filter:
+      drop-shadow(0 0 6px #90CDF4)
+      drop-shadow(0 0 18px #2B6CB0);
+  }
+
+  .gf-panel--dark .gf-emblem svg {
+    filter:
+      drop-shadow(0 0 6px #FC8181)
+      drop-shadow(0 0 18px #C53030);
+  }
+}
+
+
+/* 15. Crawl Container
+   ─────────────────────────────────────────────────────────────────────────────
+   Full-screen black overlay that holds the perspective crawl.
+   Hidden by default — JS adds `.is-visible` to start it, `.is-done` to fade it out.
+
+   `perspective` on the parent creates the 3D depth effect.
+   `overflow: hidden` clips the text as it scrolls above the viewport.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-crawl {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  overflow: hidden;
+  perspective: 300px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+  z-index: 9;
+}
+
+/* JS adds this to fade the crawl in */
+.gf-crawl.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* JS adds this to fade the crawl out before the split screen appears */
+.gf-crawl.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* 16. Crawl Inner — the moving part
+   ─────────────────────────────────────────────────────────────────────────────
+   This is the element that physically scrolls upward.
+   `rotateX(25deg)` tilts the text plane back — creating the receding perspective.
+   `transform-origin: center bottom` means the tilt pivots from the bottom edge,
+   so text near the bottom appears larger (closer) and shrinks as it scrolls up.
+
+   The animation is paused until `.is-visible` is added to the parent —
+   this ensures the crawl only starts scrolling when it becomes visible.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-crawl__inner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  transform-origin: center bottom;
+  animation: gfCrawl 12s linear forwards;
+  animation-play-state: paused;
+}
+
+/* Start the scroll when the crawl becomes visible */
+.gf-crawl.is-visible .gf-crawl__inner {
+  animation-play-state: running;
+}
+
+/* Scrolls from below the viewport to well above it */
+@keyframes gfCrawl {
+  from { transform: rotateX(25deg) translateY(80vh); }
+  to   { transform: rotateX(25deg) translateY(-25vh); }
+}
+
+
+/* 17. Crawl Text — title, body, closing line
+   ─────────────────────────────────────────────────────────────────────────────
+   Centered column of text. Oswald is used here as a neutral pre-choice font —
+   neither Jedi (Cinzel) nor Sith (Bebas Neue).
+   Classic Star Wars crawl yellow for atmosphere.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-crawl__text {
+  width: 75%;
+  max-width: 580px;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  color: #FFD700; /* Classic Star Wars crawl gold */
+  padding-bottom: 4rem;
+}
+
+.gf-crawl__text p {
+  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+  font-weight: 400;
+  line-height: 1.8;
+  margin: 0 0 1.5rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.gf-crawl__title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin: 0 0 2rem;
+  line-height: 1.2;
+}
+
+.gf-crawl__closing {
+  font-size: clamp(1rem, 2vw, 1.3rem) !important;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  margin-top: 1rem;
+}
+
+
+/* 18. Skip Button
+   ─────────────────────────────────────────────────────────────────────────────
+   Subtle button in the bottom-right corner.
+   Low opacity by default so it doesn't distract from the atmosphere —
+   visible enough to find, understated enough not to break immersion.
+   JS hides it once the split screen appears.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-skip {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 10000;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.gf-skip:hover {
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* JS adds this to hide the skip button when the split screen appears */
+.gf-skip.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+
+/* 19. Stars — decorative galaxy background
+   ─────────────────────────────────────────────────────────────────────────────
+   A single div with a background-image made of radial-gradient dots.
+   Each gradient declaration places one star at a percentage position —
+   percentages scale with the viewport so stars stay distributed on any screen.
+
+   Three sizes of stars: 0.5px (dim), 1px (standard), 1.5px (bright accent).
+   The z-index sits behind all overlays (intro, crawl) but above the black base.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gf-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    /* Dim small stars */
+    radial-gradient(circle at  4%  8%, rgba(255,255,255,0.65) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 11% 22%, rgba(255,255,255,0.45) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 17%  5%, rgba(255,255,255,0.70) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 24% 38%, rgba(255,255,255,0.55) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 31% 15%, rgba(255,255,255,0.60) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 38% 55%, rgba(255,255,255,0.45) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 52% 72%, rgba(255,255,255,0.55) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 58% 18%, rgba(255,255,255,0.65) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 71%  8%, rgba(255,255,255,0.70) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 78% 62%, rgba(255,255,255,0.50) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 91% 78%, rgba(255,255,255,0.45) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 97% 15%, rgba(255,255,255,0.70) 0.5px, transparent 0.5px),
+    radial-gradient(circle at  7% 48%, rgba(255,255,255,0.55) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 14% 65%, rgba(255,255,255,0.40) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 21% 82%, rgba(255,255,255,0.60) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 36% 88%, rgba(255,255,255,0.50) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 43% 42%, rgba(255,255,255,0.65) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 56% 35%, rgba(255,255,255,0.60) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 63% 68%, rgba(255,255,255,0.45) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 76% 85%, rgba(255,255,255,0.65) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 83% 52%, rgba(255,255,255,0.40) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 94% 42%, rgba(255,255,255,0.70) 0.5px, transparent 0.5px),
+    /* Standard stars */
+    radial-gradient(circle at 44% 28%, rgba(255,255,255,0.80) 1px, transparent 1px),
+    radial-gradient(circle at 65% 45%, rgba(255,255,255,0.75) 1px, transparent 1px),
+    radial-gradient(circle at 84% 32%, rgba(255,255,255,0.80) 1px, transparent 1px),
+    radial-gradient(circle at 29% 58%, rgba(255,255,255,0.70) 1px, transparent 1px),
+    radial-gradient(circle at 49% 92%, rgba(255,255,255,0.65) 1px, transparent 1px),
+    radial-gradient(circle at 69% 25%, rgba(255,255,255,0.75) 1px, transparent 1px),
+    radial-gradient(circle at 89% 95%, rgba(255,255,255,0.70) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.60) 1px, transparent 1px),
+    /* Bright accent stars */
+    radial-gradient(circle at  8% 92%, rgba(255,255,255,0.95) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 33%  2%, rgba(255,255,255,0.90) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 67% 88%, rgba(255,255,255,0.95) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 89%  5%, rgba(255,255,255,0.90) 1.5px, transparent 1.5px);
+}

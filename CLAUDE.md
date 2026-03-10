@@ -118,6 +118,15 @@ real Shopify theme development skills.
 - Neutral (dark grey): #4A5568
 - Energy/glow (lightning white): #EBF8FF
 
+### Phase 4 — In Progress
+- Entry screen fully built (`sections/path-chooser.liquid`, `assets/path-chooser.css`, `assets/path-chooser.js`)
+- Animation sequence: "A long time ago..." (3.5s) → perspective crawl (12s, Oswald font, #FFD700) → split screen
+- Lightsaber SVG emblems: vertical, blade grows from hilt on hover (`scaleY` animation)
+- Mobile: blades ignited immediately via `@media (hover: none)`
+- Starfield background: CSS radial-gradient dots behind all overlays
+- Skip button: bottom-right, hides when split screen appears
+- Next: homepage sections after entry screen fades out
+
 ## Technical Constraints
 
 ### Always Use

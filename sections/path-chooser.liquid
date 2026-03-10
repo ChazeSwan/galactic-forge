@@ -1,0 +1,138 @@
+{% comment %}
+  sections/path-chooser.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  The full-screen entry experience for Galactic Forge.
+
+  Sequence:
+    1. Black screen + "A long time ago, in a galaxy far, far away...."
+    2. Intro fades out → split screen fades in
+    3. Jedi crest + Sith emblem appear → titles → subtitles → buttons
+    4. Hover: panel expands 60/40, lightsaber ignites on outer edge
+    5. Click: choice saved to localStorage, entry screen fades out
+
+  The chosen side ('light' | 'dark') is stored in localStorage under 'gf-side'
+  and set as data-gf-side on <body> so the homepage can apply the right theme.
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
+
+{% comment %} Load section stylesheet — deduped by Shopify if called multiple times {% endcomment %}
+{{ 'path-chooser.css' | asset_url | stylesheet_tag }}
+
+<section id="gf-entry-screen" aria-label="Choose your path">
+
+  {% comment %}
+    ── Stars ──
+    Decorative starfield sitting behind all other layers.
+    Purely visual — aria-hidden keeps it invisible to screen readers.
+  {% endcomment %}
+  <div class="gf-stars" aria-hidden="true"></div>
+
+  {% comment %}
+    ── Intro Overlay ──
+    Full-screen black panel shown before the split screen appears.
+    aria-hidden: this is purely decorative atmosphere, not meaningful content.
+  {% endcomment %}
+  <div class="gf-intro" id="gfIntro" aria-hidden="true">
+    <p class="gf-intro__text">A long time ago, in a galaxy far, far away....</p>
+  </div>
+
+  {% comment %}
+    ── Crawl ──
+    Hidden on load. JS shows this after the intro fades out.
+    The perspective tilt and scroll animation are handled entirely in CSS.
+    aria-hidden: decorative atmosphere, not meaningful content.
+  {% endcomment %}
+  <div class="gf-crawl" id="gfCrawl" aria-hidden="true">
+    <div class="gf-crawl__inner">
+      <div class="gf-crawl__text">
+
+        <h2 class="gf-crawl__title">Galactic Forge</h2>
+
+        <p>The galaxy's finest weapons and relics<br>have been gathered in one place.</p>
+
+        <p>Artifacts forged in both light and darkness.<br>Ancient. Powerful. Legendary.</p>
+
+        <p>But only those who choose their path<br>may enter the forge.</p>
+
+        <p class="gf-crawl__closing">A PATH MUST BE CHOSEN.</p>
+
+      </div>
+    </div>
+  </div>
+
+  {% comment %}
+    ── Skip Button ──
+    Always visible during the intro and crawl sequences.
+    JS hides it once the split screen appears.
+  {% endcomment %}
+  <button class="gf-skip" id="gfSkip" type="button">Skip Intro</button>
+
+  {% comment %}
+    ── Split Screen ──
+    Two panels, hidden on load. JS adds `.is-visible` after the intro finishes,
+    which triggers the staggered CSS animations on the content inside.
+  {% endcomment %}
+  <div class="gf-split" id="gfSplit">
+
+    {% comment %}
+      ── Light Side Panel (left) ──
+      role="button" + tabindex="0" makes the whole panel keyboard-focusable.
+      The <button> inside has tabindex="-1" because the panel div handles focus.
+    {% endcomment %}
+    <div
+      class="gf-panel gf-panel--light"
+      data-side="light"
+      role="button"
+      tabindex="0"
+      aria-label="Enter the Light Side"
+    >
+      <div class="gf-panel__inner">
+
+        {% comment %} Jedi Order crest — SVG uses currentColor, controlled by CSS {% endcomment %}
+        <div class="gf-emblem">
+          {% render 'icon-jedi-crest' %}
+        </div>
+
+        <h2 class="gf-panel__title">Light Side</h2>
+        <p class="gf-panel__subtitle">Choose your path</p>
+
+        <button class="gf-btn gf-btn--light" type="button" tabindex="-1" aria-hidden="true">
+          Enter
+        </button>
+
+      </div>
+    </div>
+
+    {% comment %}
+      ── Dark Side Panel (right) ──
+    {% endcomment %}
+    <div
+      class="gf-panel gf-panel--dark"
+      data-side="dark"
+      role="button"
+      tabindex="0"
+      aria-label="Enter the Dark Side"
+    >
+      <div class="gf-panel__inner">
+
+        {% comment %} Sith Order emblem — SVG uses currentColor, controlled by CSS {% endcomment %}
+        <div class="gf-emblem">
+          {% render 'icon-sith-emblem' %}
+        </div>
+
+        <h2 class="gf-panel__title">Dark Side</h2>
+        <p class="gf-panel__subtitle">Embrace your destiny</p>
+
+        <button class="gf-btn gf-btn--dark" type="button" tabindex="-1" aria-hidden="true">
+          Enter
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+{% comment %} Load script deferred — runs after the DOM is ready {% endcomment %}
+<script src="{{ 'path-chooser.js' | asset_url }}" defer></script>
