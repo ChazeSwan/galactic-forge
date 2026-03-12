@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galactic Forge — Testimonials</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #e8eaf0;
+      font-family: 'Cinzel', serif;
+    }
+
+    /* ══ Section ══ */
+    .gf-testimonials {
+      background: #F7FAFC;
+      padding: 5rem 4rem;
+    }
+
+    /* Heading */
+    .gf-testimonials__heading {
+      margin-bottom: 3.5rem;
+    }
+
+    .gf-testimonials__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #C9A84C;
+      margin-bottom: 0.75rem;
+    }
+    .gf-testimonials__eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: #C9A84C;
+      opacity: 0.5;
+    }
+
+    .gf-testimonials__title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: #1A1A2E;
+      letter-spacing: 0.1em;
+    }
+
+    /* Grid */
+    .gf-testimonials__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Card */
+    .gf-tcard {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 2rem 1.75rem 1.75rem;
+      position: relative;
+      box-shadow: 0 2px 12px rgba(26, 26, 46, 0.06);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .gf-tcard:hover {
+      box-shadow: 0 8px 32px rgba(43, 108, 176, 0.12);
+      transform: translateY(-4px);
+    }
+
+    /* Portrait — sits half outside the card top */
+    .gf-tcard__portrait-wrap {
+      position: absolute;
+      top: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 12px rgba(26, 26, 46, 0.15);
+      overflow: hidden;
+    }
+
+    /* Placeholder portrait — styled per character */
+    .gf-tcard__portrait {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .gf-tcard--obi .gf-tcard__portrait {
+      background: linear-gradient(135deg, #2B6CB0, #1a3a5c);
+      /* Obi-Wan — Jedi blue */
+    }
+    .gf-tcard--yoda .gf-tcard__portrait {
+      background: linear-gradient(135deg, #2d6a4f, #1b4332);
+      /* Yoda — sage green */
+    }
+    .gf-tcard--padawan .gf-tcard__portrait {
+      background: linear-gradient(135deg, #553c9a, #2d1b69);
+      /* Padawan — mysterious purple */
+    }
+
+    /* Force ring around portrait */
+    .gf-tcard__portrait-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(144, 205, 244, 0);
+      transition: border-color 0.3s ease;
+    }
+    .gf-tcard:hover .gf-tcard__portrait-wrap::after {
+      border-color: rgba(144, 205, 244, 0.6);
+    }
+
+    .gf-tcard__rank::before {
+      content: '— ';
+    }
+
+    /* Lightsaber icon */
+    .gf-tcard__saber {
+      width: 20px;
+      height: 100px;
+      margin-top: -12px;
+      margin-bottom: 1rem;
+    }
+
+    /* Blade color per character via currentColor */
+    .gf-tcard--obi .gf-tcard__saber { color: #2B6CB0; }
+    .gf-tcard--yoda .gf-tcard__saber { color: #38A169; }
+    .gf-tcard--padawan .gf-tcard__saber { color: #2B6CB0; }
+
+    /* Quote text */
+    .gf-tcard__quote {
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: #4A5568;
+      line-height: 1.75;
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Divider */
+    .gf-tcard__rule {
+      width: 60%;
+      height: 1px;
+      background: rgba(43, 108, 176, 0.1);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Attribution */
+    .gf-tcard__name {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #1A1A2E;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+
+    .gf-tcard__rank {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #C9A84C;
+    }
+
+    /* Nav arrows */
+    .gf-testimonials__nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .gf-testimonials__arrow {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(43, 108, 176, 0.3);
+      background: transparent;
+      color: #2B6CB0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.25s, border-color 0.25s, color 0.25s;
+    }
+    .gf-testimonials__arrow:hover {
+      background: #2B6CB0;
+      border-color: #2B6CB0;
+      color: #fff;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .gf-testimonials {
+        padding: 4rem 1.5rem;
+      }
+      .gf-testimonials__grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="gf-testimonials">
+
+    <div class="gf-testimonials__heading">
+      <p class="gf-testimonials__eyebrow">Voices of the Order</p>
+      <h2 class="gf-testimonials__title">Don't Take Our Word For It — Take Theirs</h2>
+    </div>
+
+    <div class="gf-testimonials__grid">
+
+      <!-- Obi-Wan — blue blade -->
+      <div class="gf-tcard gf-tcard--obi">
+        <div class="gf-tcard__portrait-wrap">
+          <div class="gf-tcard__portrait">O</div>
+        </div>
+        <svg class="gf-tcard__saber" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g class="ls-blade">
+            <ellipse cx="20" cy="8" rx="3" ry="5" fill="currentColor"/>
+            <rect x="17" y="8" width="6" height="112" rx="3" fill="currentColor"/>
+          </g>
+          <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+          <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+          <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+          <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+        </svg>
+        <p class="gf-tcard__quote">
+          I have seen many replicas across the galaxy, but none crafted with such care. Truly worthy of the Jedi Order.
+        </p>
+        <div class="gf-tcard__rule"></div>
+        <p class="gf-tcard__name">Obi-Wan Kenobi</p>
+        <p class="gf-tcard__rank">Jedi Master</p>
+      </div>
+
+      <!-- Yoda — green blade -->
+      <div class="gf-tcard gf-tcard--yoda">
+        <div class="gf-tcard__portrait-wrap">
+          <div class="gf-tcard__portrait">Y</div>
+        </div>
+        <svg class="gf-tcard__saber" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g class="ls-blade">
+            <ellipse cx="20" cy="8" rx="3" ry="5" fill="currentColor"/>
+            <rect x="17" y="8" width="6" height="112" rx="3" fill="currentColor"/>
+          </g>
+          <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+          <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+          <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+          <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+        </svg>
+        <p class="gf-tcard__quote">
+          Rushed to judge, I was not. Patient, the craftsmanship is. Worthy of the Force, these artifacts are.
+        </p>
+        <div class="gf-tcard__rule"></div>
+        <p class="gf-tcard__name">Yoda</p>
+        <p class="gf-tcard__rank">Grand Master</p>
+      </div>
+
+      <!-- Padawan — blue blade -->
+      <div class="gf-tcard gf-tcard--padawan">
+        <div class="gf-tcard__portrait-wrap">
+          <div class="gf-tcard__portrait">R</div>
+        </div>
+        <svg class="gf-tcard__saber" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g class="ls-blade">
+            <ellipse cx="20" cy="8" rx="3" ry="5" fill="currentColor"/>
+            <rect x="17" y="8" width="6" height="112" rx="3" fill="currentColor"/>
+          </g>
+          <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+          <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+          <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+          <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+        </svg>
+        <p class="gf-tcard__quote">
+          The R2 unit replica sits on my desk at the Temple. My fellow Padawans keep asking where I got it. I tell them nothing — a Jedi's secrets are their own.
+        </p>
+        <div class="gf-tcard__rule"></div>
+        <p class="gf-tcard__name">Ren Talos</p>
+        <p class="gf-tcard__rank">Padawan</p>
+      </div>
+
+    </div>
+
+    <!-- Nav arrows -->
+    <div class="gf-testimonials__nav">
+      <button class="gf-testimonials__arrow" aria-label="Previous">←</button>
+      <button class="gf-testimonials__arrow" aria-label="Next">→</button>
+    </div>
+
+  </section>
+
+</body>
+</html>

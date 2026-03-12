@@ -24,12 +24,17 @@
     "products": {
       "type": "homepage-products",
       "settings": {}
+    },
+    "testimonials": {
+      "type": "homepage-testimonials",
+      "settings": {}
     }
   },
   "order": [
     "main",
     "hero",
     "categories",
-    "products"
+    "products",
+    "testimonials"
   ]
 }

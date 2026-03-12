@@ -1,0 +1,117 @@
+{% comment %}
+  sections/homepage-testimonials.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  Jedi homepage testimonials section.
+
+  3 character cards with floating portrait circles, lightsaber icon,
+  quote text, divider, name and rank. Nav arrows below (JS wired later).
+
+  Structure:
+    <section>                     ← full-width testimonials block
+      <div> heading               ← eyebrow (left line only) + title
+      <div> grid                  ← 3-column card row
+        <div> card × 3           ← one per testimonial
+          <div> portrait-wrap     ← floats half outside top of card
+            <div> portrait        ← circle with initial letter
+          <svg> saber             ← small vertical lightsaber icon
+          <p>   quote             ← the review text
+          <div> rule              ← thin divider line
+          <p>   name              ← reviewer name
+          <p>   rank              ← title with — prefix via CSS
+      <div> nav                   ← prev/next arrow buttons
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
+
+{% comment %} Load this section's stylesheet {% endcomment %}
+{{ 'homepage-testimonials.css' | asset_url | stylesheet_tag }}
+
+<section class="gf-testimonials" aria-label="Testimonials">
+
+  {% comment %} Section heading — left-aligned, eyebrow has left line only {% endcomment %}
+  <div class="gf-testimonials__heading">
+    <p class="gf-testimonials__eyebrow">Trusted by the Galaxy</p>
+    <h2 class="gf-testimonials__title">Voices of the Force</h2>
+  </div>
+
+  <div class="gf-testimonials__grid">
+
+    {% comment %} Card 1 — Obi-Wan Kenobi (Jedi blue) {% endcomment %}
+    <div class="gf-tcard gf-tcard--obi">
+      {% comment %} Portrait floats half outside the card top {% endcomment %}
+      <div class="gf-tcard__portrait-wrap">
+        <div class="gf-tcard__portrait">O</div>
+      </div>
+      {% comment %} Lightsaber SVG — blade uses currentColor so we control it via CSS {% endcomment %}
+      <svg class="gf-tcard__saber" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="20" cy="8" rx="3" ry="5" fill="currentColor"/>
+        <rect x="17" y="8" width="6" height="112" rx="3" fill="currentColor"/>
+        <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+        <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+        <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+        <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+      </svg>
+      <p class="gf-tcard__quote">
+        I have seen many replicas across the galaxy, but none crafted with such care. Truly worthy of the Jedi Order.
+      </p>
+      <div class="gf-tcard__rule"></div>
+      <p class="gf-tcard__name">Obi-Wan Kenobi</p>
+      <p class="gf-tcard__rank">Jedi Master</p>
+    </div>
+
+    {% comment %} Card 2 — Yoda (sage green) {% endcomment %}
+    <div class="gf-tcard gf-tcard--yoda">
+      <div class="gf-tcard__portrait-wrap">
+        <div class="gf-tcard__portrait">Y</div>
+      </div>
+      <svg class="gf-tcard__saber" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="20" cy="8" rx="3" ry="5" fill="currentColor"/>
+        <rect x="17" y="8" width="6" height="112" rx="3" fill="currentColor"/>
+        <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+        <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+        <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+        <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+      </svg>
+      <p class="gf-tcard__quote">
+        Rushed to judge, I was not. Patient, the craftsmanship is. Worthy of the Force, these artifacts are.
+      </p>
+      <div class="gf-tcard__rule"></div>
+      <p class="gf-tcard__name">Yoda</p>
+      <p class="gf-tcard__rank">Grand Master</p>
+    </div>
+
+    {% comment %} Card 3 — Ren Talos (purple) {% endcomment %}
+    <div class="gf-tcard gf-tcard--padawan">
+      <div class="gf-tcard__portrait-wrap">
+        <div class="gf-tcard__portrait">R</div>
+      </div>
+      <svg class="gf-tcard__saber" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="20" cy="8" rx="3" ry="5" fill="currentColor"/>
+        <rect x="17" y="8" width="6" height="112" rx="3" fill="currentColor"/>
+        <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+        <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+        <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+        <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+      </svg>
+      <p class="gf-tcard__quote">
+        The R2 unit replica sits on my desk at the Temple. My fellow Padawans keep asking where I got it. I tell them nothing — a Jedi's secrets are their own.
+      </p>
+      <div class="gf-tcard__rule"></div>
+      <p class="gf-tcard__name">Ren Talos</p>
+      <p class="gf-tcard__rank">Padawan</p>
+    </div>
+
+  </div>
+
+  {% comment %} Nav arrows — decorative for now, JS functionality added later {% endcomment %}
+  <div class="gf-testimonials__nav">
+    <button class="gf-testimonials__arrow" aria-label="Previous">←</button>
+    <button class="gf-testimonials__arrow" aria-label="Next">→</button>
+  </div>
+
+</section>
