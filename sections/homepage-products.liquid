@@ -1,0 +1,103 @@
+{% comment %}
+  sections/homepage-products.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  Jedi homepage featured products section.
+
+  Pulls the first 4 products from the light-side collection and displays
+  them in a horizontally scrollable card row.
+
+  Key Liquid concepts used here:
+    - collections['handle']  → access a collection by its URL handle
+    - for product in ...     → loop over each product
+    - limit: 4               → stop after 4 products
+    - product.title          → the product's name
+    - product.price          → price in cents — use | money to format it
+    - product.url            → the product's page URL
+    - product.featured_image → the product's main image
+
+  Structure:
+    <section>                ← full-width products block
+      <div> inner            ← centers content, caps max-width
+        <div> heading        ← eyebrow + title
+        <div> track          ← horizontal scroll container
+          <div> card × 4    ← one card per product (Liquid loop)
+            <div> image      ← product image
+            <p>   name       ← product.title
+            <p>   price      ← product.price | money
+            <a>   button     ← links to product page
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
+
+{% comment %} Load this section's stylesheet {% endcomment %}
+{{ 'homepage-products.css' | asset_url | stylesheet_tag }}
+
+{% comment %}
+  Assign the light-side collection to a variable so we can loop over it.
+  Using a variable keeps the code clean — we only reference the collection handle once.
+{% endcomment %}
+{% assign featured = collections['light-side'] %}
+
+<section class="gf-products" aria-label="Featured Products">
+
+  <div class="gf-products__inner">
+
+    {% comment %} Section heading — same eyebrow + title pattern as categories {% endcomment %}
+    <div class="gf-products__heading">
+      <p class="gf-products__eyebrow">From the Vault</p>
+      <h2 class="gf-products__title">Featured Artifacts</h2>
+    </div>
+
+    {% comment %}
+      Scroll track — this div overflows horizontally.
+      Cards sit inside it in a row and the visitor scrolls to see them all.
+    {% endcomment %}
+    <div class="gf-products__track">
+
+      {% comment %}
+        Loop over the first 4 products in the light-side collection.
+        Inside the loop, `product` refers to the current product.
+      {% endcomment %}
+      {% for product in featured.products limit: 5 %}
+
+        <div class="gf-product-card">
+
+          {% comment %}
+            Product image.
+            featured_image gives us the main product image.
+            | image_url: width: 600 tells Shopify to serve a 600px wide version.
+            | image_tag renders the full <img> tag with src, alt, width, height.
+            If no image exists we show a plain placeholder div instead.
+          {% endcomment %}
+          <div class="gf-product-card__img">
+            {% if product.featured_image %}
+              {{ product.featured_image | image_url: width: 600 | image_tag: alt: product.title, loading: 'lazy' }}
+            {% else %}
+              <div class="gf-product-card__img-placeholder"></div>
+            {% endif %}
+          </div>
+
+          {% comment %} Product name {% endcomment %}
+          <p class="gf-product-card__name">{{ product.title }}</p>
+
+          {% comment %}
+            Product price.
+            product.price is stored in cents (e.g. 4999 for $49.99).
+            The | money filter converts it to the store's currency format automatically.
+          {% endcomment %}
+          <p class="gf-product-card__price">{{ product.price | money }}</p>
+
+          {% comment %}
+            Shop Now button — links directly to the product page.
+            product.url gives us the correct URL for this product.
+          {% endcomment %}
+          <a href="{{ product.url }}" class="gf-product-card__btn">Shop Now</a>
+
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+  </div>
+
+</section>

@@ -20,11 +20,16 @@
     "categories": {
       "type": "homepage-categories",
       "settings": {}
+    },
+    "products": {
+      "type": "homepage-products",
+      "settings": {}
     }
   },
   "order": [
     "main",
     "hero",
-    "categories"
+    "categories",
+    "products"
   ]
 }
