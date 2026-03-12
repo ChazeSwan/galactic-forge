@@ -1,0 +1,57 @@
+{% comment %}
+  sections/homepage-hero.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  Jedi homepage hero section.
+
+  Rendered after the path-chooser entry screen fades out.
+  Only styled when body[data-gf-side="light"] is present — set by path-chooser.js
+  after the visitor chooses Light Side.
+
+  Structure:
+    <section>               ← the full hero block (70vh)
+      <div> inner           ← centers content, caps max-width
+        <p>  eyebrow        ← small uppercase label above the headline
+        <h1> title          ← main headline
+        <p>  sub            ← supporting sentence
+        <a>  button         ← CTA link to the Light Side collection
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
+
+{% comment %} Load this section's stylesheet {% endcomment %}
+{{ 'homepage-hero.css' | asset_url | stylesheet_tag }}
+
+<section class="gf-hero" aria-label="Hero">
+
+  <div class="gf-hero__inner">
+
+    {% comment %}
+      Eyebrow — small label above the headline.
+      This signals what type of page/section this is before the visitor reads the headline.
+    {% endcomment %}
+    <p class="gf-hero__eyebrow">Light Side Artifacts</p>
+
+    {% comment %}
+      Headline — the hero's main statement.
+      h1 because this is the most important heading on the page.
+    {% endcomment %}
+    <h1 class="gf-hero__title">Forge Your Legend</h1>
+
+    {% comment %}
+      Subtext — one sentence that supports the headline.
+      Keeps it brief — the headline does the heavy lifting.
+    {% endcomment %}
+    <p class="gf-hero__sub">
+      The galaxy's finest relics, forged for those who stand for peace and the Force.
+    </p>
+
+    {% comment %}
+      CTA Button — links to the Light Side collection.
+      Using an <a> tag (not <button>) because it navigates to a new page.
+    {% endcomment %}
+    <a href="/collections/light-side" class="gf-hero__btn">
+      Shop the Collection
+    </a>
+
+  </div>
+
+</section>

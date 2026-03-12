@@ -12,9 +12,14 @@
     "main": {
       "type": "path-chooser",
       "settings": {}
+    },
+    "hero": {
+      "type": "homepage-hero",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "hero"
   ]
 }

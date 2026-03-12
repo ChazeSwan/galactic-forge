@@ -127,15 +127,16 @@
       // localStorage may be blocked in private/restricted contexts — that's OK
     }
 
+    // Apply chosen side to <body> immediately so homepage CSS is ready
+    // before the entry screen becomes transparent during the fade
+    document.body.dataset.gfSide = side;
+
     // Trigger the CSS exit fade
     entryScreen.classList.add('is-exiting');
 
     // After the fade completes, hide the entry screen and notify the rest of the page
     setTimeout(function () {
       entryScreen.style.display = 'none';
-
-      // Apply chosen side to <body> so homepage sections can style themselves
-      document.body.dataset.gfSide = side;
 
       // Dispatch a custom event — homepage sections will listen for this
       document.dispatchEvent(

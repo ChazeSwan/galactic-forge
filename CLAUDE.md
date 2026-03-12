@@ -121,11 +121,19 @@ real Shopify theme development skills.
 ### Phase 4 — In Progress
 - Entry screen fully built (`sections/path-chooser.liquid`, `assets/path-chooser.css`, `assets/path-chooser.js`)
 - Animation sequence: "A long time ago..." (3.5s) → perspective crawl (12s, Oswald font, #FFD700) → split screen
+- Crawl width and scroll end point manually tuned by Chaz
 - Lightsaber SVG emblems: vertical, blade grows from hilt on hover (`scaleY` animation)
 - Mobile: blades ignited immediately via `@media (hover: none)`
 - Starfield background: CSS radial-gradient dots behind all overlays
 - Skip button: bottom-right, hides when split screen appears
-- Next: homepage sections after entry screen fades out
+- FOUC fix: `data-gf-side` set on `<body>` immediately on panel click (before fade starts)
+- Homepage hero built (`sections/homepage-hero.liquid`, `assets/homepage-hero.css`)
+  - 70vh tall banner, Cinzel font, Force blue radial glow (`::before` pseudo-element)
+  - CSS gated on `body[data-gf-side="light"]`
+  - Eyebrow → headline (`clamp` responsive size) → subtext → CTA button with hover transition
+  - Mobile: tighter padding at 640px breakpoint
+- Teaching approach confirmed: HTML structure first, then CSS one rule at a time with explanations
+- Next: homepage categories section
 
 ## Technical Constraints
 
