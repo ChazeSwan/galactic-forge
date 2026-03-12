@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galactic Forge — Category Section Revised</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #e8eaf0;
+      font-family: 'Cinzel', serif;
+    }
+
+    .design-label {
+      text-align: center;
+      padding: 2.5rem 1rem 2rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #4A5568;
+    }
+    .design-label strong {
+      display: block;
+      font-size: 0.95rem;
+      color: #1A1A2E;
+      margin-top: 0.35rem;
+    }
+
+    /* ══ Section wrapper ══ */
+    .gf-categories {
+      background: #F7FAFC;
+      padding: 5rem 4rem;
+    }
+
+    /* Section heading */
+    .gf-categories__heading {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .gf-categories__eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #C9A84C;
+      margin-bottom: 0.75rem;
+    }
+    .gf-categories__eyebrow::before,
+    .gf-categories__eyebrow::after {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: #C9A84C;
+      opacity: 0.5;
+    }
+
+    .gf-categories__title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: #1A1A2E;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* Three column grid */
+    .gf-categories__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Individual card */
+    .gf-cat-card {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Background — each card has its own Jedi-palette color */
+    .gf-cat-card__bg {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .gf-cat-card--lightsabers .gf-cat-card__bg {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2B6CB0 60%, #1e4a8a 100%);
+    }
+    .gf-cat-card--figures .gf-cat-card__bg {
+      background: linear-gradient(135deg, #1A1A2E 0%, #2d3561 60%, #1a2040 100%);
+    }
+    .gf-cat-card--collectibles .gf-cat-card__bg {
+      background: linear-gradient(135deg, #0d2a4a 0%, #1a3a5c 50%, #2B6CB0 100%);
+    }
+
+    /* Subtle pattern overlay for texture */
+    .gf-cat-card__bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='0.8' fill='white' opacity='0.06'/%3E%3Ccircle cx='10' cy='10' r='0.5' fill='white' opacity='0.04'/%3E%3Ccircle cx='50' cy='50' r='0.6' fill='white' opacity='0.05'/%3E%3Ccircle cx='50' cy='10' r='0.4' fill='white' opacity='0.03'/%3E%3Ccircle cx='10' cy='50' r='0.7' fill='white' opacity='0.04'/%3E%3C/svg%3E") repeat;
+    }
+
+    /* Zoom bg on hover */
+    .gf-cat-card:hover .gf-cat-card__bg {
+      transform: scale(1.06);
+    }
+
+    /* Dark gradient at bottom for text legibility */
+    .gf-cat-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(10, 15, 30, 0.85) 0%,
+        rgba(10, 15, 30, 0.2) 50%,
+        transparent 100%
+      );
+      z-index: 1;
+    }
+
+    /* Icon — Jedi crest sits top-right, faint */
+    .gf-cat-card__icon {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 36px;
+      height: 36px;
+      color: rgba(255,255,255,0.15);
+      z-index: 2;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .gf-cat-card:hover .gf-cat-card__icon {
+      color: rgba(144, 205, 244, 0.4);
+      transform: scale(1.1);
+    }
+
+    /* Text content pinned to bottom-left */
+    .gf-cat-card__content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      z-index: 2;
+    }
+
+    .gf-cat-card__name {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 1.8vw, 1.3rem);
+      color: #F7FAFC;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .gf-cat-card__desc {
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: rgba(247, 250, 252, 0.65);
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    /* Shop link — hidden until hover */
+    .gf-cat-card__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #90CDF4;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease, transform 0.3s ease, gap 0.3s ease;
+    }
+    .gf-cat-card__link::after { content: '→'; }
+
+    .gf-cat-card:hover .gf-cat-card__link {
+      opacity: 1;
+      transform: translateY(0);
+      gap: 0.65rem;
+    }
+
+    /* Blue border appears on hover */
+    .gf-cat-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid rgba(144, 205, 244, 0);
+      z-index: 3;
+      transition: border-color 0.3s ease;
+      pointer-events: none;
+    }
+    .gf-cat-card:hover::after {
+      border-color: rgba(144, 205, 244, 0.4);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .gf-categories {
+        padding: 3.5rem 1.5rem;
+      }
+      .gf-categories__grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .gf-cat-card {
+        aspect-ratio: 16 / 7;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="design-label">Categories Revised <strong>On-card labels · Jedi palette · Hover lift</strong></div>
+
+  <section class="gf-categories">
+
+    <div class="gf-categories__heading">
+      <p class="gf-categories__eyebrow">Browse the Archive</p>
+      <h2 class="gf-categories__title">Shop by Path</h2>
+    </div>
+
+    <div class="gf-categories__grid">
+
+      <!-- Lightsabers -->
+      <a href="#" class="gf-cat-card gf-cat-card--lightsabers">
+        <div class="gf-cat-card__bg"></div>
+        <div class="gf-cat-card__overlay"></div>
+        <svg class="gf-cat-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="currentColor">
+          <ellipse cx="100" cy="22" rx="6" ry="9"/>
+          <path d="M97 16 L103 16 L104 184 L100 192 L96 184 Z"/>
+          <path d="M100 58 C78 44 42 46 16 60 C42 54 76 64 100 78 Z"/>
+          <path d="M100 58 C122 44 158 46 184 60 C158 54 124 64 100 78 Z"/>
+          <path d="M100 104 C70 92 34 98 12 116 C38 105 72 106 100 114 Z" opacity="0.7"/>
+          <path d="M100 104 C130 92 166 98 188 116 C162 105 128 106 100 114 Z" opacity="0.7"/>
+        </svg>
+        <div class="gf-cat-card__content">
+          <h3 class="gf-cat-card__name">Lightsabers</h3>
+          <p class="gf-cat-card__desc">Craft your weapon</p>
+          <span class="gf-cat-card__link">Shop Now</span>
+        </div>
+      </a>
+
+      <!-- Figures -->
+      <a href="#" class="gf-cat-card gf-cat-card--figures">
+        <div class="gf-cat-card__bg"></div>
+        <div class="gf-cat-card__overlay"></div>
+        <svg class="gf-cat-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="currentColor">
+          <ellipse cx="100" cy="22" rx="6" ry="9"/>
+          <path d="M97 16 L103 16 L104 184 L100 192 L96 184 Z"/>
+          <path d="M100 58 C78 44 42 46 16 60 C42 54 76 64 100 78 Z"/>
+          <path d="M100 58 C122 44 158 46 184 60 C158 54 124 64 100 78 Z"/>
+          <path d="M100 104 C70 92 34 98 12 116 C38 105 72 106 100 114 Z" opacity="0.7"/>
+          <path d="M100 104 C130 92 166 98 188 116 C162 105 128 106 100 114 Z" opacity="0.7"/>
+        </svg>
+        <div class="gf-cat-card__content">
+          <h3 class="gf-cat-card__name">Figures</h3>
+          <p class="gf-cat-card__desc">Meet your allies</p>
+          <span class="gf-cat-card__link">Shop Now</span>
+        </div>
+      </a>
+
+      <!-- Collectibles -->
+      <a href="#" class="gf-cat-card gf-cat-card--collectibles">
+        <div class="gf-cat-card__bg"></div>
+        <div class="gf-cat-card__overlay"></div>
+        <svg class="gf-cat-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="currentColor">
+          <ellipse cx="100" cy="22" rx="6" ry="9"/>
+          <path d="M97 16 L103 16 L104 184 L100 192 L96 184 Z"/>
+          <path d="M100 58 C78 44 42 46 16 60 C42 54 76 64 100 78 Z"/>
+          <path d="M100 58 C122 44 158 46 184 60 C158 54 124 64 100 78 Z"/>
+          <path d="M100 104 C70 92 34 98 12 116 C38 105 72 106 100 114 Z" opacity="0.7"/>
+          <path d="M100 104 C130 92 166 98 188 116 C162 105 128 106 100 114 Z" opacity="0.7"/>
+        </svg>
+        <div class="gf-cat-card__content">
+          <h3 class="gf-cat-card__name">Collectibles</h3>
+          <p class="gf-cat-card__desc">Complete the archive</p>
+          <span class="gf-cat-card__link">Shop Now</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</body>
+</html>

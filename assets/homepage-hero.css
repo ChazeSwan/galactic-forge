@@ -26,8 +26,21 @@ body[data-gf-side="light"] .gf-hero__eyebrow {
   font-weight: 600;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #2B6CB0;
+  color: #A07C2A;
   margin: 0 0 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+body[data-gf-side="light"] .gf-hero__eyebrow::before,
+body[data-gf-side="light"] .gf-hero__eyebrow::after {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: #A07C2A;
+  opacity: 0.5;
 }
 
 body[data-gf-side="light"] .gf-hero__title {
@@ -37,6 +50,10 @@ body[data-gf-side="light"] .gf-hero__title {
   line-height: 1.1;
   color: #1A1A2E;
   margin: 0 0 1.5rem;
+}
+
+body[data-gf-side="light"] .gf-hero__accent {
+  color: #2B6CB0;
 }
 
 body[data-gf-side="light"] .gf-hero__sub {

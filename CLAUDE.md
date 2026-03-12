@@ -159,6 +159,18 @@ real Shopify theme development skills.
 - Keep CSS organized by section/component
 - JavaScript should be readable — prioritize clarity over cleverness
 
+## Future Experiments — Dark Side Build
+When starting the Dark Side (Sith) homepage sections, install the frontend-design skill
+from the official Anthropic skills repo to help push bolder creative decisions:
+
+```
+/plugin marketplace add anthropics/skills
+/plugin install example-skills@anthropic-agent-skills
+```
+
+Source: https://github.com/anthropics/skills/tree/main/skills/frontend-design
+Note: Design is already locked for Light Side — only use this skill for Sith sections.
+
 ## Reminders
 - This is a portfolio project — quality and craft matter
 - When in doubt, ask Chaz before making a decision

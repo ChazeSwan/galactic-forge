@@ -16,10 +16,15 @@
     "hero": {
       "type": "homepage-hero",
       "settings": {}
+    },
+    "categories": {
+      "type": "homepage-categories",
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "hero"
+    "hero",
+    "categories"
   ]
 }

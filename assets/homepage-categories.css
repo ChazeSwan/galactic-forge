@@ -1,0 +1,214 @@
+/* homepage-categories.css */
+
+/* ── Section wrapper ── */
+body[data-gf-side="light"] .gf-categories {
+  background: #F7FAFC;
+  padding: 5rem 4rem;
+}
+
+/* ── Section heading ── */
+body[data-gf-side="light"] .gf-categories__heading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* Eyebrow — gold text with decorative lines on either side */
+body[data-gf-side="light"] .gf-categories__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #A07C2A;
+  margin-bottom: 0.75rem;
+}
+
+/* The decorative lines are drawn using ::before and ::after pseudo-elements */
+body[data-gf-side="light"] .gf-categories__eyebrow::before,
+body[data-gf-side="light"] .gf-categories__eyebrow::after {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: #A07C2A;
+  opacity: 0.5;
+}
+
+/* Section title */
+body[data-gf-side="light"] .gf-categories__title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  color: #1A1A2E;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ── Card grid ── */
+body[data-gf-side="light"] .gf-categories__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Individual card ── */
+body[data-gf-side="light"] .gf-cat-card {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 3D lift on hover — perspective gives depth, translateY lifts, rotateX tilts */
+body[data-gf-side="light"] .gf-cat-card:hover {
+  transform: perspective(800px) translateY(-8px) rotateX(4deg);
+}
+
+/* ── Gradient background — zooms on hover ── */
+body[data-gf-side="light"] .gf-cat-card__bg {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body[data-gf-side="light"] .gf-cat-card:hover .gf-cat-card__bg {
+  transform: scale(1.06);
+}
+
+/* Each card has its own Jedi-palette gradient */
+body[data-gf-side="light"] .gf-cat-card--lightsabers .gf-cat-card__bg {
+  background: linear-gradient(135deg, #1a3a5c 0%, #2B6CB0 60%, #1e4a8a 100%);
+}
+
+body[data-gf-side="light"] .gf-cat-card--figures .gf-cat-card__bg {
+  background: linear-gradient(135deg, #1A1A2E 0%, #2d3561 60%, #1a2040 100%);
+}
+
+body[data-gf-side="light"] .gf-cat-card--collectibles .gf-cat-card__bg {
+  background: linear-gradient(135deg, #0d2a4a 0%, #1a3a5c 50%, #2B6CB0 100%);
+}
+
+/* ── Dark overlay — fades to black at the bottom for text legibility ── */
+body[data-gf-side="light"] .gf-cat-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 15, 30, 0.85) 0%,
+    rgba(10, 15, 30, 0.2) 50%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* ── Icon — faint top-right, brightens and scales on hover ── */
+body[data-gf-side="light"] .gf-cat-card__icon {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  color: rgba(255, 255, 255, 0.15);
+  z-index: 2;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+body[data-gf-side="light"] .gf-cat-card:hover .gf-cat-card__icon {
+  color: rgba(144, 205, 244, 0.4);
+  transform: scale(1.1);
+}
+
+/* ── Text content — pinned to bottom-left of the card ── */
+body[data-gf-side="light"] .gf-cat-card__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  z-index: 2;
+}
+
+/* Card name */
+body[data-gf-side="light"] .gf-cat-card__name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  color: #F7FAFC;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+/* Card description */
+body[data-gf-side="light"] .gf-cat-card__desc {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(247, 250, 252, 0.6);
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+
+/* Shop Now link — hidden until hover, slides up into view */
+body[data-gf-side="light"] .gf-cat-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #90CDF4;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease, gap 0.3s ease;
+}
+
+/* Arrow after the link text */
+body[data-gf-side="light"] .gf-cat-card__link::after {
+  content: '→';
+}
+
+body[data-gf-side="light"] .gf-cat-card:hover .gf-cat-card__link {
+  opacity: 1;
+  transform: translateY(0);
+  gap: 0.65rem;
+}
+
+/* Force blue border appears on hover */
+body[data-gf-side="light"] .gf-cat-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid rgba(144, 205, 244, 0);
+  z-index: 3;
+  transition: border-color 0.3s ease;
+  pointer-events: none;
+}
+
+body[data-gf-side="light"] .gf-cat-card:hover::after {
+  border-color: rgba(144, 205, 244, 0.4);
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  body[data-gf-side="light"] .gf-categories {
+    padding: 3.5rem 1.5rem;
+  }
+
+  body[data-gf-side="light"] .gf-categories__grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Wider aspect on mobile so stacked cards aren't too tall */
+  body[data-gf-side="light"] .gf-cat-card {
+    aspect-ratio: 16 / 7;
+  }
+}

@@ -1,0 +1,92 @@
+{% comment %}
+  sections/homepage-categories.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  Jedi homepage categories section — revised design.
+
+  Full-bleed gradient cards with overlaid text, hover reveal, and 3D lift.
+  Each card links to its collection.
+
+  Structure:
+    <section>                 ← full-width categories block
+      <div> heading           ← eyebrow + title centered above cards
+      <div> grid              ← 3-column card row
+        <a>  card × 3        ← entire card is a clickable link
+          <div> bg            ← gradient background (zooms on hover)
+          <div> overlay       ← dark gradient at bottom for text legibility
+          <svg> icon          ← faint icon top-right, brightens on hover
+          <div> content       ← name, description, shop link
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
+
+{% comment %} Load this section's stylesheet {% endcomment %}
+{{ 'homepage-categories.css' | asset_url | stylesheet_tag }}
+
+<section class="gf-categories" aria-label="Shop by Category">
+
+  {% comment %}
+    Section heading — eyebrow line with decorative rules on either side,
+    then the main title below it.
+  {% endcomment %}
+  <div class="gf-categories__heading">
+    <p class="gf-categories__eyebrow">Browse the Archive</p>
+    <h2 class="gf-categories__title">Shop by Path</h2>
+  </div>
+
+  <div class="gf-categories__grid">
+
+    {% comment %} Card 1 — Lightsabers {% endcomment %}
+    <a href="{{ routes.collections_url }}/lightsabers" class="gf-cat-card gf-cat-card--lightsabers">
+      {% comment %} bg — gradient that zooms on hover {% endcomment %}
+      <div class="gf-cat-card__bg"></div>
+      {% comment %} overlay — dark fade at bottom so text is readable over the gradient {% endcomment %}
+      <div class="gf-cat-card__overlay"></div>
+      {% comment %} icon — faint top-right decoration {% endcomment %}
+      <svg class="gf-cat-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="currentColor" aria-hidden="true">
+        <ellipse cx="100" cy="22" rx="6" ry="9"/>
+        <path d="M97 16 L103 16 L104 184 L100 192 L96 184 Z"/>
+        <path d="M100 58 C78 44 42 46 16 60 C42 54 76 64 100 78 Z"/>
+        <path d="M100 58 C122 44 158 46 184 60 C158 54 124 64 100 78 Z"/>
+        <path d="M100 104 C70 92 34 98 12 116 C38 105 72 106 100 114 Z" opacity="0.7"/>
+        <path d="M100 104 C130 92 166 98 188 116 C162 105 128 106 100 114 Z" opacity="0.7"/>
+      </svg>
+      <div class="gf-cat-card__content">
+        <h3 class="gf-cat-card__name">Lightsabers</h3>
+        <p class="gf-cat-card__desc">Craft your weapon</p>
+        <span class="gf-cat-card__link">Shop Now</span>
+      </div>
+    </a>
+
+    {% comment %} Card 2 — Figures {% endcomment %}
+    <a href="{{ routes.collections_url }}/figures" class="gf-cat-card gf-cat-card--figures">
+      <div class="gf-cat-card__bg"></div>
+      <div class="gf-cat-card__overlay"></div>
+      <svg class="gf-cat-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="currentColor" aria-hidden="true">
+        <circle cx="100" cy="48" r="24"/>
+        <path d="M60 200 C60 148 80 128 100 120 C120 128 140 148 140 200 Z"/>
+        <path d="M52 100 C28 88 18 116 32 130 C44 142 60 136 68 124 Z"/>
+        <path d="M148 100 C172 88 182 116 168 130 C156 142 140 136 132 124 Z"/>
+      </svg>
+      <div class="gf-cat-card__content">
+        <h3 class="gf-cat-card__name">Figures</h3>
+        <p class="gf-cat-card__desc">Meet your allies</p>
+        <span class="gf-cat-card__link">Shop Now</span>
+      </div>
+    </a>
+
+    {% comment %} Card 3 — Collectibles {% endcomment %}
+    <a href="{{ routes.collections_url }}/collectibles" class="gf-cat-card gf-cat-card--collectibles">
+      <div class="gf-cat-card__bg"></div>
+      <div class="gf-cat-card__overlay"></div>
+      <svg class="gf-cat-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="currentColor" aria-hidden="true">
+        <polygon points="100,20 118,70 172,70 128,102 144,155 100,124 56,155 72,102 28,70 82,70"/>
+      </svg>
+      <div class="gf-cat-card__content">
+        <h3 class="gf-cat-card__name">Collectibles</h3>
+        <p class="gf-cat-card__desc">Complete the archive</p>
+        <span class="gf-cat-card__link">Shop Now</span>
+      </div>
+    </a>
+
+  </div>
+
+</section>
