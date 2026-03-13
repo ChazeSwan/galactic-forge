@@ -17,12 +17,32 @@
       "type": "homepage-hero",
       "settings": {}
     },
+    "divider-1": {
+      "type": "section-divider",
+      "settings": {}
+    },
     "categories": {
       "type": "homepage-categories",
       "settings": {}
     },
+    "divider-2": {
+      "type": "section-divider",
+      "settings": {}
+    },
     "products": {
       "type": "homepage-products",
+      "settings": {}
+    },
+    "divider-3": {
+      "type": "section-divider",
+      "settings": {}
+    },
+    "features": {
+      "type": "homepage-features",
+      "settings": {}
+    },
+    "divider-4": {
+      "type": "section-divider",
       "settings": {}
     },
     "testimonials": {
@@ -33,8 +53,13 @@
   "order": [
     "main",
     "hero",
+    "divider-1",
     "categories",
+    "divider-2",
     "products",
+    "divider-3",
+    "features",
+    "divider-4",
     "testimonials"
   ]
 }

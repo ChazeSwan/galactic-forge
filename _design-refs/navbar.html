@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galactic Forge — Navbar Design</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Cinzel', serif;
+      background: #e8eaf0;
+      min-height: 300vh;
+    }
+
+    /* ══════════════════════════════════════
+       TOP BAR — hides on scroll
+    ══════════════════════════════════════ */
+    .gf-topbar {
+      background: #1A1A2E;
+      color: rgba(247,250,252,0.6);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      overflow: hidden;
+      transition: height 0.35s ease, opacity 0.35s ease, padding 0.35s ease;
+      height: 34px;
+    }
+    .gf-topbar.is-hidden {
+      height: 0;
+      opacity: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .gf-topbar a {
+      color: #C9A84C;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .gf-topbar a:hover { opacity: 0.75; }
+
+    /* ══════════════════════════════════════
+       MAIN NAV — sticky, shadow on scroll
+    ══════════════════════════════════════ */
+    .gf-nav {
+      background: #F7FAFC;
+      border-bottom: 1px solid rgba(43,108,176,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: box-shadow 0.3s ease;
+    }
+    .gf-nav.is-stuck {
+      box-shadow: 0 2px 20px rgba(26,26,46,0.08);
+    }
+
+    .gf-nav__inner {
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      height: 68px;
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 0;
+    }
+
+    /* ── Logo ── */
+    .gf-nav__logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      flex-shrink: 0;
+      margin-right: 2.5rem;
+    }
+
+    /* Clashing sabers */
+    .gf-nav__logo-sabers {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 40px;
+    }
+    .gf-nav__saber {
+      width: 10px;
+      height: 40px;
+    }
+    .gf-nav__saber--blue {
+      transform: rotate(14deg);
+      transform-origin: bottom center;
+    }
+    .gf-nav__saber--green {
+      transform: rotate(-14deg);
+      transform-origin: bottom center;
+    }
+
+    /* Blade elements transition on logo hover */
+    .gf-nav__saber .blade {
+      transition: fill 0.3s ease;
+    }
+    /* Default — both grey at rest */
+    .gf-nav__saber--blue .blade { fill: #9aa5b4; }
+    .gf-nav__saber--green .blade { fill: #9aa5b4; }
+
+    /* On logo hover — blue left, green right */
+    .gf-nav__logo:hover .gf-nav__saber--blue .blade { fill: #2B6CB0; }
+    .gf-nav__logo:hover .gf-nav__saber--green .blade { fill: #38A169; }
+
+    .gf-nav__logo-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1A1A2E;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .gf-nav__logo-text span {
+      display: block;
+      font-size: 0.42rem;
+      letter-spacing: 0.3em;
+      color: #C9A84C;
+      font-weight: 400;
+      margin-top: 3px;
+    }
+
+    /* ── Desktop links — left aligned ── */
+    .gf-nav__links {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+      list-style: none;
+      flex: 1;
+    }
+    .gf-nav__links li { position: relative; }
+    .gf-nav__links a,
+    .gf-nav__links button {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1A1A2E;
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .gf-nav__links a:hover,
+    .gf-nav__links button:hover { color: #2B6CB0; }
+
+    .gf-nav__chevron {
+      width: 10px; height: 10px;
+      transition: transform 0.25s;
+    }
+    .gf-nav__shop-btn.is-open .gf-nav__chevron {
+      transform: rotate(180deg);
+    }
+
+    /* ── Dropdown ── */
+    .gf-nav__dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: #F7FAFC;
+      border: 1px solid rgba(43,108,176,0.12);
+      border-top: 2px solid #2B6CB0;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(26,26,46,0.1);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-6px);
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 200;
+    }
+    .gf-nav__dropdown.is-open {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+    .gf-nav__dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1.25rem;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(43,108,176,0.06);
+      transition: background 0.15s;
+    }
+    .gf-nav__dropdown-item:last-child { border-bottom: none; }
+    .gf-nav__dropdown-item:hover { background: rgba(144,205,244,0.08); }
+    .gf-nav__dropdown-item:hover .gf-nav__dropdown-name { color: #2B6CB0; }
+    .gf-nav__dropdown-icon {
+      width: 30px; height: 30px;
+      background: rgba(43,108,176,0.08);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+    .gf-nav__dropdown-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1A1A2E;
+      transition: color 0.2s;
+    }
+
+    /* ── Right: phone + icons ── */
+    .gf-nav__actions {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex-shrink: 0;
+    }
+    .gf-nav__phone {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #C9A84C;
+      text-decoration: none;
+      margin-right: 0.75rem;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .gf-nav__phone:hover { opacity: 0.75; }
+
+    .gf-nav__icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: #1A1A2E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+    .gf-nav__icon-btn:hover { color: #2B6CB0; }
+    .gf-nav__icon-btn svg { width: 20px; height: 20px; }
+
+    .gf-nav__cart-wrap { position: relative; }
+    .gf-nav__cart-badge {
+      position: absolute;
+      top: 2px; right: 2px;
+      width: 14px; height: 14px;
+      background: #2B6CB0;
+      border-radius: 50%;
+      font-size: 0.5rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      font-weight: 700;
+    }
+
+    .gf-nav__hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .gf-nav__hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: #1A1A2E;
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+      transform-origin: center;
+    }
+    .gf-nav__hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .gf-nav__hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .gf-nav__hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ══════════════════════════════════════
+       MOBILE DRAWER
+    ══════════════════════════════════════ */
+    .gf-nav__drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      top: 68px;
+      background: #F7FAFC;
+      z-index: 99;
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .gf-nav__drawer.is-open { opacity: 1; transform: translateX(0); }
+
+    .gf-nav__drawer-phone {
+      display: block;
+      text-align: center;
+      padding: 1rem 1.75rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #C9A84C;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(43,108,176,0.1);
+    }
+
+    .gf-nav__drawer-links {
+      list-style: none;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(43,108,176,0.1);
+    }
+    .gf-nav__drawer-links li a,
+    .gf-nav__drawer-links li button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1.1rem 1.75rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1A1A2E;
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+    }
+    .gf-nav__drawer-links li a:hover,
+    .gf-nav__drawer-links li button:hover {
+      color: #2B6CB0;
+      background: rgba(144,205,244,0.06);
+    }
+    .gf-nav__drawer-sub {
+      list-style: none;
+      background: rgba(43,108,176,0.04);
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+    }
+    .gf-nav__drawer-sub.is-open { max-height: 400px; }
+    .gf-nav__drawer-sub li { border-top: 1px solid rgba(43,108,176,0.06); }
+    .gf-nav__drawer-sub li a {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: #4A5568;
+      padding: 0.85rem 2.5rem;
+      justify-content: flex-start;
+    }
+    .gf-nav__drawer-sub li a:hover { color: #2B6CB0; background: none; }
+
+    .gf-nav__drawer-secondary {
+      list-style: none;
+      background: rgba(26,26,46,0.03);
+      padding: 0.5rem 0;
+    }
+    .gf-nav__drawer-secondary li a {
+      display: block;
+      padding: 0.75rem 1.75rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #4A5568;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .gf-nav__drawer-secondary li a:hover { color: #2B6CB0; }
+
+    @media (max-width: 900px) {
+      .gf-nav__links { display: none; }
+      .gf-nav__phone { display: none; }
+      .gf-nav__hamburger { display: flex; }
+      .gf-nav__drawer { display: block; }
+      .gf-nav__inner { padding: 0 1.25rem; }
+    }
+
+    .page-hint {
+      text-align: center;
+      padding: 4rem 2rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #9aa5b4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gf-topbar" id="gfTopbar">
+    <span>Free shipping on orders over 50 credits</span>
+    <a href="#">Order Status</a>
+    <a href="#">Contact the Council</a>
+  </div>
+
+  <nav class="gf-nav" id="gfNav" aria-label="Main navigation">
+    <div class="gf-nav__inner">
+
+      <a href="/" class="gf-nav__logo">
+        <div class="gf-nav__logo-sabers">
+          <!-- Blue saber -->
+          <svg class="gf-nav__saber gf-nav__saber--blue" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse class="blade" cx="20" cy="8" rx="3" ry="5"/>
+            <rect class="blade" x="17" y="8" width="6" height="112" rx="3"/>
+            <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+            <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+            <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+            <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+            <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+            <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+          </svg>
+          <!-- Green saber -->
+          <svg class="gf-nav__saber gf-nav__saber--green" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse class="blade" cx="20" cy="8" rx="3" ry="5"/>
+            <rect class="blade" x="17" y="8" width="6" height="112" rx="3"/>
+            <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+            <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+            <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+            <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+            <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+            <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+          </svg>
+        </div>
+        <div class="gf-nav__logo-text">
+          Galactic Forge
+          <span>Light Side</span>
+        </div>
+      </a>
+
+      <ul class="gf-nav__links">
+        <li>
+          <button class="gf-nav__shop-btn" id="shopByBtn" aria-expanded="false">
+            Shop By
+            <svg class="gf-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="gf-nav__dropdown" id="shopByDropdown">
+            <a href="#" class="gf-nav__dropdown-item">
+              <div class="gf-nav__dropdown-icon">⚔️</div>
+              <span class="gf-nav__dropdown-name">Lightsabers</span>
+            </a>
+            <a href="#" class="gf-nav__dropdown-item">
+              <div class="gf-nav__dropdown-icon">🗿</div>
+              <span class="gf-nav__dropdown-name">Figures</span>
+            </a>
+            <a href="#" class="gf-nav__dropdown-item">
+              <div class="gf-nav__dropdown-icon">📦</div>
+              <span class="gf-nav__dropdown-name">Collectibles</span>
+            </a>
+          </div>
+        </li>
+        <li><a href="#">The Jedi Order</a></li>
+        <li><a href="#">Jedi Academy</a></li>
+      </ul>
+
+      <div class="gf-nav__actions">
+        <a href="tel:5195744734" class="gf-nav__phone">519-574-4734</a>
+        <button class="gf-nav__icon-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </button>
+        <button class="gf-nav__icon-btn" aria-label="Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </button>
+        <div class="gf-nav__cart-wrap">
+          <button class="gf-nav__icon-btn" aria-label="Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </button>
+          <span class="gf-nav__cart-badge">0</span>
+        </div>
+        <button class="gf-nav__hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="gf-nav__drawer" id="mobileDrawer" aria-hidden="true">
+    <a href="tel:5195744734" class="gf-nav__drawer-phone">519-574-4734</a>
+    <ul class="gf-nav__drawer-links">
+      <li>
+        <button id="mobileShopBtn" aria-expanded="false">
+          Shop By
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+        <ul class="gf-nav__drawer-sub" id="mobileShopSub">
+          <li><a href="#">⚔️ &nbsp; Lightsabers</a></li>
+          <li><a href="#">🗿 &nbsp; Figures</a></li>
+          <li><a href="#">📦 &nbsp; Collectibles</a></li>
+        </ul>
+      </li>
+      <li><a href="#">The Jedi Order</a></li>
+      <li><a href="#">Jedi Academy</a></li>
+    </ul>
+    <ul class="gf-nav__drawer-secondary">
+      <li><a href="#">Contact the Council</a></li>
+      <li><a href="#">Sign In</a></li>
+      <li><a href="#">Shipping & Returns</a></li>
+      <li><a href="#">Create an Account</a></li>
+      <li><a href="#">Order Status</a></li>
+    </ul>
+  </div>
+
+  <div class="page-hint">↓ Scroll down to see topbar hide and nav become sticky</div>
+
+  <script>
+    var topbar        = document.getElementById('gfTopbar');
+    var nav           = document.getElementById('gfNav');
+    var hamburgerBtn  = document.getElementById('hamburgerBtn');
+    var mobileDrawer  = document.getElementById('mobileDrawer');
+    var shopByBtn     = document.getElementById('shopByBtn');
+    var shopByDD      = document.getElementById('shopByDropdown');
+    var mobileShopBtn = document.getElementById('mobileShopBtn');
+    var mobileShopSub = document.getElementById('mobileShopSub');
+
+    /* Scroll: hide topbar → sticky nav with shadow */
+    window.addEventListener('scroll', function () {
+      var topbarH = topbar.scrollHeight;
+      if (window.scrollY > topbarH) {
+        topbar.classList.add('is-hidden');
+        nav.classList.add('is-stuck');
+      } else {
+        topbar.classList.remove('is-hidden');
+        nav.classList.remove('is-stuck');
+      }
+    });
+
+    /* Hamburger */
+    hamburgerBtn.addEventListener('click', function () {
+      var open = mobileDrawer.classList.toggle('is-open');
+      hamburgerBtn.classList.toggle('is-open', open);
+      hamburgerBtn.setAttribute('aria-expanded', open);
+      mobileDrawer.setAttribute('aria-hidden', !open);
+    });
+
+    /* Desktop dropdown */
+    shopByBtn.addEventListener('click', function () {
+      var open = shopByDD.classList.toggle('is-open');
+      shopByBtn.classList.toggle('is-open', open);
+      shopByBtn.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', function (e) {
+      if (!shopByBtn.contains(e.target) && !shopByDD.contains(e.target)) {
+        shopByDD.classList.remove('is-open');
+        shopByBtn.classList.remove('is-open');
+        shopByBtn.setAttribute('aria-expanded', false);
+      }
+    });
+
+    /* Mobile sub-menu */
+    mobileShopBtn.addEventListener('click', function () {
+      var open = mobileShopSub.classList.toggle('is-open');
+      mobileShopBtn.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>

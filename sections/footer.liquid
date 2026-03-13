@@ -1,57 +1,139 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
+{% comment %}
+  sections/footer.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  Galactic Forge site-wide footer.
+
+  Structure:
+    .gf-footer-divider      ← wavy SVG wave transitioning from page → navy
+    .gf-footer              ← dark navy full-width container
+      .gf-footer__grid      ← 4-column grid: Shop | Help | Newsletter | Account
+    .gf-footer__bottom      ← copyright bar + legal links + social icons
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
+
+{{ 'footer.css' | asset_url | stylesheet_tag }}
+
+{% comment %} Wavy divider — Force energy line, blends page background into footer {% endcomment %}
+<div class="gf-footer-divider full-width">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M0,30 C200,0 400,60 720,30 C1040,0 1240,60 1440,30 L1440,60 L0,60 Z" fill="#1A1A2E"/>
+    {% comment %} The glowing Force line that rides the wave crest {% endcomment %}
+    <path d="M0,30 C200,0 400,60 720,30 C1040,0 1240,60 1440,30" fill="none" stroke="rgba(144,205,244,0.2)" stroke-width="1"/>
+    <circle cx="0" cy="30" r="3" fill="rgba(144,205,244,0.35)"/>
+    <circle cx="1440" cy="30" r="3" fill="rgba(144,205,244,0.35)"/>
+  </svg>
+</div>
+
+<footer class="gf-footer full-width">
+  {% comment %}
+    Footer inner — flex column, everything stacks vertically and centers.
+    Row 1: Shop + Help & Support (2-col group)
+    Row 2: Stay In The Know newsletter
+    Row 3: Account links
+  {% endcomment %}
+  <div class="gf-footer__inner">
+
+    {% comment %} Row 1 — 2-column group: Shop (left) | Help & Support (right) {% endcomment %}
+    <div class="gf-footer__col-group">
+
+      <div class="gf-footer__col">
+        <p class="gf-footer__col-title">Shop</p>
+        <ul class="gf-footer__links">
+          <li><a href="{{ routes.all_products_collection_url }}">Shop All</a></li>
+          <li><a href="{{ routes.collections_url }}/lightsabers">Lightsabers</a></li>
+          <li><a href="{{ routes.collections_url }}/figures">Figures</a></li>
+          <li><a href="{{ routes.collections_url }}/collectibles">Collectibles</a></li>
+        </ul>
+      </div>
+
+      <div class="gf-footer__col">
+        <p class="gf-footer__col-title">Help &amp; Support</p>
+        <ul class="gf-footer__links">
+          <li><a href="#">Contact the Council</a></li>
+          <li><a href="#">Shipping &amp; Returns</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Submit a Claim</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    {% comment %} Row 2 — Newsletter, full width, centered {% endcomment %}
+    <div class="gf-footer__newsletter-col">
+      <h3 class="gf-footer__newsletter-title">Stay In The Know</h3>
+      <p class="gf-footer__newsletter-sub">
+        Sign up for transmissions from the Order — new relics,
+        exclusive offers, and dispatches from across the galaxy.
+      </p>
+      {% comment %} Decorative form — not wired to Shopify email yet {% endcomment %}
+      <div class="gf-footer__form">
+        <input class="gf-footer__input" type="email" placeholder="Enter your email" aria-label="Email address"/>
+        <button class="gf-footer__submit" type="button">Submit</button>
+      </div>
+    </div>
+
+    {% comment %} Row 3 — Account links, centered {% endcomment %}
+    <div class="gf-footer__account">
+      <p class="gf-footer__col-title">Account</p>
+      <ul class="gf-footer__links gf-footer__links--row">
+        <li><a href="{{ routes.account_login_url }}">Sign In</a></li>
+        <li><a href="{{ routes.account_register_url }}">Create an Account</a></li>
+        <li><a href="{{ routes.account_url }}">Order Status</a></li>
+      </ul>
+    </div>
+
   </div>
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+  {% comment %}
+    Bottom bar — same navy background as footer.
+    A gold rule above it (CSS) separates it from the account section.
+  {% endcomment %}
+  <div class="gf-footer__bottom full-width">
+    <div class="gf-footer__bottom-inner">
+
+      <div class="gf-footer__bottom-left">
+        <p class="gf-footer__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+        <div class="gf-footer__legal">
+          <a href="#">Terms &amp; Conditions</a>
+          <span>•</span>
+          <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+
+      {% comment %} Social icon buttons — X, Instagram, YouTube, Facebook {% endcomment %}
+      <div class="gf-footer__socials">
+        <a href="#" class="gf-footer__social-btn" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+        <a href="#" class="gf-footer__social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a href="#" class="gf-footer__social-btn" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.6 2.7 12 2.7 12 2.7s-4.6 0-6.8.2c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.2.7 11.4v2.1c0 2.2.3 4.4.3 4.4s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.5 22 12 22 12 22s4.6 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.4v-2C23.3 9.1 23 7 23 7zM9.7 15.5V8.4l6.6 3.6-6.6 3.5z"/>
+          </svg>
+        </a>
+        <a href="#" class="gf-footer__social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
   </div>
 
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
-  </div>
 </footer>
-
-{% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-  }
-  footer a {
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:general.footer",
-  "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
-      "default": true
-    }
-  ]
+  "name": "Footer",
+  "settings": []
 }
 {% endschema %}

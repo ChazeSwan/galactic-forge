@@ -1,0 +1,67 @@
+{% comment %}
+  sections/homepage-features.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  "Why the Light Side?" features section.
+
+  4-column grid of value propositions, each with:
+    - A symbol icon (unicode character, styled in Jedi blue)
+    - A title in Cinzel uppercase
+    - A short description in Inter
+
+  Structure:
+    <section>               ← section wrapper, page background
+      <div> gf-inner        ← 80% width content box
+        <div> heading       ← centered eyebrow + title
+        <div> grid          ← 4 columns, one per feature
+          <div> feature     ← symbol, title, desc stacked
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
+
+{{ 'homepage-features.css' | asset_url | stylesheet_tag }}
+
+<section class="gf-features full-width" aria-labelledby="features-title">
+
+  <div class="gf-inner">
+
+    {% comment %} Section heading — centered eyebrow above the title {% endcomment %}
+    <div class="gf-features__heading">
+      <p class="gf-features__eyebrow">The Jedi Way</p>
+      <h2 class="gf-features__title" id="features-title">Why the Light Side?</h2>
+    </div>
+
+    {% comment %}
+      Feature grid — 4 columns on desktop, 2 on tablet, 1 on mobile.
+      Each feature is self-contained: icon, title, description.
+    {% endcomment %}
+    <div class="gf-features__grid">
+
+      <div class="gf-feature">
+        {% comment %} Unicode sword symbol — stands in for a custom icon {% endcomment %}
+        <div class="gf-feature__symbol" aria-hidden="true">⚔</div>
+        <p class="gf-feature__title">Forged with Precision</p>
+        <p class="gf-feature__desc">Every artifact built to exacting Jedi standards.</p>
+      </div>
+
+      <div class="gf-feature">
+        <div class="gf-feature__symbol" aria-hidden="true">✦</div>
+        <p class="gf-feature__title">Rooted in the Force</p>
+        <p class="gf-feature__desc">Each piece carries the energy of those who came before.</p>
+      </div>
+
+      <div class="gf-feature">
+        <div class="gf-feature__symbol" aria-hidden="true">◈</div>
+        <p class="gf-feature__title">Built to Last</p>
+        <p class="gf-feature__desc">Relics made for generations, not moments.</p>
+      </div>
+
+      <div class="gf-feature">
+        <div class="gf-feature__symbol" aria-hidden="true">◎</div>
+        <p class="gf-feature__title">Ships Across the Galaxy</p>
+        <p class="gf-feature__desc">To every corner of the known universe.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

@@ -1,0 +1,61 @@
+{% comment %}
+  sections/section-divider.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  Decorative divider rendered between homepage sections.
+
+  Design: two fading blue lines with a lightsaber hilt SVG centered between them.
+  Full-bleed width, matching page background color so it floats between sections.
+
+  Added to templates/index.json as "divider-1", "divider-2", etc.
+  Each uses type: "section-divider" — same file, multiple instances.
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
+
+{{ 'section-divider.css' | asset_url | stylesheet_tag }}
+
+<div class="gf-divider full-width">
+  <div class="gf-divider__inner">
+
+    {% comment %}
+      Left line — fades from transparent on the left to blue on the right,
+      so it appears to "grow" toward the hilt from the left edge.
+    {% endcomment %}
+    <span class="gf-divider__line gf-divider__line--left"></span>
+
+    {% comment %}
+      Lightsaber hilt SVG — vertical orientation, centered between the two lines.
+      Parts from top to bottom: guard, grip (with rings), pommel.
+      Colors are semi-transparent so it feels etched rather than solid.
+      viewBox 0 0 40 200 — rendered at 10x52px.
+    {% endcomment %}
+    <svg
+      class="gf-divider__hilt"
+      viewBox="0 0 40 70"
+      width="8"
+      height="26"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      {% comment %} Guard — flat wide bar at the top {% endcomment %}
+      <rect x="6" y="0" width="28" height="6" rx="2" fill="rgba(43,108,176,0.45)" />
+
+      {% comment %} Grip body — narrow rounded handle {% endcomment %}
+      <rect x="14" y="6" width="12" height="52" rx="2" fill="rgba(74,85,104,0.5)" />
+
+      {% comment %} Grip rings — three thin bands spaced along the grip {% endcomment %}
+      <rect x="12" y="17" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)" />
+      <rect x="12" y="30" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)" />
+      <rect x="12" y="43" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)" />
+
+      {% comment %} Pommel — ellipse base, rounded like a real hilt end {% endcomment %}
+      <ellipse cx="20" cy="63" rx="9" ry="5" fill="rgba(85,85,85,0.4)" />
+    </svg>
+
+    {% comment %}
+      Right line — mirror of the left, fades from blue on the left to transparent.
+    {% endcomment %}
+    <span class="gf-divider__line gf-divider__line--right"></span>
+
+  </div>
+</div>

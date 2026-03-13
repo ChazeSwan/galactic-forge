@@ -1,0 +1,458 @@
+/* header.css */
+
+/* ══ Top bar ══ */
+.gf-topbar {
+  background: #1A1A2E;
+  color: rgba(247, 250, 252, 0.6);
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  overflow: hidden;
+  transition: height 0.35s ease, opacity 0.35s ease, padding 0.35s ease;
+  height: 34px;
+}
+
+.gf-topbar.is-hidden {
+  height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.gf-topbar a {
+  color: #A07C2A;
+  text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.gf-topbar a:hover {
+  color: #FFD700;
+}
+
+/* Make the section group wrapper sticky — this is the correct fix in Shopify.
+   position: sticky on an element inside a section only works within that
+   section's height. Applying it to the section group wrapper makes the
+   entire header block stick across the full page scroll. */
+.shopify-section-group-header-group {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ══ Main nav ══ */
+.gf-nav {
+  background: #ffffff;
+  border-bottom: 1px solid #A07C2A;
+  transition: box-shadow 0.3s ease;
+}
+
+.gf-nav.is-stuck {
+  box-shadow: 0 2px 20px rgba(26, 26, 46, 0.08);
+}
+
+.gf-nav__inner {
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  height: 68px;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 0;
+}
+
+/* ── Logo ── */
+.gf-nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  flex-shrink: 0;
+  margin-right: 2.5rem;
+}
+
+.gf-nav__logo-sabers {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 40px;
+}
+
+.gf-nav__saber {
+  width: 10px;
+  height: 40px;
+}
+
+.gf-nav__saber--blue {
+  transform: rotate(14deg);
+  transform-origin: bottom center;
+}
+
+.gf-nav__saber--green {
+  transform: rotate(-14deg);
+  transform-origin: bottom center;
+}
+
+/* Blades grey at rest */
+.gf-nav__saber .blade {
+  transition: fill 0.3s ease;
+}
+
+.gf-nav__saber--blue .blade { fill: #9aa5b4; }
+.gf-nav__saber--green .blade { fill: #9aa5b4; }
+
+/* Blades light up on logo hover */
+.gf-nav__logo:hover .gf-nav__saber--blue .blade  { fill: #2B6CB0; }
+.gf-nav__logo:hover .gf-nav__saber--green .blade { fill: #38A169; }
+
+.gf-nav__logo-text {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #1A1A2E;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* "Light Side" subtitle under store name */
+.gf-nav__logo-text span {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: #A07C2A;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+/* ── Desktop nav links ── */
+.gf-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  list-style: none;
+  flex: 1;
+}
+
+.gf-nav__links li {
+  position: relative;
+}
+
+.gf-nav__links a,
+.gf-nav__links button {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1A1A2E;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.gf-nav__links a:hover,
+.gf-nav__links button:hover {
+  color: #2B6CB0;
+}
+
+/* Chevron rotates when dropdown is open */
+.gf-nav__chevron {
+  width: 10px;
+  height: 10px;
+  transition: transform 0.25s;
+}
+
+.gf-nav__shop-btn.is-open .gf-nav__chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown menu ── */
+.gf-nav__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #F7FAFC;
+  border: 1px solid rgba(43, 108, 176, 0.12);
+  border-top: 2px solid #2B6CB0;
+  min-width: 200px;
+  box-shadow: 0 8px 24px rgba(26, 26, 46, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 200;
+}
+
+.gf-nav__dropdown.is-open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.gf-nav__dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(43, 108, 176, 0.06);
+  transition: background 0.15s;
+}
+
+.gf-nav__dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.gf-nav__dropdown-item:hover {
+  background: rgba(144, 205, 244, 0.08);
+}
+
+.gf-nav__dropdown-item:hover .gf-nav__dropdown-name {
+  color: #2B6CB0;
+}
+
+.gf-nav__dropdown-icon {
+  width: 30px;
+  height: 30px;
+  background: rgba(43, 108, 176, 0.08);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.gf-nav__dropdown-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1A1A2E;
+  transition: color 0.2s;
+}
+
+/* ── Phone number ── */
+.gf-nav__phone {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #A07C2A;
+  text-decoration: none;
+  border: 1.5px solid #A07C2A;
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  margin-right: 0.5rem;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.gf-nav__phone:hover {
+  color: #7a5c1c;
+  border-color: #7a5c1c;
+}
+
+/* ── Right actions ── */
+.gf-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.gf-nav__icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #1A1A2E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.gf-nav__icon-btn:hover {
+  color: #2B6CB0;
+}
+
+.gf-nav__icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Cart badge */
+.gf-nav__cart-wrap {
+  position: relative;
+}
+
+.gf-nav__cart-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  background: #2B6CB0;
+  border-radius: 50%;
+  font-size: 0.5rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-weight: 700;
+}
+
+/* ── Hamburger ── */
+.gf-nav__hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.gf-nav__hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #1A1A2E;
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+  transform-origin: center;
+}
+
+/* Hamburger animates to X when open */
+.gf-nav__hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.gf-nav__hamburger.is-open span:nth-child(2) { opacity: 0; }
+.gf-nav__hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ══ Mobile drawer ══ */
+.gf-nav__drawer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: 68px;
+  background: #F7FAFC;
+  z-index: 99;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.gf-nav__drawer.is-open {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.gf-nav__drawer-links {
+  list-style: none;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(43, 108, 176, 0.1);
+}
+
+.gf-nav__drawer-links li a,
+.gf-nav__drawer-links li button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.1rem 1.75rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1A1A2E;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+
+.gf-nav__drawer-links li a:hover,
+.gf-nav__drawer-links li button:hover {
+  color: #2B6CB0;
+  background: rgba(144, 205, 244, 0.06);
+}
+
+/* Accordion sub-menu — expands via max-height trick */
+.gf-nav__drawer-sub {
+  list-style: none;
+  background: rgba(43, 108, 176, 0.04);
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s ease;
+}
+
+.gf-nav__drawer-sub.is-open {
+  max-height: 400px;
+}
+
+.gf-nav__drawer-sub li {
+  border-top: 1px solid rgba(43, 108, 176, 0.06);
+}
+
+.gf-nav__drawer-sub li a {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #4A5568;
+  padding: 0.85rem 2.5rem;
+  justify-content: flex-start;
+}
+
+.gf-nav__drawer-sub li a:hover {
+  color: #2B6CB0;
+  background: none;
+}
+
+.gf-nav__drawer-secondary {
+  list-style: none;
+  background: rgba(26, 26, 46, 0.03);
+  padding: 0.5rem 0;
+}
+
+.gf-nav__drawer-secondary li a {
+  display: block;
+  padding: 0.75rem 1.75rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #4A5568;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.gf-nav__drawer-secondary li a:hover {
+  color: #2B6CB0;
+}
+
+/* ══ Mobile breakpoint ══ */
+@media (max-width: 900px) {
+  .gf-nav__links { display: none; }
+  .gf-nav__hamburger { display: flex; }
+  .gf-nav__drawer { display: block; }
+  .gf-nav__inner { padding: 0 1.25rem; }
+}

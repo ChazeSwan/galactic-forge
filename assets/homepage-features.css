@@ -1,0 +1,113 @@
+/* homepage-features.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500&display=swap');
+
+/* ── Section wrapper ── */
+body[data-gf-side="light"] .gf-features {
+  background: #F7FAFC;
+  padding: 4rem 0;
+}
+
+/* ── Inner content box ── */
+body[data-gf-side="light"] .gf-features .gf-inner {
+  width: 80%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Heading block — centered ── */
+body[data-gf-side="light"] .gf-features__heading {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* Eyebrow — gold with decorative lines either side */
+body[data-gf-side="light"] .gf-features__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 0.6rem;
+}
+
+body[data-gf-side="light"] .gf-features__eyebrow::before,
+body[data-gf-side="light"] .gf-features__eyebrow::after {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: #C9A84C;
+  opacity: 0.5;
+}
+
+/* Section title */
+body[data-gf-side="light"] .gf-features__title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  color: #1A1A2E;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ── Feature grid — 4 columns ── */
+body[data-gf-side="light"] .gf-features__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+/* ── Individual feature — centered stack ── */
+body[data-gf-side="light"] .gf-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+/* Symbol icon — unicode character in Jedi blue */
+body[data-gf-side="light"] .gf-feature__symbol {
+  font-size: 1.5rem;
+  color: #2B6CB0;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+/* Feature title — Cinzel uppercase, small caps feel */
+body[data-gf-side="light"] .gf-feature__title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1A1A2E;
+  margin: 0;
+}
+
+/* Feature description — Inter, muted */
+body[data-gf-side="light"] .gf-feature__desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #4A5568;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Mobile — 2 columns on tablet, 1 on small mobile ── */
+@media (max-width: 768px) {
+  body[data-gf-side="light"] .gf-features__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  body[data-gf-side="light"] .gf-features__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -24,6 +24,7 @@ body[data-gf-side="light"] .gf-categories__eyebrow {
   text-transform: uppercase;
   color: #A07C2A;
   margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 /* The decorative lines are drawn using ::before and ::after pseudo-elements */
@@ -210,5 +211,11 @@ body[data-gf-side="light"] .gf-cat-card:hover::after {
   /* Wider aspect on mobile so stacked cards aren't too tall */
   body[data-gf-side="light"] .gf-cat-card {
     aspect-ratio: 16 / 7;
+  }
+
+  /* No hover on touch — always show "Shop Now" so it's accessible */
+  body[data-gf-side="light"] .gf-cat-card__link {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

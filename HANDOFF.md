@@ -1,43 +1,83 @@
 # Galactic Forge — Session Handoff
-**Date:** 2026-03-11
+**Date:** 2026-03-12
+
+---
 
 ## What Has Been Completed
 
-- **Phase 1** — Shopify CLI installed, authenticated, skeleton theme initialized and connected to dev store
-- **Phase 2** — All 10 products added to Shopify admin:
-  - Light Side: Jedi Poster, R2-D2, Clone Trooper (2 variants), Luke Skywalker, Luke's Lightsaber (8 variants)
-  - Dark Side: Sith Poster, Imperial Probe Droid, Battle Droid (2 variants), Darth Vader, Vader's Lightsaber (8 variants)
-- **Phase 3** — All design decisions locked in and saved to CLAUDE.md
-- **Phase 4 — IN PROGRESS** — Entry screen complete + homepage hero complete:
-  - `templates/index.json` — updated to load path-chooser + homepage-hero sections
-  - `sections/path-chooser.liquid` — full entry screen HTML
-  - `assets/path-chooser.css` — entry screen styles
-  - `assets/path-chooser.js` — sequence logic + FOUC fix (data-gf-side now set before fade starts)
-  - `snippets/icon-jedi-crest.liquid` — lightsaber SVG (blue blade, animated on hover)
-  - `snippets/icon-sith-emblem.liquid` — lightsaber SVG (red blade, animated on hover)
-  - `sections/homepage-hero.liquid` — hero HTML (eyebrow, headline, subtext, CTA button)
-  - `assets/homepage-hero.css` — hero styles (Cinzel font, 70vh, flex centering, Force glow, button, mobile)
+### Phases 1–3 — Done
+- Shopify CLI installed, authenticated, skeleton theme initialized
+- All 10 products in Shopify admin (5 Light Side, 5 Dark Side, variants set up)
+- Full design system locked in (see CLAUDE.md Locked Decisions)
+
+### Phase 4 — Homepage (Light Side) — Nearly Complete
+
+| Section | Status | Files |
+|---|---|---|
+| Entry screen (crawl + split) | ✅ | `sections/path-chooser.liquid`, `assets/path-chooser.css/js` |
+| Hero | ⚠️ Needs redesign | `sections/homepage-hero.liquid`, `assets/homepage-hero.css` |
+| Categories | ✅ | `sections/homepage-categories.liquid`, `assets/homepage-categories.css` |
+| Features "Why the Light Side?" | ❌ Not built | — |
+| Featured Products | ✅ | `sections/homepage-products.liquid`, `assets/homepage-products.css` |
+| Testimonials | ✅ | `sections/homepage-testimonials.liquid`, `assets/homepage-testimonials.css` |
+| Section dividers | ❌ Not built | — |
+| Header / Navbar | ✅ | `sections/header.liquid`, `assets/header.css`, `assets/header.js` |
+| Footer | ✅ | `sections/footer.liquid`, `assets/footer.css` |
+
+---
 
 ## Decisions That Are Locked In
 
-- Entry experience: full screen split (Light Side left / Dark Side right)
-- Animation sequence: black screen → "A long time ago..." (3.5s) → perspective crawl (12s) → split screen
-- Crawl font: Oswald, color: #FFD700 — width and scroll end point manually adjusted by Chaz
-- Side choice saved to localStorage key `gf-side`, applied as `data-gf-side` on `<body>` immediately on click (before fade)
-- Homepage hero: 70vh tall banner, Cinzel font, Force blue radial glow, solid blue CTA button
-- CSS architecture: all homepage section styles gated on `body[data-gf-side="light"]`
-- Teaching approach: build HTML structure first, then add CSS one rule at a time with explanations
+### Design system
+- **Fonts:** Cinzel (headings, eyebrows) · Crimson Pro italic (body subtext) — comparison in progress
+- **Colors:** Background `#F7FAFC` · Ink `#1A1A2E` · Jedi blue `#2B6CB0` · Blue light `#90CDF4` · Gold `#C9A84C` · Hover blue `#2c5282`
+- **Content width:** `width: 80%; max-width: 1100px; margin: 0 auto` — class `gf-inner` (not yet applied sitewide)
+- **Full-bleed:** `full-width` class on topbar, nav, drawer, footer, dividers
+
+### Header
+- Sticky via `.shopify-section-group-header-group { position: sticky; top: 0; z-index: 100 }`
+- Topbar hides on scroll (height+opacity transition), nav gains box-shadow on scroll
+- Gold phone pill `519-574-4734` — hover darkens gold, no fill
+- JS in separate `assets/header.js`, loaded with `defer`
+
+### Footer
+- Wavy SVG divider (page bg → navy), 4-col desktop grid, flex-column mobile stacking
+- Shop + H&S use `display: contents` on desktop so all 4 columns sit in one row
+- Mobile: col-group becomes `display: grid; 1fr 1fr` (Shop+H&S side by side), newsletter+account below centered
+- Gold `border-top` separates bottom bar (same navy, no darker background)
+- Bottom bar: copyright + legal left, social icons (X, Instagram, YouTube, Facebook) right
+
+### Font comparison (not committed yet — decision needed at start of next session)
+- Hero subtext: Crimson Pro `1.15rem`
+- Testimonial quotes: Inter `0.9rem` (Obi-Wan + Ren Talos) · Crimson Pro pending on Yoda for side-by-side
+- **First task next session:** compare and pick one body font, then apply it sitewide
+
+---
 
 ## What Is Up Next
 
-Homepage sections (Light Side / Jedi) — build in this order, one at a time:
-1. **Categories** (`sections/homepage-categories.liquid` + `assets/homepage-categories.css`) — 3-column grid: Lightsabers, Figures, Collectibles
-2. **Features** (`sections/homepage-features.liquid` + `assets/homepage-features.css`) — 4 Jedi feature highlights
-3. **Testimonials** (`sections/homepage-testimonials.liquid` + `assets/homepage-testimonials.css`) — Obi-Wan, Yoda, Ahsoka quotes with circular portrait placeholders
-4. **Featured Products** (`sections/homepage-products.liquid` + `assets/homepage-products.css`) — 4-product grid pulling from `collections['light-side']`, placeholder images for now
+In priority order:
+
+1. **Font decision** — compare Crimson Pro vs Inter across hero + testimonials, pick one, apply sitewide to all subtext/body elements
+2. **Hero redesign** — full-bleed Coruscant night image (`_design-refs/coruscant_night.jpg`), left-aligned text, dark overlay + Force glow, location credit bottom-right. Reference: `_design-refs/full-page-preview.html`
+3. **Section dividers** — `snippets/section-divider.liquid`, lightsaber hilt centered on two fading blue lines, render between every section in `templates/index.json`. Spec in DESIGN-BRIEF.md.
+4. **Features section** — "Why the Light Side?", 4-column grid, Cinzel titles, Crimson Pro italic descriptions. Spec in DESIGN-BRIEF.md.
+5. **Commit everything** — header + footer + homepage sections together once font is decided
+6. **Full page review** — Chaz reviews full homepage before moving to Collection page
+
+---
+
+## Key Reference Files
+
+- `_design-refs/DESIGN-BRIEF.md` — full spec for all remaining sections
+- `_design-refs/full-page-preview.html` — visual reference for hero, dividers, features
+- `_design-refs/coruscant_night.jpg` — hero background image (check if file exists in refs folder)
+
+---
 
 ## Unresolved Questions
 
-- Lightsaber part style names (placeholder "Style A / Style B") — finalize when building product page
-- Dark Side (Sith) homepage sections — build after all Light Side sections are complete
-- Returning visitor flow — currently always shows entry screen on refresh (no localStorage skip logic yet)
+- Lightsaber part style names (placeholder "Style A / Style B") — decide when building product page
+- Dark Side (Sith) homepage — after all Light Side sections complete
+- Returning visitor localStorage skip logic — currently always shows entry screen on refresh
+- `gf-inner` content width class — not yet applied sitewide, do on next styling pass

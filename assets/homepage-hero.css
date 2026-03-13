@@ -1,74 +1,101 @@
 /* homepage-hero.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500&display=swap');
 
+/* ── Section — full-bleed, Coruscant night image as background ── */
 body[data-gf-side="light"] .gf-hero {
-  min-height: 70vh;
-  padding: 4rem 2rem;
-  background-color: #F7FAFC;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   position: relative;
+  min-height: 70vh;
+  background-image: url('coruscant_night.jpg');
+  background-size: cover;
+  background-position: center;
+  /* Dims and desaturates the photo so text is legible */
+  filter: brightness(0.95);
   overflow: hidden;
 }
 
-body[data-gf-side="light"] .gf-hero__inner {
-  max-width: 680px;
-  width: 100%;
-}
-
-body[data-gf-side="light"] .gf-hero__eyebrow {
-  font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: #A07C2A;
-  margin: 0 0 1.25rem;
+/* ── Overlay — dark gradient + Force glow on top of the image ── */
+/*
+  Two gradients stacked:
+  1. Dark left-to-right gradient — heaviest on the left where our text lives,
+     fades to near-transparent on the right so the city shows through
+  2. Radial blue glow at bottom-left — the "Force energy" feel
+*/
+body[data-gf-side="light"] .gf-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 60%, rgba(43, 108, 176, 0.18) 0%, transparent 60%),
+    linear-gradient(to right, rgba(10, 15, 30, 0.82) 0%, rgba(10, 15, 30, 0.55) 45%, rgba(10, 15, 30, 0.15) 100%);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  /* Padding top/bottom keeps content from hugging the edges */
+  padding: 5rem 0;
 }
 
-body[data-gf-side="light"] .gf-hero__eyebrow::before,
-body[data-gf-side="light"] .gf-hero__eyebrow::after {
+/* ── Inner content box — left-aligned, 80% width ── */
+body[data-gf-side="light"] .gf-hero .gf-inner {
+  width: 80%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Eyebrow — left-aligned, decorative line on left side only ── */
+body[data-gf-side="light"] .gf-hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin: 0 0 1.25rem;
+}
+
+/* Left line only — ::before draws the line, ::after is removed */
+body[data-gf-side="light"] .gf-hero__eyebrow::before {
   content: '';
   width: 28px;
   height: 1px;
-  background: #A07C2A;
-  opacity: 0.5;
+  background: #C9A84C;
+  opacity: 0.6;
+  flex-shrink: 0;
 }
 
+/* ── Headline — large, white, left-aligned ── */
 body[data-gf-side="light"] .gf-hero__title {
   font-family: 'Cinzel', serif;
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 700;
   line-height: 1.1;
-  color: #1A1A2E;
+  color: #ffffff;
   margin: 0 0 1.5rem;
+  max-width: 620px;
 }
 
+/* "Legend." — Force blue highlight on the final word */
 body[data-gf-side="light"] .gf-hero__accent {
-  color: #2B6CB0;
+  color: #90CDF4;
 }
 
+/* ── Subtext — Inter, muted white, left-aligned ── */
 body[data-gf-side="light"] .gf-hero__sub {
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
   font-weight: 400;
   line-height: 1.7;
-  color: #1A1A2E;
-  opacity: 0.7;
-  max-width: 520px;
-  margin: 0 auto 2.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 480px;
+  margin: 0 0 2.5rem;
 }
 
+/* ── CTA Button — filled blue, flips to outline on hover ── */
 body[data-gf-side="light"] .gf-hero__btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
   font-family: 'Cinzel', serif;
   font-size: 0.85rem;
   font-weight: 600;
@@ -80,34 +107,82 @@ body[data-gf-side="light"] .gf-hero__btn {
   border: 2px solid #2B6CB0;
   padding: 0.9rem 2.25rem;
   border-radius: 2px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, padding 0.25s ease;
+  overflow: hidden;
 }
 
+/* Arrow — hidden at rest, slides in on hover */
+body[data-gf-side="light"] .gf-hero__btn::after {
+  content: '→';
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: max-width 0.25s ease, opacity 0.2s ease, transform 0.25s ease;
+}
+
+/* Hover: outline style, arrow slides in, right padding grows ~10% */
 body[data-gf-side="light"] .gf-hero__btn:hover,
 body[data-gf-side="light"] .gf-hero__btn:focus-visible {
-  background-color: #2c5282;
-  border-color: #2c5282;
+  background-color: transparent;
+  color: #90CDF4;
+  border-color: #90CDF4;
+  padding-right: 2.75rem;
   outline: none;
 }
 
+body[data-gf-side="light"] .gf-hero__btn:hover::after,
+body[data-gf-side="light"] .gf-hero__btn:focus-visible::after {
+  max-width: 1.5rem;
+  opacity: 1;
+  transform: translateX(0);
+  margin-left: 0.6rem;
+}
+
+/* ── Location credit — pinned to bottom-right corner ── */
+/*
+  position: absolute + bottom/right pins it to the section corner.
+  The section itself is position: relative so this is relative to it.
+*/
+body[data-gf-side="light"] .gf-hero__location {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+body[data-gf-side="light"] .gf-hero__location-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  font-weight: 900;
+}
+
+body[data-gf-side="light"] .gf-hero__location-divider {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.7rem;
+}
+
+body[data-gf-side="light"] .gf-hero__location-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ── Mobile ── */
 @media (max-width: 640px) {
-  body[data-gf-side="light"] .gf-hero {
-    padding: 3rem 1.5rem;
+  body[data-gf-side="light"] .gf-hero__overlay {
+    padding: 4rem 0;
   }
 
   body[data-gf-side="light"] .gf-hero__sub {
     font-size: 0.9rem;
   }
-}
-
-body[data-gf-side="light"] .gf-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 60% 50% at 50% 50%,
-    rgba(144, 205, 244, 0.18) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
 }

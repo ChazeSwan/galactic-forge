@@ -119,21 +119,40 @@ real Shopify theme development skills.
 - Energy/glow (lightning white): #EBF8FF
 
 ### Phase 4 — In Progress
-- Entry screen fully built (`sections/path-chooser.liquid`, `assets/path-chooser.css`, `assets/path-chooser.js`)
-- Animation sequence: "A long time ago..." (3.5s) → perspective crawl (12s, Oswald font, #FFD700) → split screen
-- Crawl width and scroll end point manually tuned by Chaz
-- Lightsaber SVG emblems: vertical, blade grows from hilt on hover (`scaleY` animation)
-- Mobile: blades ignited immediately via `@media (hover: none)`
-- Starfield background: CSS radial-gradient dots behind all overlays
-- Skip button: bottom-right, hides when split screen appears
-- FOUC fix: `data-gf-side` set on `<body>` immediately on panel click (before fade starts)
-- Homepage hero built (`sections/homepage-hero.liquid`, `assets/homepage-hero.css`)
-  - 70vh tall banner, Cinzel font, Force blue radial glow (`::before` pseudo-element)
-  - CSS gated on `body[data-gf-side="light"]`
-  - Eyebrow → headline (`clamp` responsive size) → subtext → CTA button with hover transition
-  - Mobile: tighter padding at 640px breakpoint
-- Teaching approach confirmed: HTML structure first, then CSS one rule at a time with explanations
-- Next: homepage categories section
+
+**Design system updates (from DESIGN-BRIEF.md):**
+- Gold accent: `#C9A84C` (footer uses this; older sections use `#A07C2A` — align on next pass)
+- Typography: Cinzel for headings/eyebrows, Crimson Pro (italic) for body subtext
+- Content width class: `gf-inner` → `width: 80%; max-width: 1100px; margin: 0 auto` (not yet implemented sitewide)
+- Full-bleed elements use `full-width` class (breaks out of skeleton grid column)
+
+**Built this phase:**
+- Entry screen (`sections/path-chooser.liquid`, `assets/path-chooser.css`, `assets/path-chooser.js`)
+  - "A long time ago..." (3.5s) → crawl (12s, Oswald, #FFD700) → split screen
+  - FOUC fix: `data-gf-side` set on `<body>` immediately on panel click
+- Homepage hero (`sections/homepage-hero.liquid`, `assets/homepage-hero.css`)
+  - **Needs redesign** — see DESIGN-BRIEF.md: Coruscant night image, left-aligned text, dark overlay, location credit
+  - Reference: `_design-refs/full-page-preview.html`, image: `_design-refs/coruscant_night.jpg`
+- Homepage categories (`sections/homepage-categories.liquid`, `assets/homepage-categories.css`)
+  - 3-column dark gradient cards, hover lift + blue border + "Shop Now" slide-up
+- Homepage featured products (`sections/homepage-products.liquid`, `assets/homepage-products.css`)
+  - Horizontal scroll, pulls from `collections['light-side']`, 5 products
+- Homepage testimonials (`sections/homepage-testimonials.liquid`, `assets/homepage-testimonials.css`)
+  - 3 cards: Obi-Wan (blue), Yoda (green), Ren Talos (purple)
+  - Floating portrait -36px above card, Force ring glow on hover
+- Header (`sections/header.liquid`, `assets/header.css`, `assets/header.js`)
+  - Sticky via `.shopify-section-group-header-group { position: sticky; top: 0 }`
+  - Topbar hides on scroll, nav gains shadow, Shop By dropdown, mobile drawer
+  - Gold phone pill: `519-574-4734`, hover darkens gold (no fill)
+- Footer (`sections/footer.liquid`, `assets/footer.css`)
+  - Wavy SVG divider, 4-col desktop grid, flex-column mobile stacking
+  - Newsletter form, social icons, gold border-top separating bottom bar
+
+**Font comparison in progress (not committed):**
+- Hero subtext → Crimson Pro (1.15rem)
+- Testimonial quotes → Inter (0.9rem), Yoda card pending Crimson Pro override for comparison
+
+**Teaching approach confirmed:** HTML structure first, then CSS one rule at a time with explanations; debug outlines added at the top of every new CSS file
 
 ## Technical Constraints
 

@@ -1,0 +1,48 @@
+/* section-divider.css */
+
+/* ── Outer wrapper — full-bleed, matches page background ── */
+body[data-gf-side="light"] .gf-divider {
+  background: #F7FAFC;
+  padding: 0.5rem 0;
+}
+
+/* ── Inner row — lines + hilt sit in a flex row with gap between them ── */
+body[data-gf-side="light"] .gf-divider__inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 80%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Lines — flex: 1 makes each line fill the remaining space equally ── */
+body[data-gf-side="light"] .gf-divider__line {
+  display: block;
+  flex: 1;
+  height: 1px;
+}
+
+/* Left line: transparent on left, blue on right — grows toward the hilt */
+body[data-gf-side="light"] .gf-divider__line--left {
+  background: linear-gradient(to right, transparent, rgba(43, 108, 176, 0.25));
+}
+
+/* Right line: blue on left, transparent on right — fades away from the hilt */
+body[data-gf-side="light"] .gf-divider__line--right {
+  background: linear-gradient(to left, transparent, rgba(43, 108, 176, 0.25));
+}
+
+/* ── Hilt wrapper — prevents SVG from shrinking in the flex row ── */
+body[data-gf-side="light"] .gf-divider__hilt {
+  flex-shrink: 0;
+  display: block;
+  opacity: 0.85;
+}
+
+/* SVG itself — explicit size so it renders consistently cross-browser */
+body[data-gf-side="light"] .gf-divider__hilt svg {
+  width: 8px;
+  height: 26px;
+  display: block;
+}

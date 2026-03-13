@@ -2,7 +2,7 @@
 
 
 body[data-gf-side="light"] .gf-products {
-  background-color: #F7FAFC;
+  background-color: #ffffff;
   padding: 5rem 4rem;
 }
 
@@ -27,6 +27,7 @@ body[data-gf-side="light"] .gf-products__eyebrow {
   text-transform: uppercase;
   color: #A07C2A;
   margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 body[data-gf-side="light"] .gf-products__eyebrow::before,
@@ -97,10 +98,10 @@ body[data-gf-side="light"] .gf-product-card__name {
 }
 
 body[data-gf-side="light"] .gf-product-card__price {
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', serif;
   font-size: 0.80rem;
   font-weight: 600;
-  color: #2B6CB0;
+  color: #A07C2A;
   margin-bottom: 1rem;
   padding: 0 0.5rem;
 }

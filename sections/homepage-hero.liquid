@@ -8,50 +8,74 @@
   after the visitor chooses Light Side.
 
   Structure:
-    <section>               ← the full hero block (70vh)
-      <div> inner           ← centers content, caps max-width
-        <p>  eyebrow        ← small uppercase label above the headline
-        <h1> title          ← main headline
-        <p>  sub            ← supporting sentence
-        <a>  button         ← CTA link to the Light Side collection
+    <section>               ← full-bleed, Coruscant night image as background
+      <div> overlay         ← dark gradient + Force glow layered over the image
+        <div> gf-inner      ← 80% width content box, left-aligned text
+          <p>  eyebrow      ← "Light Side Artifacts" with left-side decorative line
+          <h1> title        ← main headline, "Legend." in Force blue
+          <p>  sub          ← supporting sentence, Inter, muted white
+          <a>  button       ← filled blue CTA, hover flips to outline style
+      <p> location          ← "Planet / CORUSCANT" credit, bottom-right corner
   ─────────────────────────────────────────────────────────────────────────────
 {% endcomment %}
 
 {% comment %} Load this section's stylesheet {% endcomment %}
 {{ 'homepage-hero.css' | asset_url | stylesheet_tag }}
 
-<section class="gf-hero" aria-label="Hero">
+<section class="gf-hero full-width" aria-label="Hero">
 
-  <div class="gf-hero__inner">
-
-    {% comment %}
-      Eyebrow — small label above the headline.
-      This signals what type of page/section this is before the visitor reads the headline.
-    {% endcomment %}
-    <p class="gf-hero__eyebrow">Light Side Artifacts</p>
-
-    {% comment %}
-      Headline — the hero's main statement.
-      h1 because this is the most important heading on the page.
-    {% endcomment %}
-    <h1 class="gf-hero__title">Forge Your <span class="gf-hero__accent">Legend</span></h1>
+  {% comment %}
+    Overlay div — sits on top of the background image.
+    Holds the dark gradient and Force glow so they layer cleanly
+    without interfering with the image itself.
+  {% endcomment %}
+  <div class="gf-hero__overlay">
 
     {% comment %}
-      Subtext — one sentence that supports the headline.
-      Keeps it brief — the headline does the heavy lifting.
+      gf-inner — the shared content width class (80%, max 1100px).
+      Left-aligns all the text content within the full-bleed section.
     {% endcomment %}
-    <p class="gf-hero__sub">
-      The galaxy's finest relics, forged for those who stand for peace and the Force.
-    </p>
+    <div class="gf-inner">
 
-    {% comment %}
-      CTA Button — links to the Light Side collection.
-      Using an <a> tag (not <button>) because it navigates to a new page.
-    {% endcomment %}
-    <a href="{{  routes.collections_url }}/light-side" class="gf-hero__btn">
-      Shop the Collection
-    </a>
+      {% comment %}
+        Eyebrow — left-aligned label above the headline.
+        Line appears only on the left side (::before only).
+      {% endcomment %}
+      <p class="gf-hero__eyebrow">Light Side Artifacts</p>
+
+      {% comment %}
+        Headline — white with the word "Legend." highlighted in Force blue.
+        The <span> lets us target just that word with a different color.
+      {% endcomment %}
+      <h1 class="gf-hero__title">Forge Your <span class="gf-hero__accent">Legend.</span></h1>
+
+      {% comment %}
+        Subtext — one supporting sentence in Inter, muted white.
+      {% endcomment %}
+      <p class="gf-hero__sub">
+        The galaxy's finest relics, forged for those who stand for peace and the Force.
+      </p>
+
+      {% comment %}
+        CTA Button — links to the Light Side collection.
+        Filled blue at rest, flips to transparent outline on hover.
+      {% endcomment %}
+      <a href="{{ routes.collections_url }}/light-side" class="gf-hero__btn">
+        Shop the Collection
+      </a>
+
+    </div>
 
   </div>
+
+  {% comment %}
+    Location credit — sits in the bottom-right corner of the section.
+    "Planet / CORUSCANT" styled like a film location card.
+  {% endcomment %}
+  <p class="gf-hero__location">
+    <span class="gf-hero__location-label">Planet</span>
+    <span class="gf-hero__location-divider">/</span>
+    <span class="gf-hero__location-name">Coruscant</span>
+  </p>
 
 </section>

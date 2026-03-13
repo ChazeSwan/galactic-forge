@@ -1,77 +1,189 @@
-<header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+{% comment %}
+  sections/header.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  Galactic Forge site-wide navigation header.
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+  Appears on every page via layout/theme.liquid → sections 'header-group'.
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      <shopify-account menu="{{ section.settings.customer_account_menu }}">
-        {{ 'icon-account.svg' | inline_asset_content }}
-      </shopify-account>
-    {% endif %}
+  Structure:
+    .gf-topbar          ← dark strip at top, hides on scroll
+    .gf-nav             ← main nav bar, sticky with shadow on scroll
+      .gf-nav__inner    ← centers content, max-width cap
+        .gf-nav__logo   ← crossing sabers SVG + "Galactic Forge" text
+        .gf-nav__links  ← desktop nav: Shop By dropdown, The Jedi Order, Jedi Academy
+        .gf-nav__actions ← phone, search, account, cart badge, hamburger
+    .gf-nav__drawer     ← mobile slide-in menu (toggled by hamburger)
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
 
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
+{{ 'header.css' | asset_url | stylesheet_tag }}
 
-      {{ 'icon-cart.svg' | inline_asset_content }}
+{% comment %} Top bar — hides on scroll {% endcomment %}
+{% comment %} full-width breaks out of the skeleton's grid column constraint {% endcomment %}
+<div class="gf-topbar full-width" id="gfTopbar">
+  <span>Free shipping on orders over 50 credits</span>
+  <a href="#">Order Status</a>
+  <a href="#">Contact the Council</a>
+</div>
+
+{% comment %} Main sticky nav {% endcomment %}
+<nav class="gf-nav full-width" id="gfNav" aria-label="Main navigation">
+  <div class="gf-nav__inner">
+
+    {% comment %} Logo — two crossing lightsaber SVGs + store name {% endcomment %}
+    <a href="{{ routes.root_url }}" class="gf-nav__logo">
+      <div class="gf-nav__logo-sabers">
+        {% comment %} Blue saber — blade fills blue on logo hover {% endcomment %}
+        <svg class="gf-nav__saber gf-nav__saber--blue" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <ellipse class="blade" cx="20" cy="8" rx="3" ry="5"/>
+          <rect class="blade" x="17" y="8" width="6" height="112" rx="3"/>
+          <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+          <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+          <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+          <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+        </svg>
+        {% comment %} Green saber — blade fills green on logo hover {% endcomment %}
+        <svg class="gf-nav__saber gf-nav__saber--green" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <ellipse class="blade" cx="20" cy="8" rx="3" ry="5"/>
+          <rect class="blade" x="17" y="8" width="6" height="112" rx="3"/>
+          <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+          <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+          <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+          <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+          <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+        </svg>
+      </div>
+      <div class="gf-nav__logo-text">
+        Galactic Forge
+        <span>Light Side</span>
+      </div>
     </a>
-  </div>
-</header>
 
-{% stylesheet %}
-  header {
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  header a {
-    position: relative;
-    text-decoration: none;
-    color: var(--color-foreground);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
-  }
-  header svg {
-    width: 2rem;
-  }
-  header .header__menu,
-  header .header__icons {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
+    {% comment %} Desktop navigation links {% endcomment %}
+    <ul class="gf-nav__links">
+
+      {% comment %} Shop By — dropdown with category links {% endcomment %}
+      <li>
+        <button class="gf-nav__shop-btn" id="shopByBtn" aria-expanded="false" aria-controls="shopByDropdown">
+          Shop By
+          <svg class="gf-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="gf-nav__dropdown" id="shopByDropdown">
+          <a href="{{ routes.collections_url }}/lightsabers" class="gf-nav__dropdown-item">
+            <div class="gf-nav__dropdown-icon">⚔️</div>
+            <span class="gf-nav__dropdown-name">Lightsabers</span>
+          </a>
+          <a href="{{ routes.collections_url }}/figures" class="gf-nav__dropdown-item">
+            <div class="gf-nav__dropdown-icon">🗿</div>
+            <span class="gf-nav__dropdown-name">Figures</span>
+          </a>
+          <a href="{{ routes.collections_url }}/collectibles" class="gf-nav__dropdown-item">
+            <div class="gf-nav__dropdown-icon">📦</div>
+            <span class="gf-nav__dropdown-name">Collectibles</span>
+          </a>
+        </div>
+      </li>
+
+      <li><a href="{{ routes.root_url }}">The Jedi Order</a></li>
+      <li><a href="/blogs/jedi-academy">Jedi Academy</a></li>
+
+    </ul>
+
+    {% comment %} Right-side actions — search, account, cart, hamburger {% endcomment %}
+    <div class="gf-nav__actions">
+
+      {% comment %} Phone number — hidden on mobile via CSS {% endcomment %}
+      <a href="tel:5195744734" class="gf-nav__phone">519-574-4734</a>
+
+      {% comment %} Search icon {% endcomment %}
+      <button class="gf-nav__icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+
+      {% comment %} Account icon {% endcomment %}
+      <a href="{{ routes.account_url }}" class="gf-nav__icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </a>
+
+      {% comment %}
+        Cart icon with live badge.
+        cart.item_count is updated by Shopify automatically.
+      {% endcomment %}
+      <div class="gf-nav__cart-wrap">
+        <a href="{{ routes.cart_url }}" class="gf-nav__icon-btn" aria-label="Cart ({{ cart.item_count }} items)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </a>
+        {% if cart.item_count > 0 %}
+          <span class="gf-nav__cart-badge">{{ cart.item_count }}</span>
+        {% endif %}
+      </div>
+
+      {% comment %} Hamburger — mobile only, toggles the drawer {% endcomment %}
+      <button class="gf-nav__hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+
+  </div>
+</nav>
+
+{% comment %} Mobile drawer — slides in from left on hamburger click {% endcomment %}
+<div class="gf-nav__drawer full-width" id="mobileDrawer" aria-hidden="true">
+  <ul class="gf-nav__drawer-links">
+
+    {% comment %} Shop By — accordion sub-menu {% endcomment %}
+    <li>
+      <button id="mobileShopBtn" aria-expanded="false">
+        Shop By
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+      <ul class="gf-nav__drawer-sub" id="mobileShopSub">
+        <li><a href="{{ routes.collections_url }}/lightsabers">⚔️ &nbsp; Lightsabers</a></li>
+        <li><a href="{{ routes.collections_url }}/figures">🗿 &nbsp; Figures</a></li>
+        <li><a href="{{ routes.collections_url }}/collectibles">📦 &nbsp; Collectibles</a></li>
+      </ul>
+    </li>
+
+    <li><a href="{{ routes.root_url }}">The Jedi Order</a></li>
+    <li><a href="/blogs/jedi-academy">Jedi Academy</a></li>
+
+  </ul>
+
+  <ul class="gf-nav__drawer-secondary">
+    <li><a href="#">Contact the Council</a></li>
+    <li><a href="{{ routes.account_login_url }}">Sign In</a></li>
+    <li><a href="#">Shipping &amp; Returns</a></li>
+    <li><a href="{{ routes.account_register_url }}">Create an Account</a></li>
+    <li><a href="{{ routes.account_url }}">Order Status</a></li>
+  </ul>
+</div>
+
+{% comment %} Load header interactions from separate JS file {% endcomment %}
+<script src="{{ 'header.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
-  "name": "t:general.header",
-  "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    },
-    {
-      "type": "link_list",
-      "id": "customer_account_menu",
-      "label": "t:labels.customer_account_menu",
-      "default": "customer-account-main-menu"
-    }
-  ]
+  "name": "Header",
+  "settings": []
 }
 {% endschema %}

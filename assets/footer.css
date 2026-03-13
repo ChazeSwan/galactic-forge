@@ -1,0 +1,292 @@
+/* footer.css */
+
+/* ── DEBUG outlines — uncomment to visualize layout ── */
+/* .gf-footer * { outline: 1px solid red; } */
+
+/* ══ Wavy divider ══ */
+.gf-footer-divider {
+  background: #F7FAFC; /* matches the page background above */
+  line-height: 0;
+  overflow: hidden;
+}
+
+.gf-footer-divider svg {
+  display: block;
+  width: 100%;
+  height: 60px;
+}
+
+/* ══ Footer main ══ */
+.gf-footer {
+  background: #1A1A2E;
+  color: rgba(247, 250, 252, 0.7);
+  padding: 4rem 2rem 0;
+}
+
+/* ── Inner wrapper — 4-column grid on desktop ── */
+.gf-footer__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.4fr 1fr;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}
+
+/* display: contents makes the wrapper invisible to the grid —
+   Shop and H&S participate as direct grid children alongside Newsletter and Account */
+.gf-footer__col-group {
+  display: contents;
+}
+
+/* ── Column headings ── */
+.gf-footer__col-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Link lists ── */
+.gf-footer__links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.gf-footer__links a {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(247, 250, 252, 0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.gf-footer__links a:hover {
+  color: #90CDF4;
+}
+
+/* ══ Row 2 — Newsletter ══ */
+.gf-footer__newsletter-col {
+  width: 100%;
+  text-align: center;
+}
+
+.gf-footer__newsletter-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: #F7FAFC;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.gf-footer__newsletter-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: rgba(247, 250, 252, 0.5);
+  line-height: 1.9;
+  margin-bottom: 1.5rem;
+}
+
+/* Email input + submit joined flush */
+.gf-footer__form {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(144, 205, 244, 0.25);
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.gf-footer__input {
+  flex: 1;
+  background: rgba(144, 205, 244, 0.05);
+  border: none;
+  outline: none;
+  padding: 0.75rem 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: #F7FAFC;
+  min-width: 0; /* prevents input from overflowing flex container */
+}
+
+.gf-footer__input::placeholder {
+  color: rgba(247, 250, 252, 0.3);
+}
+
+.gf-footer__submit {
+  background: #2B6CB0;
+  border: none;
+  color: #F7FAFC;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.25s;
+}
+
+.gf-footer__submit:hover {
+  background: #2c5282;
+}
+
+/* ══ Row 3 — Account ══ */
+.gf-footer__account {
+  text-align: center;
+}
+
+/* Account links — vertical column, left-aligned like the other footer columns */
+.gf-footer__links--row {
+  flex-direction: column;
+}
+
+/* ══ Bottom bar ══
+   Same navy as the footer — gold rule above separates it visually */
+.gf-footer__bottom {
+  background: #1A1A2E;
+  border-top: 1px solid rgba(160, 124, 42, 0.4); /* gold rule, ~80% visual weight */
+}
+
+.gf-footer__bottom-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.gf-footer__bottom-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.gf-footer__copyright {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: rgba(247, 250, 252, 0.35);
+}
+
+.gf-footer__legal {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.gf-footer__legal a {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: rgba(247, 250, 252, 0.35);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.gf-footer__legal a:hover {
+  color: #90CDF4;
+}
+
+.gf-footer__legal span {
+  color: rgba(247, 250, 252, 0.2);
+}
+
+/* ── Social icon buttons ── */
+.gf-footer__socials {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.gf-footer__social-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(144, 205, 244, 0.2);
+  background: transparent;
+  color: rgba(247, 250, 252, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.gf-footer__social-btn:hover {
+  border-color: #90CDF4;
+  color: #90CDF4;
+  background: rgba(144, 205, 244, 0.05);
+}
+
+.gf-footer__social-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ══ Mobile ══ */
+@media (max-width: 768px) {
+  .gf-footer {
+    padding: 3rem 1.25rem 0;
+  }
+
+  /* Switch inner to flex-column — rows stack vertically */
+  .gf-footer__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  /* Restore col-group as a visible 2-column grid: Shop | H&S */
+  .gf-footer__col-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+  }
+
+  /* Shop and H&S columns stay left-aligned on mobile */
+  .gf-footer__col {
+    text-align: left;
+  }
+
+  /* Newsletter and account sections center themselves */
+  .gf-footer__newsletter-col,
+  .gf-footer__account {
+    text-align: center;
+  }
+
+  .gf-footer__account .gf-footer__links--row {
+    align-items: center;
+  }
+
+  .gf-footer__bottom-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  .gf-footer__bottom-left {
+    align-items: center;
+  }
+
+  .gf-footer__legal {
+    justify-content: center;
+  }
+}

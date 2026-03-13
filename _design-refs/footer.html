@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galactic Forge — Footer Design</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Cinzel', serif;
+      background: #e8eaf0;
+    }
+
+    /* ══════════════════════════════════════
+       DIVIDER — wavy Force line like Backdrop
+    ══════════════════════════════════════ */
+    .gf-footer-divider {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      background: #F7FAFC;
+    }
+    .gf-footer-divider svg {
+      display: block;
+      width: 100%;
+      height: 60px;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER MAIN
+    ══════════════════════════════════════ */
+    .gf-footer {
+      background: #1A1A2E;
+      color: rgba(247,250,252,0.7);
+      padding: 4rem 4rem 0;
+    }
+
+    /* Top grid: 4 columns like Backdrop */
+    .gf-footer__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.4fr 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid rgba(144,205,244,0.1);
+    }
+
+    /* ── Column headings ── */
+    .gf-footer__col-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #C9A84C;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Link lists ── */
+    .gf-footer__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .gf-footer__links a {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      color: rgba(247,250,252,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .gf-footer__links a:hover { color: #90CDF4; }
+
+    /* ── Newsletter column ── */
+    .gf-footer__newsletter-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      color: #F7FAFC;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+
+    .gf-footer__newsletter-sub {
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(247,250,252,0.5);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .gf-footer__form {
+      display: flex;
+      gap: 0;
+      border: 1px solid rgba(144,205,244,0.25);
+    }
+
+    .gf-footer__input {
+      flex: 1;
+      background: rgba(144,205,244,0.05);
+      border: none;
+      outline: none;
+      padding: 0.75rem 1rem;
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.9rem;
+      color: #F7FAFC;
+      letter-spacing: 0.05em;
+    }
+    .gf-footer__input::placeholder {
+      color: rgba(247,250,252,0.3);
+    }
+
+    .gf-footer__submit {
+      background: #2B6CB0;
+      border: none;
+      color: #F7FAFC;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.25rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.25s;
+    }
+    .gf-footer__submit:hover { background: #2c5282; }
+
+    /* ══════════════════════════════════════
+       BOTTOM BAR
+    ══════════════════════════════════════ */
+    .gf-footer__bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .gf-footer__bottom-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .gf-footer__copyright {
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.8rem;
+      color: rgba(247,250,252,0.35);
+      letter-spacing: 0.05em;
+    }
+
+    .gf-footer__legal {
+      display: flex;
+      gap: 1rem;
+    }
+    .gf-footer__legal a {
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.8rem;
+      color: rgba(247,250,252,0.35);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .gf-footer__legal a:hover { color: #90CDF4; }
+    .gf-footer__legal span {
+      color: rgba(247,250,252,0.2);
+    }
+
+    /* Social icons */
+    .gf-footer__socials {
+      display: flex;
+      gap: 0.6rem;
+    }
+    .gf-footer__social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(144,205,244,0.2);
+      background: transparent;
+      color: rgba(247,250,252,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      text-decoration: none;
+    }
+    .gf-footer__social-btn:hover {
+      border-color: #90CDF4;
+      color: #90CDF4;
+      background: rgba(144,205,244,0.05);
+    }
+    .gf-footer__social-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .gf-footer {
+        padding: 3rem 1.5rem 0;
+      }
+      .gf-footer__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+      .gf-footer__newsletter-col {
+        grid-column: 1 / -1;
+      }
+      .gf-footer__bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Wavy divider — Force energy line -->
+  <div class="gf-footer-divider">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C200,0 400,60 720,30 C1040,0 1240,60 1440,30 L1440,60 L0,60 Z" fill="#1A1A2E"/>
+      <!-- Force line -->
+      <path d="M0,30 C200,0 400,60 720,30 C1040,0 1240,60 1440,30" fill="none" stroke="rgba(144,205,244,0.2)" stroke-width="1"/>
+      <!-- Endpoint dots -->
+      <circle cx="0" cy="30" r="3" fill="rgba(144,205,244,0.35)"/>
+      <circle cx="1440" cy="30" r="3" fill="rgba(144,205,244,0.35)"/>
+    </svg>
+  </div>
+
+  <footer class="gf-footer">
+    <div class="gf-footer__grid">
+
+      <!-- Shop -->
+      <div>
+        <p class="gf-footer__col-title">Shop</p>
+        <ul class="gf-footer__links">
+          <li><a href="#">Shop All</a></li>
+          <li><a href="#">Lightsabers</a></li>
+          <li><a href="#">Figures</a></li>
+          <li><a href="#">Collectibles</a></li>
+        </ul>
+      </div>
+
+      <!-- Help & Support -->
+      <div>
+        <p class="gf-footer__col-title">Help & Support</p>
+        <ul class="gf-footer__links">
+          <li><a href="#">Contact the Council</a></li>
+          <li><a href="#">Shipping & Returns</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Submit a Claim</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter — center column -->
+      <div class="gf-footer__newsletter-col">
+        <h3 class="gf-footer__newsletter-title">Stay In The Know</h3>
+        <p class="gf-footer__newsletter-sub">
+          Sign up for transmissions from the Order — new relics,<br/>
+          exclusive offers, and dispatches from across the galaxy.
+        </p>
+        <div class="gf-footer__form">
+          <input class="gf-footer__input" type="email" placeholder="Enter your email" aria-label="Email address"/>
+          <button class="gf-footer__submit">Submit</button>
+        </div>
+      </div>
+
+      <!-- Account -->
+      <div>
+        <p class="gf-footer__col-title">Account</p>
+        <ul class="gf-footer__links">
+          <li><a href="#">Sign In</a></li>
+          <li><a href="#">Create an Account</a></li>
+          <li><a href="#">Order Status</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="gf-footer__bottom">
+      <div class="gf-footer__bottom-left">
+        <p class="gf-footer__copyright">© 2026 Galactic Forge. All rights reserved.</p>
+        <div class="gf-footer__legal">
+          <a href="#">Terms & Conditions</a>
+          <span>•</span>
+          <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+
+      <!-- Social icons -->
+      <div class="gf-footer__socials">
+        <!-- X / Twitter -->
+        <a href="#" class="gf-footer__social-btn" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <!-- Instagram -->
+        <a href="#" class="gf-footer__social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <!-- YouTube -->
+        <a href="#" class="gf-footer__social-btn" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.6 2.7 12 2.7 12 2.7s-4.6 0-6.8.2c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.2.7 11.4v2.1c0 2.2.3 4.4.3 4.4s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.5 22 12 22 12 22s4.6 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.4v-2C23.3 9.1 23 7 23 7zM9.7 15.5V8.4l6.6 3.6-6.6 3.5z"/></svg>
+        </a>
+        <!-- Facebook -->
+        <a href="#" class="gf-footer__social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </footer>
+
+</body>
+</html>
