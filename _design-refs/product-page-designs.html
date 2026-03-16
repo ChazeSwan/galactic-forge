@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galactic Forge · Product Page Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+#switcher{
+  position:fixed;top:0;left:0;right:0;z-index:9999;
+  background:#12172b;display:flex;align-items:center;justify-content:center;
+  gap:4px;padding:9px 20px;
+  border-bottom:1px solid rgba(201,168,76,0.25);
+}
+#switcher .sw-label{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(255,255,255,0.3);margin-right:10px;
+}
+.sw-btn{
+  background:transparent;border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.45);font-family:'Josefin Sans',sans-serif;
+  font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+  padding:6px 16px;cursor:pointer;transition:all 0.2s;
+}
+.sw-btn:hover{border-color:rgba(201,168,76,0.5);color:rgba(201,168,76,0.8)}
+.sw-btn.active{background:rgba(201,168,76,0.12);border-color:#c9a84c;color:#c9a84c}
+.design{margin-top:47px}
+
+/* ─────────────────────────── SHARED ─────────────────────────── */
+.announce-bar{
+  background:#0a0e1a;color:rgba(255,255,255,0.6);
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.12em;
+  text-transform:uppercase;padding:7px 40px;
+}
+.announce-bar a{color:#c9a84c;text-decoration:none}
+.announce-bar a:hover{text-decoration:underline}
+
+.site-nav{
+  background:white;border-bottom:1px solid rgba(0,0,0,0.08);
+  padding:0 40px;display:flex;align-items:center;
+  justify-content:space-between;height:62px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.logo-mark{
+  width:34px;height:34px;background:#0a0e1a;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;
+}
+.logo-text{
+  font-family:'Josefin Sans',sans-serif;font-size:12px;
+  font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#0a0e1a;
+}
+.side-pills{display:flex;gap:4px;margin-top:3px}
+.side-pills span{
+  font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:0.1em;
+  text-transform:uppercase;padding:2px 8px;border-radius:20px;border:1px solid;cursor:pointer;
+}
+.pill-light{color:#2457b3;border-color:#2457b3;background:rgba(36,87,179,0.07)}
+.pill-dark{color:#888;border-color:#bbb}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{
+  font-family:'Josefin Sans',sans-serif;font-size:11px;
+  letter-spacing:0.12em;text-transform:uppercase;color:#333;text-decoration:none;
+}
+.nav-actions{display:flex;align-items:center;gap:14px}
+.nav-phone{
+  font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.07em;
+  color:#333;border:1px solid rgba(0,0,0,0.2);padding:5px 12px;border-radius:3px;
+}
+.nav-icon{font-size:15px;cursor:pointer;color:#333}
+
+.breadcrumb{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.12em;
+  text-transform:uppercase;color:#aaa;display:flex;align-items:center;gap:7px;
+  padding:18px 0 6px;
+}
+.breadcrumb a{color:#aaa;text-decoration:none}
+.breadcrumb a:hover{color:#c9a84c}
+.breadcrumb .sep{opacity:0.4;font-size:9px}
+.breadcrumb .crumb-current{color:#444}
+
+.site-footer{background:#0a0e1a;color:rgba(255,255,255,0.55);padding:64px 60px 40px;position:relative}
+.footer-wave{
+  position:absolute;top:-48px;left:0;right:0;height:50px;
+  background:#0a0e1a;clip-path:ellipse(55% 100% at 50% 100%);
+}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 2fr 1fr;gap:48px;margin-bottom:48px}
+.footer-col h4{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.18em;
+  text-transform:uppercase;color:rgba(255,255,255,0.85);margin-bottom:16px;
+}
+.footer-col ul{list-style:none}
+.footer-col li{
+  font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.06em;
+  text-transform:uppercase;margin-bottom:10px;
+}
+.footer-col li a{color:rgba(255,255,255,0.45);text-decoration:none}
+.footer-col li a:hover{color:#c9a84c}
+.footer-newsletter h3{
+  font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;
+  color:white;margin-bottom:8px;
+}
+.footer-newsletter p{
+  font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.04em;
+  line-height:1.7;color:rgba(255,255,255,0.45);margin-bottom:16px;
+}
+.email-row{display:flex}
+.email-row input{
+  flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
+  border-right:none;color:white;font-family:'Josefin Sans',sans-serif;
+  font-size:11px;letter-spacing:0.06em;padding:9px 14px;outline:none;
+}
+.email-row input::placeholder{color:rgba(255,255,255,0.25)}
+.email-row button{
+  background:#2457b3;border:none;color:white;font-family:'Josefin Sans',sans-serif;
+  font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:9px 18px;cursor:pointer;
+}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,0.07);padding-top:22px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-bottom p{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;
+  letter-spacing:0.06em;color:rgba(255,255,255,0.25);
+}
+
+/* ─────────────────────────── DESIGN 1: THE ARCHIVES ─────────────────────────── */
+#d1{background:#f4f2ec}
+
+#d1 .product-wrap{max-width:1180px;margin:0 auto;padding:0 40px 80px}
+
+#d1 .product-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;
+}
+
+#d1 .img-col{position:sticky;top:76px}
+
+#d1 .main-img{
+  width:100%;aspect-ratio:1;background:#e4e0d8;
+  border:1px solid rgba(0,0,0,0.07);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+#d1 .img-inner{
+  position:absolute;inset:0;
+  background:linear-gradient(145deg,#dcdad2 0%,#c9c6bc 60%,#bbb8ae 100%);
+}
+#d1 .img-placeholder{
+  position:relative;z-index:2;
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.18em;
+  text-transform:uppercase;color:rgba(0,0,0,0.2);
+}
+#d1 .img-badge{
+  position:absolute;top:16px;left:16px;z-index:3;
+  background:#c9a84c;color:white;font-family:'Josefin Sans',sans-serif;
+  font-size:8px;letter-spacing:0.18em;text-transform:uppercase;padding:4px 10px;
+}
+#d1 .thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}
+#d1 .thumb{
+  aspect-ratio:1;background:#dddad2;border:2px solid transparent;
+  cursor:pointer;transition:border-color 0.2s;
+}
+#d1 .thumb.on{border-color:#0a0e1a}
+#d1 .thumb:hover{border-color:#c9a84c}
+
+#d1 .info-col{padding-top:6px}
+
+#d1 .eyebrow{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.22em;
+  text-transform:uppercase;color:#c9a84c;margin-bottom:10px;
+}
+#d1 h1{
+  font-family:'Cormorant Garamond',serif;font-size:44px;
+  font-weight:500;color:#0a0e1a;line-height:1.05;margin-bottom:6px;
+}
+#d1 .subtitle{
+  font-family:'Cormorant Garamond',serif;font-size:18px;
+  font-style:italic;font-weight:300;color:#888;margin-bottom:24px;
+}
+#d1 .price-row{
+  display:flex;align-items:baseline;gap:12px;margin-bottom:26px;
+  padding-bottom:26px;border-bottom:1px solid rgba(0,0,0,0.09);
+}
+#d1 .price{
+  font-family:'Josefin Sans',sans-serif;font-size:26px;
+  font-weight:300;letter-spacing:0.03em;color:#0a0e1a;
+}
+#d1 .price-tag{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;
+  letter-spacing:0.12em;text-transform:uppercase;color:#aaa;
+}
+#d1 .field-label{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;
+  letter-spacing:0.2em;text-transform:uppercase;color:#888;margin-bottom:9px;
+}
+#d1 .qty{
+  display:flex;align-items:center;
+  border:1px solid rgba(0,0,0,0.14);background:white;
+  width:fit-content;margin-bottom:20px;
+}
+#d1 .qty button{
+  background:none;border:none;width:34px;height:34px;cursor:pointer;
+  font-size:15px;color:#444;display:flex;align-items:center;justify-content:center;
+}
+#d1 .qty span{
+  font-family:'Josefin Sans',sans-serif;font-size:13px;
+  width:34px;text-align:center;color:#0a0e1a;font-weight:600;
+}
+#d1 .btn-primary{
+  display:block;width:100%;background:#2457b3;color:white;
+  border:none;font-family:'Josefin Sans',sans-serif;font-size:11px;
+  letter-spacing:0.22em;text-transform:uppercase;padding:15px 24px;
+  cursor:pointer;margin-bottom:10px;transition:background 0.2s;
+}
+#d1 .btn-primary:hover{background:#1a3d8c}
+#d1 .btn-ghost{
+  display:block;width:100%;background:transparent;color:#0a0e1a;
+  border:1px solid rgba(0,0,0,0.18);font-family:'Josefin Sans',sans-serif;
+  font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  padding:13px 24px;cursor:pointer;margin-bottom:28px;transition:all 0.2s;
+}
+#d1 .btn-ghost:hover{border-color:#0a0e1a}
+
+#d1 .top-badges{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+#d1 .top-badge{
+  display:flex;align-items:center;gap:6px;
+  border:1px solid rgba(0,0,0,0.12);background:white;
+  padding:6px 13px;border-radius:2px;
+}
+#d1 .top-badge svg{flex-shrink:0;opacity:0.7}
+#d1 .top-badge span{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;
+  letter-spacing:0.14em;text-transform:uppercase;color:#333;
+}
+#d1 .feature-badges{
+  border-top:1px solid rgba(0,0,0,0.07);
+  border-bottom:1px solid rgba(0,0,0,0.07);
+  margin-bottom:22px;
+}
+#d1 .feature-badge{
+  display:grid;grid-template-columns:36px 1fr;grid-template-rows:auto auto;
+  column-gap:12px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.05);
+}
+#d1 .feature-badge:last-child{border-bottom:none}
+#d1 .fb-icon{
+  grid-row:1/3;display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;background:rgba(36,87,179,0.07);border-radius:50%;
+  flex-shrink:0;
+}
+#d1 .fb-title{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;color:#0a0e1a;
+  align-self:end;
+}
+#d1 .fb-body{
+  font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.03em;
+  line-height:1.65;color:#888;align-self:start;margin-top:2px;
+}
+#d1 .desc-block{margin-bottom:0}
+#d1 .desc-hd{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:13px 0;cursor:pointer;border-top:1px solid rgba(0,0,0,0.07);
+}
+#d1 .desc-title{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.2em;
+  text-transform:uppercase;color:#333;font-weight:600;
+}
+#d1 .desc-toggle{
+  font-family:'Josefin Sans',sans-serif;font-size:18px;font-weight:300;
+  color:#bbb;line-height:1;
+}
+#d1 .desc-body{padding:0 0 16px}
+#d1 .desc-body p{
+  font-family:'Josefin Sans',sans-serif;font-size:12px;letter-spacing:0.03em;
+  line-height:1.9;color:#666;
+}
+#d1 .spec-list{border-top:1px solid rgba(0,0,0,0.07)}
+#d1 .spec-row{
+  display:flex;justify-content:space-between;
+  padding:11px 0;border-bottom:1px solid rgba(0,0,0,0.05);
+}
+#d1 .sk{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;
+  letter-spacing:0.15em;text-transform:uppercase;color:#aaa;
+}
+#d1 .sv{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;
+  letter-spacing:0.06em;color:#444;
+}
+
+#d1 .lore{background:#0a0e1a;padding:80px 0}
+#d1 .lore-in{
+  max-width:1180px;margin:0 auto;padding:0 40px;
+  display:grid;grid-template-columns:1fr 2fr;gap:72px;align-items:start;
+}
+#d1 .lore-label{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.22em;
+  text-transform:uppercase;color:#c9a84c;margin-bottom:14px;
+}
+#d1 .lore h2{
+  font-family:'Cormorant Garamond',serif;font-size:34px;
+  font-weight:300;color:white;line-height:1.25;
+}
+#d1 .lore p{
+  font-family:'Josefin Sans',sans-serif;font-size:12px;letter-spacing:0.04em;
+  line-height:1.95;color:rgba(255,255,255,0.55);margin-bottom:18px;
+}
+
+#d1 .related{max-width:1180px;margin:0 auto;padding:72px 40px}
+#d1 .sec-header{text-align:center;margin-bottom:44px}
+#d1 .sec-header .ey{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.25em;
+  text-transform:uppercase;color:#aaa;
+  display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;
+}
+#d1 .sec-header .ey::before,#d1 .sec-header .ey::after{
+  content:'';width:36px;height:1px;background:#ccc;
+}
+#d1 .sec-header h2{
+  font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:500;color:#0a0e1a;
+}
+#d1 .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+#d1 .rel-card{background:white}
+#d1 .rel-img{aspect-ratio:1;background:#e4e0d8;margin-bottom:14px}
+#d1 .rel-name{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.12em;
+  text-transform:uppercase;color:#0a0e1a;margin-bottom:5px;padding:0 2px;
+}
+#d1 .rel-price{
+  font-family:'Josefin Sans',sans-serif;font-size:13px;color:#555;
+  margin-bottom:10px;padding:0 2px;
+}
+#d1 .rel-btn{
+  display:block;width:100%;background:#2457b3;color:white;
+  border:none;font-family:'Josefin Sans',sans-serif;font-size:9px;
+  letter-spacing:0.18em;text-transform:uppercase;padding:9px;
+  cursor:pointer;text-align:center;
+}
+
+
+/* ─────────────────────────── DESIGN 2: THE HOLOCRON ─────────────────────────── */
+#d2{background:#050a14}
+
+#d2 .announce-bar{background:#030710}
+#d2 .site-nav{
+  background:rgba(5,10,20,0.97);
+  border-bottom:1px solid rgba(201,168,76,0.12);
+}
+#d2 .logo-text{color:rgba(255,255,255,0.85)}
+#d2 .site-nav .logo-mark{
+  background:rgba(201,168,76,0.1);
+  border:1px solid rgba(201,168,76,0.25);color:#c9a84c;
+}
+#d2 .nav-links a{color:rgba(255,255,255,0.65)}
+#d2 .nav-links a:hover{color:#c9a84c}
+#d2 .nav-phone{color:rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.18)}
+#d2 .nav-icon{color:rgba(255,255,255,0.6)}
+#d2 .pill-light{color:rgba(201,168,76,0.85);border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.07)}
+#d2 .pill-dark{color:rgba(255,255,255,0.3);border-color:rgba(255,255,255,0.15)}
+
+#d2 .breadcrumb{padding-left:48px;color:rgba(255,255,255,0.28)}
+#d2 .breadcrumb a{color:rgba(255,255,255,0.28)}
+#d2 .breadcrumb a:hover{color:#c9a84c}
+#d2 .breadcrumb .crumb-current{color:rgba(255,255,255,0.55)}
+
+#d2 .product-split{
+  display:grid;grid-template-columns:52% 48%;min-height:88vh;
+}
+
+#d2 .img-col{
+  position:relative;background:#0c1525;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+#d2 .img-ambient{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 55%,rgba(201,168,76,0.07) 0%,transparent 55%),
+    radial-gradient(ellipse at 25% 75%,rgba(36,87,179,0.09) 0%,transparent 45%),
+    linear-gradient(180deg,#0c1525 0%,#08101e 100%);
+}
+#d2 .img-grid-lines{
+  position:absolute;inset:0;opacity:0.04;
+  background-image:linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+#d2 .product-frame{
+  position:relative;z-index:2;
+  width:260px;height:380px;
+  border:1px solid rgba(201,168,76,0.14);
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.02);
+}
+#d2 .product-frame::before{
+  content:'PRODUCT IMAGE';position:absolute;
+  font-family:'Josefin Sans',sans-serif;font-size:8px;
+  letter-spacing:0.2em;color:rgba(255,255,255,0.12);
+}
+.corner{position:absolute;width:10px;height:10px;border-color:rgba(201,168,76,0.45);border-style:solid}
+.c-tl{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.c-tr{top:-1px;right:-1px;border-width:2px 2px 0 0}
+.c-bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px}
+.c-br{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+
+#d2 .img-glow{
+  position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
+  width:180px;height:60px;z-index:1;
+  background:radial-gradient(ellipse,rgba(201,168,76,0.1) 0%,transparent 70%);
+  filter:blur(16px);
+}
+#d2 .thumb-strip{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;gap:7px;z-index:4;
+}
+#d2 .thumb{
+  width:44px;height:44px;background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.09);cursor:pointer;transition:border-color 0.2s;
+}
+#d2 .thumb.on{border-color:#c9a84c}
+#d2 .thumb:hover{border-color:rgba(201,168,76,0.5)}
+
+#d2 .info-col{
+  padding:50px 52px 60px;
+  display:flex;flex-direction:column;justify-content:center;
+  border-left:1px solid rgba(201,168,76,0.08);
+}
+#d2 .eyebrow{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.25em;
+  text-transform:uppercase;color:#c9a84c;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+#d2 .eyebrow::before{content:'';width:22px;height:1px;background:#c9a84c}
+#d2 h1{
+  font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:400;
+  color:white;line-height:0.95;margin-bottom:10px;
+}
+#d2 .subtitle{
+  font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;
+  font-weight:300;color:rgba(255,255,255,0.35);margin-bottom:28px;
+}
+#d2 .gold-rule{
+  height:1px;
+  background:linear-gradient(90deg,#c9a84c,transparent);
+  margin-bottom:26px;
+}
+#d2 .price{
+  font-family:'Cormorant Garamond',serif;font-size:40px;
+  font-weight:300;color:white;margin-bottom:28px;
+}
+#d2 .price sup{font-size:20px;color:rgba(255,255,255,0.4);vertical-align:super}
+#d2 .field-label{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;
+  letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:9px;
+}
+#d2 .qty{
+  display:flex;align-items:center;
+  border:1px solid rgba(255,255,255,0.1);margin-bottom:20px;width:fit-content;
+}
+#d2 .qty button{
+  background:none;border:none;width:34px;height:34px;cursor:pointer;
+  font-size:15px;color:rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;
+}
+#d2 .qty span{
+  font-family:'Josefin Sans',sans-serif;font-size:13px;
+  width:34px;text-align:center;color:white;
+}
+#d2 .btn-primary{
+  display:block;width:100%;
+  background:linear-gradient(120deg,#1a3b8f,#2457b3);
+  color:white;border:1px solid rgba(201,168,76,0.18);
+  font-family:'Josefin Sans',sans-serif;font-size:11px;
+  letter-spacing:0.25em;text-transform:uppercase;
+  padding:16px 24px;cursor:pointer;margin-bottom:10px;transition:all 0.25s;
+}
+#d2 .btn-primary:hover{background:linear-gradient(120deg,#2457b3,#2b6bd6);border-color:rgba(201,168,76,0.35)}
+#d2 .btn-ghost{
+  display:block;width:100%;background:transparent;
+  color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.1);
+  font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.18em;
+  text-transform:uppercase;padding:13px 24px;cursor:pointer;margin-bottom:30px;transition:all 0.2s;
+}
+#d2 .btn-ghost:hover{border-color:rgba(201,168,76,0.3);color:rgba(201,168,76,0.7)}
+#d2 .spec-list{border-top:1px solid rgba(255,255,255,0.05)}
+#d2 .spec-row{
+  display:flex;justify-content:space-between;
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+}
+#d2 .sk{font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.28)}
+#d2 .sv{font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.05em;color:rgba(255,255,255,0.55)}
+
+#d2 .lore{background:#030710;padding:80px 0}
+#d2 .lore-in{max-width:800px;margin:0 auto;text-align:center;padding:0 40px}
+#d2 .lore-ey{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.25em;
+  text-transform:uppercase;color:#c9a84c;margin-bottom:20px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+#d2 .lore-ey::before,#d2 .lore-ey::after{content:'';width:28px;height:1px;background:rgba(201,168,76,0.35)}
+#d2 .lore h2{
+  font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;
+  color:white;line-height:1.2;margin-bottom:24px;
+}
+#d2 .lore p{
+  font-family:'Josefin Sans',sans-serif;font-size:12px;letter-spacing:0.04em;
+  line-height:2;color:rgba(255,255,255,0.45);
+}
+
+#d2 .related{padding:80px 48px;background:#050a14}
+#d2 .rel-header{
+  text-align:center;margin-bottom:40px;
+}
+#d2 .rel-ey{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.25em;
+  text-transform:uppercase;color:#c9a84c;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+#d2 .rel-ey::before,#d2 .rel-ey::after{content:'';flex:1;height:1px;background:rgba(201,168,76,0.12)}
+#d2 .rel-header h2{
+  font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:400;color:white;
+}
+#d2 .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+#d2 .rel-card{
+  background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);
+  transition:border-color 0.2s;overflow:hidden;
+}
+#d2 .rel-card:hover{border-color:rgba(201,168,76,0.2)}
+#d2 .rel-img{aspect-ratio:1;background:#0c1525}
+#d2 .rel-body{
+  padding:14px 16px;display:flex;justify-content:space-between;align-items:center;
+}
+#d2 .rel-info .rel-name{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.1em;
+  text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:3px;
+}
+#d2 .rel-info .rel-price{
+  font-family:'Josefin Sans',sans-serif;font-size:12px;color:rgba(255,255,255,0.4);
+}
+#d2 .rel-btn{
+  background:rgba(36,87,179,0.18);border:1px solid rgba(36,87,179,0.28);
+  color:rgba(255,255,255,0.6);font-family:'Josefin Sans',sans-serif;
+  font-size:8px;letter-spacing:0.14em;text-transform:uppercase;
+  padding:7px 12px;cursor:pointer;transition:background 0.2s;
+}
+#d2 .rel-btn:hover{background:rgba(36,87,179,0.35)}
+
+/* ─────────────────────────── DESIGN 3: THE DATAPAD ─────────────────────────── */
+#d3{background:#eeeae0}
+#d3 .site-nav{background:#eeeae0;border-bottom:1px solid rgba(0,0,0,0.1)}
+
+#d3 .product-wrap{max-width:1200px;margin:0 auto;padding:0 40px 80px}
+#d3 .product-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:52px;align-items:start}
+
+#d3 .img-col{position:sticky;top:76px}
+#d3 .main-img{
+  width:100%;aspect-ratio:4/5;background:#dedad0;
+  position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;
+}
+#d3 .img-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#dddad1 0%,#ccc9bf 100%);
+}
+#d3 .img-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(0,0,0,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,0.025) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+#d3 .img-placeholder{
+  position:relative;z-index:2;width:55%;height:65%;
+  background:rgba(255,255,255,0.22);
+  border:1px solid rgba(0,0,0,0.08);
+  display:flex;align-items:center;justify-content:center;
+}
+#d3 .img-placeholder::after{
+  content:'PRODUCT IMAGE';font-family:'Josefin Sans',sans-serif;
+  font-size:8px;letter-spacing:0.2em;color:rgba(0,0,0,0.18);
+}
+#d3 .measure-frame{
+  position:absolute;inset:14px;pointer-events:none;z-index:3;
+}
+#d3 .m-top{
+  position:absolute;top:0;left:0;right:0;height:1px;background:rgba(0,0,0,0.1);
+}
+#d3 .m-bot{position:absolute;bottom:0;left:0;right:0;height:1px;background:rgba(0,0,0,0.1)}
+#d3 .m-left{position:absolute;top:0;bottom:0;left:0;width:1px;background:rgba(0,0,0,0.1)}
+#d3 .m-right{position:absolute;top:0;bottom:0;right:0;width:1px;background:rgba(0,0,0,0.1)}
+#d3 .m-label{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:0.12em;
+  color:rgba(0,0,0,0.22);
+}
+#d3 .badge-row{display:flex;gap:8px;margin-top:12px}
+#d3 .badge{
+  font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:0.14em;
+  text-transform:uppercase;padding:4px 10px;border:1px solid currentColor;
+}
+#d3 .badge-gold{color:#a07828;border-color:rgba(160,120,40,0.4);background:rgba(160,120,40,0.06)}
+#d3 .badge-green{color:#2a7d4f;border-color:rgba(42,125,79,0.3);background:rgba(42,125,79,0.05)}
+
+#d3 .info-col{padding-top:4px}
+#d3 .sku{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.2em;
+  color:rgba(0,0,0,0.27);margin-bottom:5px;
+}
+#d3 h1{
+  font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:600;
+  color:#0a0e1a;line-height:1.02;margin-bottom:5px;
+}
+#d3 .cat{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.15em;
+  text-transform:uppercase;color:#c9a84c;margin-bottom:22px;
+}
+#d3 .rating-row{
+  display:flex;align-items:center;gap:9px;margin-bottom:22px;
+  padding-bottom:22px;border-bottom:1px solid rgba(0,0,0,0.09);
+}
+#d3 .stars span{color:#c9a84c;font-size:12px}
+#d3 .review-ct{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;
+  letter-spacing:0.06em;color:rgba(0,0,0,0.38);
+}
+#d3 .price-block{margin-bottom:26px}
+#d3 .price{
+  font-family:'Cormorant Garamond',serif;font-size:42px;
+  font-weight:400;color:#0a0e1a;
+}
+#d3 .price-note{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.12em;
+  text-transform:uppercase;color:rgba(0,0,0,0.32);margin-top:3px;
+}
+
+#d3 .meter-block{margin-bottom:26px}
+#d3 .meter-lbl{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(0,0,0,0.38);margin-bottom:13px;
+}
+#d3 .meter-row{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+#d3 .meter-name{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.1em;
+  color:rgba(0,0,0,0.45);width:84px;flex-shrink:0;
+}
+#d3 .meter-track{flex:1;height:2px;background:rgba(0,0,0,0.1);position:relative}
+#d3 .meter-fill{position:absolute;left:0;top:0;height:100%;background:#0a0e1a}
+#d3 .meter-num{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.06em;
+  color:rgba(0,0,0,0.35);width:20px;text-align:right;
+}
+
+#d3 .field-label{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.2em;
+  text-transform:uppercase;color:#888;margin-bottom:9px;
+}
+#d3 .qty{
+  display:flex;align-items:center;border:1px solid rgba(0,0,0,0.14);
+  background:white;margin-bottom:20px;width:fit-content;
+}
+#d3 .qty button{background:none;border:none;width:34px;height:34px;cursor:pointer;font-size:15px;color:#444;display:flex;align-items:center;justify-content:center}
+#d3 .qty span{font-family:'Josefin Sans',sans-serif;font-size:13px;width:34px;text-align:center;color:#0a0e1a;font-weight:600}
+#d3 .btn-primary{
+  display:block;width:100%;background:#0a0e1a;color:white;border:none;
+  font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.22em;
+  text-transform:uppercase;padding:15px 24px;cursor:pointer;margin-bottom:10px;transition:background 0.2s;
+}
+#d3 .btn-primary:hover{background:#1a2035}
+#d3 .btn-ghost{
+  display:block;width:100%;background:transparent;color:#0a0e1a;
+  border:1px solid rgba(0,0,0,0.18);font-family:'Josefin Sans',sans-serif;
+  font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  padding:13px 24px;cursor:pointer;margin-bottom:28px;
+}
+
+#d3 .spec-table{border:1px solid rgba(0,0,0,0.08);background:white}
+#d3 .spec-head{
+  background:#0a0e1a;color:rgba(255,255,255,0.85);
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.18em;
+  text-transform:uppercase;padding:9px 14px;
+}
+#d3 .spec-row{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(0,0,0,0.04)}
+#d3 .spec-row:nth-child(even){background:rgba(0,0,0,0.015)}
+#d3 .sk{font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.38)}
+#d3 .sv{font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.05em;color:#333;font-weight:600}
+
+#d3 .lore{background:#0a0e1a;padding:80px 0}
+#d3 .lore-in{
+  max-width:1200px;margin:0 auto;padding:0 40px;
+  display:grid;grid-template-columns:1fr 1fr;gap:72px;
+}
+#d3 .lore-label{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.22em;
+  text-transform:uppercase;color:#c9a84c;margin-bottom:14px;
+}
+#d3 .lore h2{
+  font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;
+  color:white;line-height:1.25;
+}
+#d3 .lore p{
+  font-family:'Josefin Sans',sans-serif;font-size:12px;letter-spacing:0.04em;
+  line-height:1.95;color:rgba(255,255,255,0.5);margin-bottom:16px;
+}
+#d3 .related{max-width:1200px;margin:0 auto;padding:72px 40px}
+#d3 .sec-ey{font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#aaa;text-align:center;margin-bottom:7px}
+#d3 .sec-h2{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:500;color:#0a0e1a;text-align:center;margin-bottom:38px}
+#d3 .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+#d3 .rel-card{background:white;border:1px solid rgba(0,0,0,0.06)}
+#d3 .rel-img{aspect-ratio:1;background:#e2dfd7}
+#d3 .rel-body{padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+#d3 .rel-name{font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#0a0e1a;margin-bottom:3px}
+#d3 .rel-price{font-family:'Josefin Sans',sans-serif;font-size:12px;color:#666}
+#d3 .rel-btn{background:#0a0e1a;border:none;color:white;font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;padding:8px 12px;cursor:pointer}
+
+/* ─────────────────────────── DESIGN 4: THE CODEX ─────────────────────────── */
+#d4{background:#f9f8f3}
+
+#d4 .product-wrap{max-width:1240px;margin:0 auto;padding:0 56px 80px}
+
+#d4 .product-masthead{
+  padding:40px 0 28px;
+  border-bottom:2px solid #0a0e1a;
+  margin-bottom:44px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+}
+#d4 h1{
+  font-family:'Cormorant Garamond',serif;font-size:84px;font-weight:600;
+  color:#0a0e1a;line-height:0.88;max-width:55%;
+}
+#d4 h1 em{
+  font-style:italic;font-weight:300;color:#888;display:block;
+  font-size:40px;margin-top:10px;
+}
+#d4 .masthead-right{text-align:right}
+#d4 .big-price{
+  font-family:'Cormorant Garamond',serif;font-size:58px;
+  font-weight:300;color:#0a0e1a;display:block;line-height:1;
+}
+#d4 .price-sub{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.2em;
+  text-transform:uppercase;color:#bbb;margin-top:4px;
+}
+
+#d4 .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+#d4 .img-col{position:sticky;top:76px}
+#d4 .main-img{
+  width:100%;aspect-ratio:4/5;background:#e4e0d8;
+  position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;
+}
+#d4 .img-texture{
+  position:absolute;inset:0;
+  background:linear-gradient(145deg,#dddad2,#c8c4bb);
+  opacity:0.9;
+}
+#d4 .img-ph{
+  position:relative;z-index:2;width:54%;height:64%;
+  background:rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;
+}
+#d4 .img-ph::after{content:'PRODUCT IMAGE';font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:0.2em;color:rgba(0,0,0,0.18)}
+#d4 .img-caption{
+  font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;
+  color:#aaa;margin-top:10px;padding-left:3px;
+}
+#d4 .thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}
+#d4 .thumb{aspect-ratio:1;background:#dedad1;border:2px solid transparent;cursor:pointer}
+#d4 .thumb.on{border-color:#0a0e1a}
+#d4 .thumb:hover{border-color:#c9a84c}
+
+#d4 .info-col{padding-top:4px}
+#d4 .pull-quote{
+  border-left:3px solid #c9a84c;
+  padding:3px 0 3px 18px;margin-bottom:30px;
+}
+#d4 .pull-quote p{
+  font-family:'Cormorant Garamond',serif;font-size:21px;font-style:italic;
+  font-weight:300;color:#444;line-height:1.5;
+}
+#d4 .pull-quote cite{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.15em;
+  text-transform:uppercase;color:#c9a84c;margin-top:8px;display:block;
+}
+#d4 .field-label{
+  font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.2em;
+  text-transform:uppercase;color:#aaa;margin-bottom:9px;
+}
+#d4 .qty{
+  display:flex;align-items:center;border:1px solid rgba(0,0,0,0.15);
+  margin-bottom:20px;width:fit-content;
+}
+#d4 .qty button{background:none;border:none;width:34px;height:34px;cursor:pointer;font-size:15px;color:#444;display:flex;align-items:center;justify-content:center}
+#d4 .qty span{font-family:'Josefin Sans',sans-serif;font-size:13px;width:34px;text-align:center;color:#0a0e1a}
+#d4 .btn-primary{
+  display:block;width:100%;background:#0a0e1a;color:white;border:none;
+  font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.25em;
+  text-transform:uppercase;padding:16px 24px;cursor:pointer;margin-bottom:10px;
+  position:relative;overflow:hidden;
+}
+#d4 .btn-primary::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:#c9a84c;
+}
+#d4 .btn-primary:hover{background:#1a2035}
+#d4 .btn-ghost{
+  display:block;width:100%;background:transparent;color:#0a0e1a;
+  border:1px solid rgba(0,0,0,0.15);font-family:'Josefin Sans',sans-serif;
+  font-size:11px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:13px 24px;cursor:pointer;margin-bottom:28px;
+}
+
+#d4 .accordion{border-top:1px solid rgba(0,0,0,0.1)}
+#d4 .acc-item{border-bottom:1px solid rgba(0,0,0,0.07)}
+#d4 .acc-hd{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:13px 0;cursor:pointer;
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.15em;
+  text-transform:uppercase;color:#333;
+}
+#d4 .acc-toggle{font-size:17px;color:#aaa;font-weight:300;line-height:1}
+#d4 .acc-body{padding:4px 0 16px}
+#d4 .acc-body p{
+  font-family:'Josefin Sans',sans-serif;font-size:12px;letter-spacing:0.03em;
+  line-height:1.85;color:#666;
+}
+#d4 .spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;padding-top:4px}
+#d4 .si-key{
+  font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:0.15em;
+  text-transform:uppercase;color:#bbb;margin-bottom:2px;
+}
+#d4 .si-val{font-family:'Josefin Sans',sans-serif;font-size:11px;color:#444}
+
+#d4 .lore{background:#0a0e1a;padding:100px 0;text-align:center}
+#d4 .lore-in{max-width:760px;margin:0 auto;padding:0 40px}
+#d4 .lore-vol{
+  font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:0.3em;
+  text-transform:uppercase;color:rgba(201,168,76,0.55);margin-bottom:22px;
+}
+#d4 .lore h2{
+  font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:300;
+  color:white;line-height:1.08;margin-bottom:30px;
+}
+#d4 .lore h2 em{font-style:italic;color:rgba(255,255,255,0.35)}
+#d4 .lore p{
+  font-family:'Josefin Sans',sans-serif;font-size:12px;letter-spacing:0.05em;
+  line-height:2.1;color:rgba(255,255,255,0.42);
+}
+
+#d4 .related{max-width:1240px;margin:0 auto;padding:72px 56px}
+#d4 .rel-header{
+  display:flex;justify-content:space-between;align-items:baseline;margin-bottom:32px;
+}
+#d4 .rel-header h2{
+  font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:500;color:#0a0e1a;
+}
+#d4 .rel-header a{
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.14em;
+  text-transform:uppercase;color:#aaa;text-decoration:none;
+}
+#d4 .rel-header a:hover{color:#0a0e1a}
+#d4 .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+#d4 .rel-card{}
+#d4 .rel-img{
+  aspect-ratio:4/5;background:#e4e0d8;margin-bottom:14px;
+  position:relative;overflow:hidden;
+}
+#d4 .rel-img::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:transparent;transition:background 0.25s;
+}
+#d4 .rel-card:hover .rel-img::after{background:#c9a84c}
+#d4 .rel-cat{
+  font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:0.18em;
+  text-transform:uppercase;color:#c9a84c;margin-bottom:5px;
+}
+#d4 .rel-name{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#0a0e1a;
+}
+#d4 .rel-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+#d4 .rel-price{font-family:'Josefin Sans',sans-serif;font-size:13px;color:#555}
+#d4 .rel-btn{
+  background:transparent;border:1px solid rgba(0,0,0,0.18);color:#0a0e1a;
+  font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:0.15em;
+  text-transform:uppercase;padding:7px 12px;cursor:pointer;transition:all 0.2s;
+}
+#d4 .rel-btn:hover{background:#0a0e1a;color:white;border-color:#0a0e1a}
+</style>
+</head>
+<body>
+
+<!-- SWITCHER -->
+<div id="switcher">
+  <span class="sw-label">Concepts ·</span>
+  <button class="sw-btn active" onclick="show(1)">1 · The Archives</button>
+  <button class="sw-btn" onclick="show(2)">2 · The Holocron</button>
+  <button class="sw-btn" onclick="show(3)">3 · The Datapad</button>
+  <button class="sw-btn" onclick="show(4)">4 · The Codex</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════ -->
+<!--          DESIGN 1: THE ARCHIVES        -->
+<!--    Clean · Light · Faithful to site    -->
+<!-- ═══════════════════════════════════════ -->
+<div id="d1" class="design">
+
+<div class="announce-bar">
+  <span>FREE SHIPPING ON ORDERS OVER 50 CREDITS</span>
+  <span><a href="#">ORDER STATUS</a> &nbsp;·&nbsp; <a href="#">CONTACT THE COUNCIL</a></span>
+</div>
+<nav class="site-nav">
+  <div class="nav-logo">
+    <div class="logo-mark">𝒢</div>
+    <div>
+      <div class="logo-text">Galactic Forge</div>
+      <div class="side-pills"><span class="pill-light">Light Side</span><span class="pill-dark">Dark Side</span></div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Shop By ▾</a></li>
+    <li><a href="#">The Jedi Order</a></li>
+    <li><a href="#">Jedi Academy</a></li>
+  </ul>
+  <div class="nav-actions">
+    <span class="nav-phone">519-574-4734</span>
+    <span class="nav-icon">🔍</span>
+    <span class="nav-icon">👤</span>
+    <span class="nav-icon">🛒</span>
+  </div>
+</nav>
+
+<div class="product-wrap">
+  <nav class="breadcrumb">
+    <a href="#">Home</a><span class="sep">›</span>
+    <a href="#">Figures</a><span class="sep">›</span>
+    <span class="crumb-current">Clone Trooper</span>
+  </nav>
+
+  <div class="product-grid">
+    <div class="img-col">
+      <div class="main-img">
+        <div class="img-inner"></div>
+        <div class="img-placeholder">PRODUCT IMAGE</div>
+        <div class="img-badge">Limited Edition</div>
+      </div>
+      <div class="thumbs">
+        <div class="thumb on"></div>
+        <div class="thumb"></div>
+        <div class="thumb"></div>
+        <div class="thumb"></div>
+      </div>
+    </div>
+
+    <div class="info-col">
+      <div class="eyebrow">Republic Figures · Series IV</div>
+      <h1>Clone Trooper</h1>
+      <div class="subtitle">Battle-Ready Edition</div>
+      <div class="price-row">
+        <span class="price">$49.99</span>
+        <span class="price-tag">Free Shipping</span>
+      </div>
+      <div class="field-label">Quantity</div>
+      <div class="qty">
+        <button>−</button><span>1</span><button>+</button>
+      </div>
+      <button class="btn-primary">Add to Cart — $49.99</button>
+      <button class="btn-ghost">✦ Save to Wishlist</button>
+
+      <!-- Top pill badges -->
+      <div class="top-badges">
+        <div class="top-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2457b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>Fast Shipping</span>
+        </div>
+        <div class="top-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2457b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Quick-Setup</span>
+        </div>
+        <div class="top-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2a7d4f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Eco-Conscious</span>
+        </div>
+      </div>
+
+      <!-- Feature badges -->
+      <div class="feature-badges">
+        <div class="feature-badge">
+          <div class="fb-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2457b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+          <div class="fb-title">Lifetime Warranty</div>
+          <div class="fb-body">Infinite protection &amp; timeliness support — we've got your back for life.</div>
+        </div>
+        <div class="feature-badge">
+          <div class="fb-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2457b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="fb-title">Lightweight Design</div>
+          <div class="fb-body">The perfect balance — lightweight design, &amp; unyielding durability.</div>
+        </div>
+      </div>
+
+      <!-- Product Description accordion -->
+      <div class="desc-block">
+        <div class="desc-hd" onclick="toggleDesc(this)">
+          <span class="desc-title">Product Description</span>
+          <span class="desc-toggle">+</span>
+        </div>
+        <div class="desc-body" style="display:none">
+          <p>The Grand Army of the Republic — bred for obedience, built for war. This limited-edition figure captures every detail of the Republic's most iconic soldier, from the phase-II armor plating to the pauldron insignia of the 501st Legion. Each piece is hand-finished by artisans trained in the traditions of the Jedi Archives. No two are identical. Comes with a numbered certificate of authenticity and a custom display stand engraved with Aurebesh coordinates.</p>
+        </div>
+      </div>
+
+      <!-- Dimensions / specs -->
+      <div class="spec-list">
+        <div class="spec-row"><span class="sk">Material</span><span class="sv">High-Grade Resin</span></div>
+        <div class="spec-row"><span class="sk">Height</span><span class="sv">12 inches</span></div>
+        <div class="spec-row"><span class="sk">Edition</span><span class="sv">Limited — 500 Units</span></div>
+        <div class="spec-row"><span class="sk">Ships From</span><span class="sv">The Outer Rim</span></div>
+        <div class="spec-row"><span class="sk">SKU</span><span class="sv">GF-FIG-CT-004</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lore">
+  <div class="lore-in">
+    <div>
+      <div class="lore-label">— From the Archives —</div>
+      <h2>Forged in the Kamino Vats, Remembered Forever.</h2>
+    </div>
+    <div>
+      <p>The Grand Army of the Republic — bred for obedience, built for war. This limited-edition figure captures every detail of the Republic's most iconic soldier, from the phase-II armor plating to the pauldron insignia of the 501st Legion.</p>
+      <p>Each piece is hand-finished by artisans trained in the traditions of the Jedi Archives. No two are identical. Comes with a numbered certificate of authenticity and a custom display stand engraved with Aurebesh coordinates.</p>
+    </div>
+  </div>
+</div>
+
+<div class="related">
+  <div class="sec-header">
+    <div class="ey">From the Vault</div>
+    <h2>You May Also Seek</h2>
+  </div>
+  <div class="rel-grid">
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-name">Luke Skywalker</div>
+      <div class="rel-price">$49.99</div>
+      <button class="rel-btn">View</button>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-name">R2-D2</div>
+      <div class="rel-price">$49.99</div>
+      <button class="rel-btn">View</button>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-name">Jedi Poster</div>
+      <div class="rel-price">$24.99</div>
+      <button class="rel-btn">View</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-wave"></div>
+  <div class="footer-grid">
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="#">Shop All</a></li><li><a href="#">Lightsabers</a></li><li><a href="#">Figures</a></li><li><a href="#">Collectibles</a></li></ul></div>
+    <div class="footer-col"><h4>Help &amp; Support</h4><ul><li><a href="#">Contact the Council</a></li><li><a href="#">Shipping &amp; Returns</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Submit a Claim</a></li></ul></div>
+    <div class="footer-col footer-newsletter">
+      <h3>Stay In The Know</h3>
+      <p>Sign up for transmissions from the Order — new relics, exclusive offers, and dispatches from across the galaxy.</p>
+      <div class="email-row"><input type="email" placeholder="Enter your email"><button>Submit</button></div>
+    </div>
+    <div class="footer-col"><h4>Account</h4><ul><li><a href="#">Sign In</a></li><li><a href="#">Create an Account</a></li><li><a href="#">Order Status</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Galactic Forge. All rights reserved.</p>
+    <p>Terms &amp; Conditions · Privacy Policy · ✦ Replay Intro</p>
+  </div>
+</footer>
+</div><!-- /d1 -->
+
+
+<!-- ═══════════════════════════════════════ -->
+<!--         DESIGN 2: THE HOLOCRON         -->
+<!--     Dark · Cinematic · Immersive       -->
+<!-- ═══════════════════════════════════════ -->
+<div id="d2" class="design" style="display:none">
+
+<div class="announce-bar">
+  <span>FREE SHIPPING ON ORDERS OVER 50 CREDITS</span>
+  <span><a href="#">ORDER STATUS</a> &nbsp;·&nbsp; <a href="#">CONTACT THE COUNCIL</a></span>
+</div>
+<nav class="site-nav">
+  <div class="nav-logo">
+    <div class="logo-mark">𝒢</div>
+    <div>
+      <div class="logo-text">Galactic Forge</div>
+      <div class="side-pills"><span class="pill-light">Light Side</span><span class="pill-dark">Dark Side</span></div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Shop By ▾</a></li>
+    <li><a href="#">The Jedi Order</a></li>
+    <li><a href="#">Jedi Academy</a></li>
+  </ul>
+  <div class="nav-actions">
+    <span class="nav-phone">519-574-4734</span>
+    <span class="nav-icon">🔍</span>
+    <span class="nav-icon">👤</span>
+    <span class="nav-icon">🛒</span>
+  </div>
+</nav>
+
+<nav class="breadcrumb">
+  <a href="#">Home</a><span class="sep">›</span>
+  <a href="#">Figures</a><span class="sep">›</span>
+  <span class="crumb-current">Clone Trooper</span>
+</nav>
+
+<div class="product-split">
+  <div class="img-col">
+    <div class="img-ambient"></div>
+    <div class="img-grid-lines"></div>
+    <div class="product-frame">
+      <div class="corner c-tl"></div>
+      <div class="corner c-tr"></div>
+      <div class="corner c-bl"></div>
+      <div class="corner c-br"></div>
+    </div>
+    <div class="img-glow"></div>
+    <div class="thumb-strip">
+      <div class="thumb on"></div>
+      <div class="thumb"></div>
+      <div class="thumb"></div>
+      <div class="thumb"></div>
+    </div>
+  </div>
+
+  <div class="info-col">
+    <div class="eyebrow">Republic Figures · Series IV</div>
+    <h1>Clone<br>Trooper</h1>
+    <div class="subtitle">Battle-Ready Edition</div>
+    <div class="gold-rule"></div>
+    <div class="price"><sup>$</sup>49.99</div>
+    <div class="field-label">Quantity</div>
+    <div class="qty">
+      <button>−</button><span>1</span><button>+</button>
+    </div>
+    <button class="btn-primary">⚡ Commission This Relic</button>
+    <button class="btn-ghost">✦ Add to Wish List</button>
+    <div class="spec-list">
+      <div class="spec-row"><span class="sk">Material</span><span class="sv">High-Grade Resin</span></div>
+      <div class="spec-row"><span class="sk">Height</span><span class="sv">12 inches</span></div>
+      <div class="spec-row"><span class="sk">Edition</span><span class="sv">Limited — 500 Units</span></div>
+      <div class="spec-row"><span class="sk">Ships From</span><span class="sv">The Outer Rim</span></div>
+      <div class="spec-row"><span class="sk">SKU</span><span class="sv">GF-FIG-CT-004</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="lore">
+  <div class="lore-in">
+    <div class="lore-ey">From the Archives</div>
+    <h2>Forged in the Kamino Vats,<br>Remembered Forever.</h2>
+    <p>The Grand Army of the Republic — bred for obedience, built for war. This limited-edition figure captures every detail of the Republic's most iconic soldier, from the phase-II armor plating to the pauldron insignia of the 501st Legion. Each piece hand-finished. No two identical.</p>
+  </div>
+</div>
+
+<div class="related">
+  <div class="rel-header">
+    <div class="rel-ey">From the Vault</div>
+    <h2>You May Also Seek</h2>
+  </div>
+  <div class="rel-grid">
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-body">
+        <div class="rel-info"><div class="rel-name">Luke Skywalker</div><div class="rel-price">$49.99</div></div>
+        <button class="rel-btn">View</button>
+      </div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-body">
+        <div class="rel-info"><div class="rel-name">R2-D2</div><div class="rel-price">$49.99</div></div>
+        <button class="rel-btn">View</button>
+      </div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-body">
+        <div class="rel-info"><div class="rel-name">Jedi Poster</div><div class="rel-price">$24.99</div></div>
+        <button class="rel-btn">View</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-wave"></div>
+  <div class="footer-grid">
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="#">Shop All</a></li><li><a href="#">Lightsabers</a></li><li><a href="#">Figures</a></li><li><a href="#">Collectibles</a></li></ul></div>
+    <div class="footer-col"><h4>Help &amp; Support</h4><ul><li><a href="#">Contact the Council</a></li><li><a href="#">Shipping &amp; Returns</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Submit a Claim</a></li></ul></div>
+    <div class="footer-col footer-newsletter">
+      <h3>Stay In The Know</h3>
+      <p>Sign up for transmissions from the Order — new relics, exclusive offers, and dispatches from across the galaxy.</p>
+      <div class="email-row"><input type="email" placeholder="Enter your email"><button>Submit</button></div>
+    </div>
+    <div class="footer-col"><h4>Account</h4><ul><li><a href="#">Sign In</a></li><li><a href="#">Create an Account</a></li><li><a href="#">Order Status</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Galactic Forge. All rights reserved.</p>
+    <p>Terms &amp; Conditions · Privacy Policy · ✦ Replay Intro</p>
+  </div>
+</footer>
+</div><!-- /d2 -->
+
+
+<!-- ═══════════════════════════════════════ -->
+<!--          DESIGN 3: THE DATAPAD         -->
+<!--  Technical · Structured · Spec-first  -->
+<!-- ═══════════════════════════════════════ -->
+<div id="d3" class="design" style="display:none">
+
+<div class="announce-bar">
+  <span>FREE SHIPPING ON ORDERS OVER 50 CREDITS</span>
+  <span><a href="#">ORDER STATUS</a> &nbsp;·&nbsp; <a href="#">CONTACT THE COUNCIL</a></span>
+</div>
+<nav class="site-nav">
+  <div class="nav-logo">
+    <div class="logo-mark">𝒢</div>
+    <div>
+      <div class="logo-text">Galactic Forge</div>
+      <div class="side-pills"><span class="pill-light">Light Side</span><span class="pill-dark">Dark Side</span></div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Shop By ▾</a></li>
+    <li><a href="#">The Jedi Order</a></li>
+    <li><a href="#">Jedi Academy</a></li>
+  </ul>
+  <div class="nav-actions">
+    <span class="nav-phone">519-574-4734</span>
+    <span class="nav-icon">🔍</span>
+    <span class="nav-icon">👤</span>
+    <span class="nav-icon">🛒</span>
+  </div>
+</nav>
+
+<div class="product-wrap">
+  <nav class="breadcrumb">
+    <a href="#">Home</a><span class="sep">›</span>
+    <a href="#">Figures</a><span class="sep">›</span>
+    <span class="crumb-current">Clone Trooper</span>
+  </nav>
+
+  <div class="product-grid">
+    <div class="img-col">
+      <div class="main-img">
+        <div class="img-bg"></div>
+        <div class="img-grid"></div>
+        <div class="img-placeholder"></div>
+        <div class="measure-frame">
+          <div class="m-top"></div>
+          <div class="m-bot"></div>
+          <div class="m-left"></div>
+          <div class="m-right"></div>
+          <span class="m-label">12 IN · SCALE 1:6</span>
+        </div>
+      </div>
+      <div class="badge-row">
+        <span class="badge badge-gold">Limited Edition</span>
+        <span class="badge badge-green">In Stock · 47 Left</span>
+      </div>
+    </div>
+
+    <div class="info-col">
+      <div class="sku">SKU: GF-FIG-CT-004</div>
+      <h1>Clone Trooper</h1>
+      <div class="cat">Republic Figures · Series IV</div>
+
+      <div class="rating-row">
+        <div class="stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span>
+          <span style="opacity:0.3">★</span>
+        </div>
+        <span class="review-ct">4.2 · 38 Reviews</span>
+      </div>
+
+      <div class="price-block">
+        <div class="price">$49.99</div>
+        <div class="price-note">Free Interstellar Shipping</div>
+      </div>
+
+      <div class="meter-block">
+        <div class="meter-lbl">Quality Metrics</div>
+        <div class="meter-row">
+          <span class="meter-name">Detail</span>
+          <div class="meter-track"><div class="meter-fill" style="width:90%"></div></div>
+          <span class="meter-num">9.0</span>
+        </div>
+        <div class="meter-row">
+          <span class="meter-name">Durability</span>
+          <div class="meter-track"><div class="meter-fill" style="width:80%"></div></div>
+          <span class="meter-num">8.0</span>
+        </div>
+        <div class="meter-row">
+          <span class="meter-name">Accuracy</span>
+          <div class="meter-track"><div class="meter-fill" style="width:95%"></div></div>
+          <span class="meter-num">9.5</span>
+        </div>
+        <div class="meter-row">
+          <span class="meter-name">Rarity</span>
+          <div class="meter-track"><div class="meter-fill" style="width:75%"></div></div>
+          <span class="meter-num">7.5</span>
+        </div>
+      </div>
+
+      <div class="field-label">Quantity</div>
+      <div class="qty">
+        <button>−</button><span>1</span><button>+</button>
+      </div>
+      <button class="btn-primary">Acquire This Relic — $49.99</button>
+      <button class="btn-ghost">✦ Save to Wishlist</button>
+
+      <div class="spec-table">
+        <div class="spec-head">Technical Specifications</div>
+        <div class="spec-row"><span class="sk">Material</span><span class="sv">High-Grade Resin</span></div>
+        <div class="spec-row"><span class="sk">Height</span><span class="sv">12 inches</span></div>
+        <div class="spec-row"><span class="sk">Edition</span><span class="sv">Limited — 500 Units</span></div>
+        <div class="spec-row"><span class="sk">Ships From</span><span class="sv">The Outer Rim</span></div>
+        <div class="spec-row"><span class="sk">Series</span><span class="sv">Republic · Series IV</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lore">
+  <div class="lore-in">
+    <div>
+      <div class="lore-label">From the Archives</div>
+      <h2>Forged in the Kamino Vats, Remembered Forever.</h2>
+    </div>
+    <div>
+      <p>The Grand Army of the Republic — bred for obedience, built for war. This limited-edition figure captures every detail of the Republic's most iconic soldier, from the phase-II armor plating to the pauldron insignia of the 501st Legion.</p>
+      <p>Each piece is hand-finished by artisans trained in the traditions of the Jedi Archives. No two are identical. Comes with a numbered certificate of authenticity and a display stand engraved with Aurebesh coordinates.</p>
+    </div>
+  </div>
+</div>
+
+<div class="related">
+  <div class="sec-ey">From the Vault</div>
+  <div class="sec-h2">You May Also Seek</div>
+  <div class="rel-grid">
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-body">
+        <div><div class="rel-name">Luke Skywalker</div><div class="rel-price">$49.99</div></div>
+        <button class="rel-btn">View</button>
+      </div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-body">
+        <div><div class="rel-name">R2-D2</div><div class="rel-price">$49.99</div></div>
+        <button class="rel-btn">View</button>
+      </div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-body">
+        <div><div class="rel-name">Jedi Poster</div><div class="rel-price">$24.99</div></div>
+        <button class="rel-btn">View</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-wave"></div>
+  <div class="footer-grid">
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="#">Shop All</a></li><li><a href="#">Lightsabers</a></li><li><a href="#">Figures</a></li><li><a href="#">Collectibles</a></li></ul></div>
+    <div class="footer-col"><h4>Help &amp; Support</h4><ul><li><a href="#">Contact the Council</a></li><li><a href="#">Shipping &amp; Returns</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Submit a Claim</a></li></ul></div>
+    <div class="footer-col footer-newsletter">
+      <h3>Stay In The Know</h3>
+      <p>Sign up for transmissions from the Order — new relics, exclusive offers, and dispatches from across the galaxy.</p>
+      <div class="email-row"><input type="email" placeholder="Enter your email"><button>Submit</button></div>
+    </div>
+    <div class="footer-col"><h4>Account</h4><ul><li><a href="#">Sign In</a></li><li><a href="#">Create an Account</a></li><li><a href="#">Order Status</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Galactic Forge. All rights reserved.</p>
+    <p>Terms &amp; Conditions · Privacy Policy · ✦ Replay Intro</p>
+  </div>
+</footer>
+</div><!-- /d3 -->
+
+
+<!-- ═══════════════════════════════════════ -->
+<!--          DESIGN 4: THE CODEX           -->
+<!--    Editorial · Luxury · Magazine       -->
+<!-- ═══════════════════════════════════════ -->
+<div id="d4" class="design" style="display:none">
+
+<div class="announce-bar">
+  <span>FREE SHIPPING ON ORDERS OVER 50 CREDITS</span>
+  <span><a href="#">ORDER STATUS</a> &nbsp;·&nbsp; <a href="#">CONTACT THE COUNCIL</a></span>
+</div>
+<nav class="site-nav">
+  <div class="nav-logo">
+    <div class="logo-mark">𝒢</div>
+    <div>
+      <div class="logo-text">Galactic Forge</div>
+      <div class="side-pills"><span class="pill-light">Light Side</span><span class="pill-dark">Dark Side</span></div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Shop By ▾</a></li>
+    <li><a href="#">The Jedi Order</a></li>
+    <li><a href="#">Jedi Academy</a></li>
+  </ul>
+  <div class="nav-actions">
+    <span class="nav-phone">519-574-4734</span>
+    <span class="nav-icon">🔍</span>
+    <span class="nav-icon">👤</span>
+    <span class="nav-icon">🛒</span>
+  </div>
+</nav>
+
+<div class="product-wrap">
+  <nav class="breadcrumb">
+    <a href="#">Home</a><span class="sep">›</span>
+    <a href="#">Figures</a><span class="sep">›</span>
+    <span class="crumb-current">Clone Trooper</span>
+  </nav>
+
+  <div class="product-masthead">
+    <h1>Clone<br>Trooper<em>Battle-Ready Edition</em></h1>
+    <div class="masthead-right">
+      <span class="big-price">$49.99</span>
+      <div class="price-sub">Free Interstellar Shipping</div>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    <div class="img-col">
+      <div class="main-img">
+        <div class="img-texture"></div>
+        <div class="img-ph"></div>
+      </div>
+      <div class="img-caption">Republic · Series IV · Limited to 500 units</div>
+      <div class="thumbs">
+        <div class="thumb on"></div>
+        <div class="thumb"></div>
+        <div class="thumb"></div>
+        <div class="thumb"></div>
+      </div>
+    </div>
+
+    <div class="info-col">
+      <div class="pull-quote">
+        <p>"The finest soldiers the Republic ever produced — captured in resin, preserved for the ages."</p>
+        <cite>— Jedi Archivist, Temple of Coruscant</cite>
+      </div>
+
+      <div class="field-label">Quantity</div>
+      <div class="qty">
+        <button>−</button><span>1</span><button>+</button>
+      </div>
+      <button class="btn-primary">Add to Cart — $49.99</button>
+      <button class="btn-ghost">✦ Save to Wishlist</button>
+
+      <div class="accordion">
+        <div class="acc-item">
+          <div class="acc-hd" onclick="toggleAcc(this)">
+            <span>Description</span><span class="acc-toggle">−</span>
+          </div>
+          <div class="acc-body">
+            <p>The Grand Army of the Republic — bred for obedience, built for war. This limited-edition figure captures every detail of the Republic's most iconic soldier, from phase-II armor plating to the pauldron insignia of the 501st Legion. Each piece is hand-finished and numbered.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-hd" onclick="toggleAcc(this)">
+            <span>Specifications</span><span class="acc-toggle">+</span>
+          </div>
+          <div class="acc-body" style="display:none">
+            <div class="spec-grid">
+              <div><div class="si-key">Material</div><div class="si-val">High-Grade Resin</div></div>
+              <div><div class="si-key">Height</div><div class="si-val">12 inches</div></div>
+              <div><div class="si-key">Edition</div><div class="si-val">Limited — 500 Units</div></div>
+              <div><div class="si-key">SKU</div><div class="si-val">GF-FIG-CT-004</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-hd" onclick="toggleAcc(this)">
+            <span>Shipping &amp; Returns</span><span class="acc-toggle">+</span>
+          </div>
+          <div class="acc-body" style="display:none">
+            <p>Free shipping on all orders over 50 credits. Ships within 3–5 galactic standard days. Returns accepted within 30 days of delivery.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lore">
+  <div class="lore-in">
+    <div class="lore-vol">Vol. IV · Republic Archives</div>
+    <h2>Forged in the Kamino Vats,<br><em>Remembered Forever.</em></h2>
+    <p>The Grand Army of the Republic — bred for obedience, built for war. This limited-edition figure captures every detail of the Republic's most iconic soldier. Each piece hand-finished by artisans trained in the traditions of the Jedi Archives. No two are identical.</p>
+  </div>
+</div>
+
+<div class="related">
+  <div class="rel-header">
+    <h2>From the Vault</h2>
+    <a href="#">View All Figures →</a>
+  </div>
+  <div class="rel-grid">
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-cat">Figures</div>
+      <div class="rel-name">Luke Skywalker</div>
+      <div class="rel-foot">
+        <span class="rel-price">$49.99</span>
+        <button class="rel-btn">View</button>
+      </div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-cat">Figures</div>
+      <div class="rel-name">R2-D2</div>
+      <div class="rel-foot">
+        <span class="rel-price">$49.99</span>
+        <button class="rel-btn">View</button>
+      </div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"></div>
+      <div class="rel-cat">Collectibles</div>
+      <div class="rel-name">Jedi Poster</div>
+      <div class="rel-foot">
+        <span class="rel-price">$24.99</span>
+        <button class="rel-btn">View</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-wave"></div>
+  <div class="footer-grid">
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="#">Shop All</a></li><li><a href="#">Lightsabers</a></li><li><a href="#">Figures</a></li><li><a href="#">Collectibles</a></li></ul></div>
+    <div class="footer-col"><h4>Help &amp; Support</h4><ul><li><a href="#">Contact the Council</a></li><li><a href="#">Shipping &amp; Returns</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Submit a Claim</a></li></ul></div>
+    <div class="footer-col footer-newsletter">
+      <h3>Stay In The Know</h3>
+      <p>Sign up for transmissions from the Order — new relics, exclusive offers, and dispatches from across the galaxy.</p>
+      <div class="email-row"><input type="email" placeholder="Enter your email"><button>Submit</button></div>
+    </div>
+    <div class="footer-col"><h4>Account</h4><ul><li><a href="#">Sign In</a></li><li><a href="#">Create an Account</a></li><li><a href="#">Order Status</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Galactic Forge. All rights reserved.</p>
+    <p>Terms &amp; Conditions · Privacy Policy · ✦ Replay Intro</p>
+  </div>
+</footer>
+</div><!-- /d4 -->
+
+
+<script>
+function show(n){
+  document.querySelectorAll('.design').forEach(d=>d.style.display='none');
+  document.getElementById('d'+n).style.display='block';
+  document.querySelectorAll('.sw-btn').forEach((b,i)=>b.classList.toggle('active',i===n-1));
+  window.scrollTo(0,0);
+}
+
+function toggleDesc(hd){
+  const body=hd.nextElementSibling;
+  const tog=hd.querySelector('.desc-toggle');
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  tog.textContent=open?'+':'−';
+}
+
+function toggleAcc(hd){
+  const body=hd.nextElementSibling;
+  const tog=hd.querySelector('.acc-toggle');
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  tog.textContent=open?'+':'−';
+}
+
+document.querySelectorAll('.thumb').forEach(t=>{
+  t.addEventListener('click',function(){
+    const siblings=this.parentElement.querySelectorAll('.thumb');
+    siblings.forEach(s=>s.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+</script>
+</body>
+</html>

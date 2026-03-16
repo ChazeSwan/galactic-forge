@@ -1,0 +1,943 @@
+/* product.css */
+/* Design 1 — "The Archives" */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500&display=swap');
+
+/* ─────────────────────────────────────────
+   PAGE BACKGROUND + CONTENT WIDTH
+───────────────────────────────────────── */
+
+/*
+  Solid #F7FAFC — no stripe texture on this page.
+  Clean off-white lets the product image and dark lore section
+  do the visual heavy lifting.
+*/
+body[data-gf-side="light"] .gf-product {
+  background-color: #F7FAFC;
+}
+
+/*
+  Same gf-inner width as every other page — 80%, capped at 1100px, centered.
+*/
+body[data-gf-side="light"] .gf-product .gf-inner {
+  width: 80%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ─────────────────────────────────────────
+   BREADCRUMB
+───────────────────────────────────────── */
+
+/*
+  Sits above the product grid as a navigation trail.
+  - padding: 1.25rem 0  breathing room above and below
+  - border-bottom  faint line separating it from the grid below
+*/
+body[data-gf-side="light"] .gf-product__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(43, 108, 176, 0.1);
+  margin-bottom: 2rem;
+}
+
+/*
+  Links — small, muted, Cinzel to stay on-brand.
+  No underline by default, underline on hover to signal clickability.
+*/
+body[data-gf-side="light"] .gf-product__breadcrumb a {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #4A5568;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+body[data-gf-side="light"] .gf-product__breadcrumb a:hover {
+  color: #2B6CB0;
+}
+
+/*
+  Separator "/" — lighter than the links so it recedes visually.
+*/
+body[data-gf-side="light"] .gf-product__breadcrumb-sep {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: rgba(74, 85, 104, 0.4);
+}
+
+/*
+  Current page — full ink colour, not a link, slightly bolder.
+*/
+body[data-gf-side="light"] .gf-product__breadcrumb-current {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────
+   PRODUCT GRID — two columns
+───────────────────────────────────────── */
+
+/*
+  Two equal columns — image on the left, info on the right.
+  - grid-template-columns: 1fr 1fr  equal split
+  - gap: 3.5rem  generous space between the two columns so they breathe
+  - padding: 2.5rem 0  space above and below the whole grid
+  - align-items: start  both columns start at the top, not stretched to equal height
+*/
+body[data-gf-side="light"] .gf-product__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  padding: 2.5rem 1.5rem 4rem;
+  align-items: start;
+}
+
+/* ─────────────────────────────────────────
+   IMAGE COLUMN — left side of grid
+───────────────────────────────────────── */
+
+/*
+  Main image container — always a perfect square.
+  - aspect-ratio: 1/1  locks it square regardless of image dimensions
+  - overflow: hidden  clips anything that spills outside the square
+  - background: light grey so the box is visible before the image loads
+  - border-radius: 4px  subtle rounding — Archives feel, not bubbly
+  - position: relative  needed so the badge can anchor to the corner
+*/
+body[data-gf-side="light"] .gf-product__main-img {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: #EDF2F7;
+  border-radius: 4px;
+  position: relative;
+}
+
+/*
+  The <img> tag inside — fills the square and crops to fit.
+  - display: block  removes the tiny gap browsers add under inline images
+  - width/height: 100%  stretches it to fill the container
+  - object-fit: cover  crops rather than squishes
+*/
+body[data-gf-side="light"] .gf-product__main-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*
+  "Limited Edition" badge — pinned to bottom-left of the image.
+  - position: absolute  places it relative to the main-img container (which is position: relative)
+  - bottom/left  anchors it to the corner
+  - z-index: 1  floats above the image layer
+*/
+body[data-gf-side="light"] .gf-product__img-badge {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  background: rgba(26, 26, 46, 0.85);
+  color: #C9A84C;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.6rem;
+  border-radius: 2px;
+}
+
+/*
+  Thumbnail strip — 4 small squares in a row below the main image.
+  - display: flex  lines them up horizontally
+  - gap: 0.5rem  small space between each thumb
+  - margin-top: 0.75rem  breathing room between main image and thumbs
+*/
+body[data-gf-side="light"] .gf-product__thumbs {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/*
+  Each thumbnail button — small square, border shows active/hover state.
+  - flex: 1  all thumbs share the available width equally
+  - aspect-ratio: 1/1  keeps each thumb square
+  - border: 2px solid transparent  invisible border by default, lights up on active/hover
+  - overflow: hidden  clips the image inside to the square shape
+  - padding: 0  browsers add default padding to buttons — zero it out
+  - background: #EDF2F7  grey fill visible in placeholder state
+*/
+body[data-gf-side="light"] .gf-product__thumb {
+  flex: 1;
+  aspect-ratio: 1 / 1;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: #EDF2F7;
+  transition: border-color 0.2s;
+}
+
+/* Active thumb — Jedi blue border */
+body[data-gf-side="light"] .gf-product__thumb.is-active {
+  border-color: #2B6CB0;
+}
+
+/* Hover — lighter Force blue */
+body[data-gf-side="light"] .gf-product__thumb:hover {
+  border-color: #90CDF4;
+}
+
+/* Image inside each thumb — same fill-and-crop pattern as the main image */
+body[data-gf-side="light"] .gf-product__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─────────────────────────────────────────
+   INFO COLUMN — right side of grid
+───────────────────────────────────────── */
+
+/*
+  Small left padding so the info column content doesn't sit flush
+  against the grid gap edge.
+*/
+body[data-gf-side="light"] .gf-product__info-col {
+  padding-left: 1rem;
+}
+
+/*
+  Eyebrow — small all-caps label above the title (product type).
+  Same treatment as eyebrows on other sections — Cinzel, gold, spaced letters.
+*/
+body[data-gf-side="light"] .gf-product__eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin: 0 0 0.5rem;
+}
+
+/*
+  Product title — the big headline.
+  - font-size: 2rem  large but not overwhelming in a two-column layout
+  - line-height: 1.2  tight leading looks intentional at display sizes
+  - margin-bottom: 0.5rem  close to the subtitle below it
+*/
+body[data-gf-side="light"] .gf-product__title {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1A1A2E;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+/*
+  Subtitle — the lore tagline metafield.
+  Slightly muted, Inter, sits just below the title.
+*/
+body[data-gf-side="light"] .gf-product__subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #4A5568;
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+}
+
+/*
+  Price row — price left, free shipping tag right.
+  - justify-content: space-between  pushes the two items to opposite ends
+  - align-items: center  vertically aligns them on the same baseline
+*/
+body[data-gf-side="light"] .gf-product__price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/*
+  Price — large, bold, dark ink. The number that matters most.
+*/
+body[data-gf-side="light"] .gf-product__price {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+/*
+  Free shipping tag — small pill, green background, white text.
+  Signals a benefit without competing with the price.
+*/
+body[data-gf-side="light"] .gf-product__free-ship {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: #48BB78;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+/*
+  Top badges — 3 small pill trust signals in a row.
+  - flex-wrap: wrap  allows them to wrap to a second line on narrow screens
+  - gap: 0.5rem  spacing between pills
+*/
+body[data-gf-side="light"] .gf-product__top-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+/*
+  Each pill — outlined style so they don't compete with the green shipping tag.
+  - border: 1px solid  subtle outline using Jedi blue at low opacity
+  - color: muted dark  readable but not loud
+*/
+body[data-gf-side="light"] .gf-product__top-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #2B6CB0;
+  border: 1px solid rgba(43, 108, 176, 0.35);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+
+/*
+  Variants section — only renders for multi-variant products (e.g. Clone Trooper).
+  Small label above the pills.
+*/
+body[data-gf-side="light"] .gf-product__variants {
+  margin-bottom: 1.25rem;
+}
+
+body[data-gf-side="light"] .gf-product__variants-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #4A5568;
+  margin: 0 0 0.5rem;
+}
+
+/*
+  Pill buttons — one per variant.
+  Default state: outlined, muted. Active state: filled Jedi blue.
+*/
+body[data-gf-side="light"] .gf-product__variant-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+body[data-gf-side="light"] .gf-product__variant-pill {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #1A1A2E;
+  background: transparent;
+  border: 1.5px solid rgba(26, 26, 46, 0.25);
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+body[data-gf-side="light"] .gf-product__variant-pill:hover {
+  border-color: #2B6CB0;
+  color: #2B6CB0;
+}
+
+/* Active pill — filled blue, white text */
+body[data-gf-side="light"] .gf-product__variant-pill.is-active {
+  background: #2B6CB0;
+  border-color: #2B6CB0;
+  color: #fff;
+}
+
+/*
+  Qty row — stepper on the left, Add to Cart button on the right.
+  - gap: 1rem  space between the two elements
+*/
+body[data-gf-side="light"] .gf-product__qty-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+/*
+  Qty stepper — minus, number, plus in a row.
+  - border: thin outline box around the whole group
+*/
+body[data-gf-side="light"] .gf-product__qty {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid rgba(26, 26, 46, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/*
+  Minus and plus buttons — square tap targets, no background by default.
+*/
+body[data-gf-side="light"] .gf-product__qty-btn {
+  width: 2.2rem;
+  height: 2.2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #1A1A2E;
+  transition: background 0.15s;
+}
+
+body[data-gf-side="light"] .gf-product__qty-btn:hover {
+  background: rgba(43, 108, 176, 0.08);
+}
+
+/*
+  The count number — centered between the two buttons.
+*/
+body[data-gf-side="light"] .gf-product__qty-count {
+  min-width: 2rem;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1A1A2E;
+  border-left: 1.5px solid rgba(26, 26, 46, 0.2);
+  border-right: 1.5px solid rgba(26, 26, 46, 0.2);
+  padding: 0 0.25rem;
+  line-height: 2.2rem;
+}
+
+/*
+  Add to Cart — full remaining width, solid Jedi blue fill.
+  flex: 1 makes it take up all the space the stepper doesn't use.
+*/
+body[data-gf-side="light"] .gf-product__add-btn {
+  flex: 1;
+  height: 2.2rem;
+  background: #2B6CB0;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+body[data-gf-side="light"] .gf-product__add-btn:hover {
+  background: #2C5282;
+}
+
+/*
+  Wishlist button — secondary action, sits below Add to Cart.
+  Outlined style so it doesn't compete with the primary button.
+  Full width to match the row above.
+*/
+body[data-gf-side="light"] .gf-product__wishlist-btn {
+  display: block;
+  width: 100%;
+  height: 2.2rem;
+  background: transparent;
+  color: #2B6CB0;
+  border: 1.5px solid rgba(43, 108, 176, 0.4);
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+body[data-gf-side="light"] .gf-product__wishlist-btn:hover {
+  border-color: #2B6CB0;
+  color: #1A1A2E;
+}
+
+/*
+  Feature badges — 2 icon + text blocks stacked vertically.
+  A thin top border separates this zone from the buttons above.
+*/
+body[data-gf-side="light"] .gf-product__feature-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(26, 26, 46, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+/*
+  Each badge row — icon on the left, title + body text on the right.
+*/
+body[data-gf-side="light"] .gf-product__feature-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+/*
+  Icon — gold, slightly larger, sits top-aligned with the text.
+*/
+body[data-gf-side="light"] .gf-product__fb-icon {
+  font-size: 1.1rem;
+  color: #C9A84C;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/*
+  Title — small, Cinzel, dark ink.
+*/
+body[data-gf-side="light"] .gf-product__fb-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #1A1A2E;
+  margin: 0 0 0.15rem;
+}
+
+/*
+  Body — Inter, muted, smaller than the title.
+*/
+body[data-gf-side="light"] .gf-product__fb-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: #4A5568;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/*
+  Divider line between the two feature badges.
+  ::before on the second badge's text div draws a 40%-wide line above it.
+  - The line starts from the left edge of the text (icon is excluded — it's a sibling)
+  - margin-bottom pushes the title text away from the line
+  The adjacent sibling selector (+) means this only targets the second badge.
+*/
+body[data-gf-side="light"] .gf-product__feature-badge + .gf-product__feature-badge .gf-product__fb-text::before {
+  content: '';
+  display: block;
+  width: 40%;
+  height: 1px;
+  background: rgba(26, 26, 46, 0.15);
+  margin-bottom: 0.6rem;
+}
+
+/* ─────────────────────────────────────────
+   ACCORDIONS
+───────────────────────────────────────── */
+
+/*
+  Accordion container — top border separates it from the feature badges.
+*/
+body[data-gf-side="light"] .gf-product__accordions {
+  border-top: 1px solid rgba(26, 26, 46, 0.1);
+}
+
+/*
+  Each accordion item — bottom border acts as a divider between items.
+*/
+body[data-gf-side="light"] .gf-product__acc-item {
+  border-bottom: 1px solid rgba(26, 26, 46, 0.1);
+}
+
+/*
+  Header button — full width row, label left, +/− toggle right.
+  - justify-content: space-between  pushes the two spans apart
+  - width: 100%  button fills the full column width
+  - background: none / border: none  strips default button styling
+*/
+body[data-gf-side="light"] .gf-product__acc-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.85rem 0;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1A1A2E;
+}
+
+body[data-gf-side="light"] .gf-product__acc-hd:hover {
+  color: #2B6CB0;
+}
+
+/*
+  Toggle symbol — gold, slightly larger than the label text.
+*/
+body[data-gf-side="light"] .gf-product__acc-toggle {
+  color: #C9A84C;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/*
+  Body — hidden by default. JS adds .is-open to the parent item to show it.
+  - max-height: 0 + overflow: hidden  collapses the body without display:none,
+    which allows CSS transitions to animate it open later.
+*/
+body[data-gf-side="light"] .gf-product__acc-body {
+  max-height: 0;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #4A5568;
+  line-height: 1.6;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+/*
+  Open state — JS toggles .is-open on the acc-item.
+  max-height: 300px gives enough room for any content to expand into.
+*/
+body[data-gf-side="light"] .gf-product__acc-item.is-open .gf-product__acc-body {
+  max-height: 300px;
+  padding-bottom: 0.85rem;
+}
+
+/* ─────────────────────────────────────────
+   LORE SECTION — full-bleed dark strip
+───────────────────────────────────────── */
+
+/*
+  Dark navy background, full width.
+  Only renders if the lore_tagline metafield is set.
+*/
+body[data-gf-side="light"] .gf-product__lore {
+  background-color: #1A1A2E;
+  padding: 4rem 0;
+}
+
+/*
+  Two-column layout — tagline left, body text right.
+  Same grid approach as the product grid above.
+*/
+body[data-gf-side="light"] .gf-product__lore-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+/*
+  Left column — "From The Archives" label with decorative lines, then the quote.
+*/
+body[data-gf-side="light"] .gf-product__lore-from {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #A07C2A;
+  margin: 0 0 0.75rem;
+}
+
+body[data-gf-side="light"] .gf-product__lore-from::before,
+body[data-gf-side="light"] .gf-product__lore-from::after {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: #A07C2A;
+  opacity: 0.5;
+}
+
+/*
+  The big quote — Cinzel, light text on dark background.
+  font-size: 1.5rem  large enough to feel like a statement
+  line-height: 1.3  tighter leading suits display-size quotes
+*/
+body[data-gf-side="light"] .gf-product__lore-quote {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #F7FAFC;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/*
+  Right column — long-form lore body text.
+  Inter, slightly muted white, comfortable reading size.
+*/
+body[data-gf-side="light"] .gf-product__lore-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(247, 250, 252, 0.75);
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────
+   RELATED PRODUCTS
+───────────────────────────────────────── */
+
+body[data-gf-side="light"] .gf-product__related {
+  background-color: #F7FAFC;
+  padding: 4rem 0;
+}
+
+/*
+  Section header — eyebrow + title centred above the grid.
+*/
+body[data-gf-side="light"] .gf-product__related-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+body[data-gf-side="light"] .gf-product__related-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #A07C2A;
+  margin: 0 0 0.5rem;
+}
+
+body[data-gf-side="light"] .gf-product__related-eyebrow::before,
+body[data-gf-side="light"] .gf-product__related-eyebrow::after {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: #A07C2A;
+  opacity: 0.5;
+}
+
+body[data-gf-side="light"] .gf-product__related-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1A1A2E;
+  margin: 0;
+}
+
+/*
+  3-column card grid.
+*/
+body[data-gf-side="light"] .gf-product__related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/*
+  Each card — white background, subtle border, lifts on hover.
+  It's an <a> tag so we strip the default link styling.
+*/
+body[data-gf-side="light"] .gf-product__rel-card {
+  background: #fff;
+  border: 1px solid rgba(26, 26, 46, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+body[data-gf-side="light"] .gf-product__rel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(43, 108, 176, 0.12);
+}
+
+/*
+  Card image — square, same aspect-ratio trick as the main image.
+*/
+body[data-gf-side="light"] .gf-product__rel-img {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #EDF2F7;
+}
+
+body[data-gf-side="light"] .gf-product__rel-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+body[data-gf-side="light"] .gf-product__rel-card:hover .gf-product__rel-img img {
+  transform: scale(1.04);
+}
+
+/*
+  Card info — padding around the text block.
+*/
+body[data-gf-side="light"] .gf-product__rel-info {
+  padding: 1rem;
+}
+
+body[data-gf-side="light"] .gf-product__rel-cat {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin: 0 0 0.3rem;
+}
+
+body[data-gf-side="light"] .gf-product__rel-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1A1A2E;
+  margin: 0 0 0.75rem;
+  line-height: 1.3;
+}
+
+/*
+  Card footer — price left, View button right.
+*/
+body[data-gf-side="light"] .gf-product__rel-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body[data-gf-side="light"] .gf-product__rel-price {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+body[data-gf-side="light"] .gf-product__rel-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #2B6CB0;
+  border: 1px solid rgba(43, 108, 176, 0.35);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  transition: background 0.2s, color 0.2s;
+}
+
+body[data-gf-side="light"] .gf-product__rel-card:hover .gf-product__rel-btn {
+  background: #2B6CB0;
+  color: #fff;
+}
+
+/* ─────────────────────────────────────────
+   MOBILE — collapse to single column
+───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+
+  /*
+    Product grid — stacks image above info on mobile.
+    1fr 1fr becomes a single column.
+  */
+  body[data-gf-side="light"] .gf-product__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  /* Info column left padding not needed when stacked */
+  body[data-gf-side="light"] .gf-product__info-col {
+    padding-left: 0;
+  }
+
+  /* Title slightly smaller on mobile */
+  body[data-gf-side="light"] .gf-product__title {
+    font-size: 1.5rem;
+  }
+
+  /* Lore section — stack the two columns */
+  body[data-gf-side="light"] .gf-product__lore-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  body[data-gf-side="light"] .gf-product__lore {
+    padding: 2.5rem 0;
+  }
+
+  /* Centre the eyebrow and tagline on mobile */
+  body[data-gf-side="light"] .gf-product__lore-from {
+    justify-content: center;
+  }
+
+  body[data-gf-side="light"] .gf-product__lore-quote {
+    text-align: center;
+  }
+
+  /*
+    Golden divider between tagline and body on mobile.
+    ::after on the left column draws the line below the tagline.
+    Gradient fades at both ends to match the eyebrow line aesthetic.
+    Width approximates the eyebrow element width, centred with auto margins.
+  */
+  body[data-gf-side="light"] .gf-product__lore-left::after {
+    content: '';
+    display: block;
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #C9A84C, transparent);
+    margin: 1.25rem auto 0;
+    opacity: 0.7;
+  }
+
+  /* Related products — single column on mobile */
+  body[data-gf-side="light"] .gf-product__related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-gf-side="light"] .gf-product__related {
+    padding: 2.5rem 0;
+  }
+}

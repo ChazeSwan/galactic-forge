@@ -118,7 +118,7 @@ real Shopify theme development skills.
 - Neutral (dark grey): #4A5568
 - Energy/glow (lightning white): #EBF8FF
 
-### Phase 4 — Complete (Light Side Homepage)
+### Phase 4 — Complete (Light Side Homepage + Collection Page + Product Page in progress)
 
 **Design system locked:**
 - Gold accent: `#C9A84C` sitewide
@@ -151,6 +151,15 @@ real Shopify theme development skills.
   - Wavy SVG divider, 4-col grid, newsletter form, social icons
 
 **Teaching approach confirmed:** HTML structure first, then CSS one rule at a time with explanations; debug outlines added at the top of every new CSS file
+
+### Phase 4 continued — In Progress
+- [x] Collection page — complete (`sections/collection.liquid`, `assets/collection.css`)
+- [ ] Product page — in progress (`sections/product.liquid`, `assets/product.css`, `assets/product.js`)
+  - HTML structure done, breadcrumb done, grid layout started
+  - Continue CSS rule by rule next session
+  - JS (thumbnail swap, qty, accordion, variant pills) not yet built
+  - Metafields (lore, dimensions, whats_included) not yet created in Shopify admin
+- [ ] Lightsaber product page configurator — after standard product page
 
 ### Phase 5 — Final Polish
 - [ ] **Light/Dark Side toggle** — nav logo area, "Light Side" and "Dark Side" labels side by side

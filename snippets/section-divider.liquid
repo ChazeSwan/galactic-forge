@@ -1,0 +1,29 @@
+{% comment %}
+  snippets/section-divider.liquid
+  Reusable version of the section divider — can be rendered inline
+  anywhere with {% render 'section-divider' %}.
+  The section-divider.css must be loaded by the parent page.
+{% endcomment %}
+
+<div class="gf-divider full-width">
+  <div class="gf-divider__inner">
+    <span class="gf-divider__line gf-divider__line--left"></span>
+    <svg
+      class="gf-divider__hilt"
+      viewBox="0 0 40 70"
+      width="8"
+      height="26"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <rect x="6" y="0" width="28" height="6" rx="2" fill="rgba(43,108,176,0.45)" />
+      <rect x="14" y="6" width="12" height="52" rx="2" fill="rgba(74,85,104,0.5)" />
+      <rect x="12" y="17" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)" />
+      <rect x="12" y="30" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)" />
+      <rect x="12" y="43" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)" />
+      <ellipse cx="20" cy="63" rx="9" ry="5" fill="rgba(85,85,85,0.4)" />
+    </svg>
+    <span class="gf-divider__line gf-divider__line--right"></span>
+  </div>
+</div>

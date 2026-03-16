@@ -1,49 +1,343 @@
 {% comment %}
-  This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
+  product.liquid
+  Design 1 — "The Archives"
+  Standard product page — image gallery left, info right,
+  lore section + related products below.
 {% endcomment %}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
+{{ 'product.css' | asset_url | stylesheet_tag }}
+{{ 'section-divider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product.js' | asset_url }}" defer></script>
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
+<div class="full-width gf-product">
+  {%- comment -%}
+    Breadcrumb — shows the path: Home / Collection / Product
+    product.collections.first gives us the collection this product belongs to.
+  {%- endcomment -%}
+  <div class="gf-inner">
+    <nav class="gf-product__breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span class="gf-product__breadcrumb-sep">/ </span>
+      {%- if product.collections.first -%}
+        <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+        <span class="gf-product__breadcrumb-sep">/ </span>
+      {%- endif -%}
+      <span class="gf-product__breadcrumb-current">{{ product.title }}</span>
+    </nav>
+  </div>
 
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
+  <div class="gf-inner">
+    <div class="gf-product__grid">
 
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
+      {%- comment -%} ── LEFT — Image Gallery ── {%- endcomment -%}
+      <div class="gf-product__img-col">
 
-    <input type="text" name="quantity" min="1" value="1">
+        {%- comment -%}
+          Main image — shows product.featured_image if it exists,
+          otherwise a grey placeholder. Same pattern as the collection cards.
+        {%- endcomment -%}
+        <div class="gf-product__main-img" id="gf-main-img">
+          {%- if product.featured_image -%}
+            <img
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              id="gf-main-img-tag"
+              width="800"
+              height="800"
+            >
+          {%- else -%}
+            <span class="gf-product__img-placeholder">No image yet</span>
+          {%- endif -%}
+          <span class="gf-product__img-badge">Limited Edition</span>
+        </div>
 
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
-</div>
+        {%- comment -%}
+          Thumbnails — loops through the product's images (up to 4).
+          Clicking a thumbnail swaps the main image — wired up in product.js.
+          The first thumbnail gets the "is-active" class by default.
+        {%- endcomment -%}
+        <div class="gf-product__thumbs">
+          {%- for image in product.images limit: 4 -%}
+            <button
+              class="gf-product__thumb{% if forloop.first %} is-active{% endif %}"
+              data-src="{{ image | image_url: width: 800 }}"
+              data-alt="{{ image.alt | escape }}"
+              aria-label="View image {{ forloop.index }}"
+            >
+              <img
+                src="{{ image | image_url: width: 150 }}"
+                alt="{{ image.alt | escape }}"
+                width="150"
+                height="150"
+              >
+            </button>
+          {%- else -%}
+            {%- comment -%} Placeholder thumbnails if no images uploaded yet {%- endcomment -%}
+            {%- for i in (1..4) -%}
+              <button class="gf-product__thumb{% if forloop.first %} is-active{% endif %}">
+                <span class="gf-product__thumb-placeholder"></span>
+              </button>
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+
+      </div>{%- comment -%} end img-col {%- endcomment -%}
+
+      {%- comment -%} ── RIGHT — Product Info ── {%- endcomment -%}
+      <div class="gf-product__info-col">
+
+        {%- comment -%}
+          Eyebrow — collection name + product type.
+          product.type is the "Product type" field set in Shopify admin.
+        {%- endcomment -%}
+        <p class="gf-product__eyebrow">
+          {%- if product.type != blank -%}
+            {{ product.type }}
+          {%- else -%}
+            The Galactic Forge
+          {%- endif -%}
+        </p>
+
+        <h1 class="gf-product__title">{{ product.title }}</h1>
+
+        {%- comment -%}
+          Subtitle — short lore tagline stored as a metafield.
+          We will create this metafield in Shopify admin after the HTML is built.
+          If not set, the element is hidden.
+        {%- endcomment -%}
+        {%- if product.metafields.custom.lore_tagline != blank -%}
+          <p class="gf-product__subtitle">{{ product.metafields.custom.lore_tagline }}</p>
+        {%- endif -%}
+
+        {%- comment -%} Price row — price on the left, free shipping tag on the right {%- endcomment -%}
+        <div class="gf-product__price-row">
+          <span class="gf-product__price">{{ product.price | money }}</span>
+          <span class="gf-product__free-ship">Free Shipping</span>
+        </div>
+
+        {%- comment -%}
+          Top 3 pill badges — small trust signals above the variant/qty section.
+          Star Wars themed to match the brand.
+        {%- endcomment -%}
+        <div class="gf-product__top-badges">
+          <span class="gf-product__top-badge">⚡ Hyperdrive Delivery</span>
+          <span class="gf-product__top-badge">✦ Display-Ready</span>
+          <span class="gf-product__top-badge">◈ Limited Run</span>
+        </div>
+
+        {%- comment -%}
+          Variant selector — only renders if the product has more than one variant.
+          Clone Trooper has 2 variants (501st Legion, 212th Attack Battalion).
+          Clicking a pill updates the hidden input inside the form below.
+        {%- endcomment -%}
+        {%- if product.variants.size > 1 -%}
+          <div class="gf-product__variants">
+            <p class="gf-product__variants-label">Edition</p>
+            <div class="gf-product__variant-pills" id="gf-variant-pills">
+              {%- for variant in product.variants -%}
+                <button
+                  class="gf-product__variant-pill{% if forloop.first %} is-active{% endif %}"
+                  type="button"
+                  data-variant-id="{{ variant.id }}"
+                  data-variant-price="{{ variant.price | money }}"
+                >
+                  {{ variant.title }}
+                </button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          Add to cart form.
+          - The hidden input[name="id"] holds the variant ID.
+          - Starts with the first available variant.
+          - Variant pills in JS update this value when clicked.
+          - The quantity buttons in JS update the number display and the qty input.
+        {%- endcomment -%}
+        {%- form 'product', product -%}
+          <input
+            type="hidden"
+            name="id"
+            id="gf-variant-id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+          >
+          <input
+            type="hidden"
+            name="quantity"
+            id="gf-qty-input"
+            value="1"
+          >
+
+          <div class="gf-product__qty-row">
+            <div class="gf-product__qty">
+              <button type="button" class="gf-product__qty-btn" id="gf-qty-minus">−</button>
+              <span class="gf-product__qty-count" id="gf-qty-count">1</span>
+              <button type="button" class="gf-product__qty-btn" id="gf-qty-plus">+</button>
+            </div>
+            <button type="submit" class="gf-product__add-btn">Add to Cart</button>
+          </div>
+
+          <button type="button" class="gf-product__wishlist-btn">✦ Save to Wishlist</button>
+        {%- endform -%}
+
+        {%- comment -%} 2 feature badges below the cart button {%- endcomment -%}
+        <div class="gf-product__feature-badges">
+          <div class="gf-product__feature-badge">
+            <span class="gf-product__fb-icon">⚔</span>
+            <div class="gf-product__fb-text">
+              <p class="gf-product__fb-title">Lifetime Guarantee</p>
+              <p class="gf-product__fb-body">Every piece is built to outlast the Empire.</p>
+            </div>
+          </div>
+          <div class="gf-product__feature-badge">
+            <span class="gf-product__fb-icon">◈</span>
+            <div class="gf-product__fb-text">
+              <p class="gf-product__fb-title">Lightweight Design</p>
+              <p class="gf-product__fb-body">Display-grade materials, built for any shelf in the galaxy.</p>
+            </div>
+          </div>
+        </div>
+
+        {%- comment -%}
+          Accordions — show/hide toggles for Description, Dimensions, What's Included.
+          JavaScript in product.js handles the open/close logic.
+          Description pulls from the standard Shopify product description field.
+          Dimensions and What's Included pull from metafields we will create.
+        {%- endcomment -%}
+        <div class="gf-product__accordions">
+
+          <div class="gf-product__acc-item">
+            <button class="gf-product__acc-hd" type="button">
+              <span>Description</span>
+              <span class="gf-product__acc-toggle">+</span>
+            </button>
+            <div class="gf-product__acc-body">
+              {{ product.description }}
+            </div>
+          </div>
+
+          <div class="gf-product__acc-item">
+            <button class="gf-product__acc-hd" type="button">
+              <span>Measurements & Dimensions</span>
+              <span class="gf-product__acc-toggle">+</span>
+            </button>
+            <div class="gf-product__acc-body">
+              {%- if product.metafields.custom.dimensions != blank -%}
+                {{ product.metafields.custom.dimensions | newline_to_br }}
+              {%- else -%}
+                <p>Dimensions coming soon.</p>
+              {%- endif -%}
+            </div>
+          </div>
+
+          <div class="gf-product__acc-item">
+            <button class="gf-product__acc-hd" type="button">
+              <span>What's Included</span>
+              <span class="gf-product__acc-toggle">+</span>
+            </button>
+            <div class="gf-product__acc-body">
+              {%- if product.metafields.custom.what_s_included != blank -%}
+                {{ product.metafields.custom.what_s_included | newline_to_br }}
+              {%- else -%}
+                <p>Details coming soon.</p>
+              {%- endif -%}
+            </div>
+          </div>
+
+        </div>{%- comment -%} end accordions {%- endcomment -%}
+
+      </div>{%- comment -%} end info-col {%- endcomment -%}
+    </div>{%- comment -%} end grid {%- endcomment -%}
+  </div>{%- comment -%} end gf-inner {%- endcomment -%}
+
+  {%- comment -%} ── LORE SECTION — full-bleed dark strip ── {%- endcomment -%}
+  {%- comment -%}
+    The lore section uses metafields for the tagline and body copy.
+    lore_tagline: the short bold quote ("Vader's Fist. Born on Kamino...")
+    lore_body: the long descriptive paragraph
+    Only renders if at least the tagline is set.
+  {%- endcomment -%}
+  {% render 'section-divider' %}
+
+  {%- if product.metafields.custom.lore_tagline != blank -%}
+    <div class="gf-product__lore">
+      <div class="gf-inner">
+        <div class="gf-product__lore-grid">
+          <div class="gf-product__lore-left">
+            <p class="gf-product__lore-from">From The Archives</p>
+            {%- comment -%}
+              Line breaks are intentional — the tagline is designed to stack
+              across 3 lines at full width for visual impact.
+            {%- endcomment -%}
+            <h2 class="gf-product__lore-quote">
+              Forged in the Kamino<br>
+              Vats, Remembered<br>
+              Forever.
+            </h2>
+          </div>
+          <div class="gf-product__lore-right">
+            <p class="gf-product__lore-body">{{ product.metafields.custom.lore_body | newline_to_br }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ── RELATED PRODUCTS — "You May Also Like" ── {%- endcomment -%}
+  {%- comment -%}
+    Pulls up to 3 other products from the same collection.
+    Excludes the current product using an unless check on the handle.
+    product.collections.first gives us the first collection this product belongs to.
+  {%- endcomment -%}
+  {%- assign related_collection = product.collections.first -%}
+  {% render 'section-divider' %}
+
+  {%- if related_collection != blank -%}
+    <div class="gf-product__related">
+      <div class="gf-inner">
+        <div class="gf-product__related-header">
+          <p class="gf-product__related-eyebrow">From The Vault</p>
+          <h2 class="gf-product__related-title">You May Also Like</h2>
+        </div>
+        <div class="gf-product__related-grid">
+          {%- assign shown = 0 -%}
+          {%- for related in related_collection.products -%}
+            {%- unless related.handle == product.handle or shown >= 3 -%}
+              <a class="gf-product__rel-card" href="{{ related.url }}">
+                <div class="gf-product__rel-img">
+                  {%- if related.featured_image -%}
+                    <img
+                      src="{{ related.featured_image | image_url: width: 400 }}"
+                      alt="{{ related.featured_image.alt | escape }}"
+                      width="400"
+                      height="400"
+                      loading="lazy"
+                    >
+                  {%- endif -%}
+                </div>
+                <div class="gf-product__rel-info">
+                  <p class="gf-product__rel-cat">{{ related.type }}</p>
+                  <p class="gf-product__rel-name">{{ related.title }}</p>
+                  <div class="gf-product__rel-foot">
+                    <span class="gf-product__rel-price">{{ related.price | money }}</span>
+                    <span class="gf-product__rel-btn">View</span>
+                  </div>
+                </div>
+              </a>
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+</div>{%- comment -%} end gf-product {%- endcomment -%}
 
 {% schema %}
 {
-  "name": "t:general.product",
+  "name": "Product",
   "settings": [],
   "disabled_on": {
     "groups": ["header", "footer"]
