@@ -19,11 +19,36 @@
 
   /* ── Config ──────────────────────────────────────────────────────────────── */
   var STORAGE_KEY    = 'gf-side';
-  var INTRO_DURATION = 3500; // How long the intro CSS animation plays (ms)
-  var INTRO_FADE     = 800;  // Fade-out duration of the intro overlay (ms)
+  var INTRO_DURATION = 3500;  // How long the intro CSS animation plays (ms)
+  var INTRO_FADE     = 800;   // Fade-out duration of the intro overlay (ms)
   var CRAWL_DURATION = 12000; // How long the crawl scrolls — must match CSS animation (ms)
-  var CRAWL_FADE     = 800;  // Fade-out duration of the crawl (ms)
-  var EXIT_DURATION  = 800;  // Fade-out duration when a side is chosen (ms)
+  var CRAWL_FADE     = 800;   // Fade-out duration of the crawl (ms)
+  var EXIT_DURATION  = 800;   // Fade-out duration when a side is chosen (ms)
+
+  /* ── Always start at the top of the page ──────────────────────────────────── */
+  window.scrollTo(0, 0);
+
+  /* ── Dev reset button — clears localStorage and reloads ─────────────────── */
+  var devReset = document.getElementById('gfDevReset');
+  if (devReset) {
+    devReset.addEventListener('click', function () {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      window.location.reload();
+    });
+  }
+
+  /* ── Returning visitor check ─────────────────────────────────────────────── */
+  // If a side was already chosen in a previous visit, skip the entry sequence
+  // entirely and apply the saved choice immediately.
+  var saved = null;
+  try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+
+  if (saved === 'light' || saved === 'dark') {
+    document.body.dataset.gfSide = saved;
+    var entryEl = document.getElementById('gf-entry-screen');
+    if (entryEl) entryEl.style.display = 'none';
+    return; // nothing else to do — skip the whole sequence
+  }
 
   /* ── DOM ─────────────────────────────────────────────────────────────────── */
   var entryScreen = document.getElementById('gf-entry-screen');

@@ -5,7 +5,7 @@
 
 /* ══ Wavy divider ══ */
 .gf-footer-divider {
-  background: #F7FAFC; /* matches the page background above */
+  background: #ffffff; /* matches the testimonials section above it */
   line-height: 0;
   overflow: hidden;
 }
@@ -144,7 +144,7 @@
 
 /* ══ Row 3 — Account ══ */
 .gf-footer__account {
-  text-align: center;
+  text-align: left;
 }
 
 /* Account links — vertical column, left-aligned like the other footer columns */
@@ -206,6 +206,23 @@
   color: rgba(247, 250, 252, 0.2);
 }
 
+/* Dev reset — styled to match the legal links, remove before going live */
+.gf-dev-reset {
+  background: none;
+  border: none;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: rgba(247, 250, 252, 0.35);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.gf-dev-reset:hover {
+  color: #90CDF4;
+}
+
 /* ── Social icon buttons ── */
 .gf-footer__socials {
   display: flex;
@@ -264,14 +281,9 @@
     text-align: left;
   }
 
-  /* Newsletter and account sections center themselves */
-  .gf-footer__newsletter-col,
-  .gf-footer__account {
+  /* Newsletter centers itself on mobile */
+  .gf-footer__newsletter-col {
     text-align: center;
-  }
-
-  .gf-footer__account .gf-footer__links--row {
-    align-items: center;
   }
 
   .gf-footer__bottom-inner {

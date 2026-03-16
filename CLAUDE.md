@@ -118,41 +118,52 @@ real Shopify theme development skills.
 - Neutral (dark grey): #4A5568
 - Energy/glow (lightning white): #EBF8FF
 
-### Phase 4 — In Progress
+### Phase 4 — Complete (Light Side Homepage)
 
-**Design system updates (from DESIGN-BRIEF.md):**
-- Gold accent: `#C9A84C` (footer uses this; older sections use `#A07C2A` — align on next pass)
-- Typography: Cinzel for headings/eyebrows, Crimson Pro (italic) for body subtext
-- Content width class: `gf-inner` → `width: 80%; max-width: 1100px; margin: 0 auto` (not yet implemented sitewide)
-- Full-bleed elements use `full-width` class (breaks out of skeleton grid column)
+**Design system locked:**
+- Gold accent: `#C9A84C` sitewide
+- Typography: Cinzel for headings/eyebrows, Inter for body/subtext
+- Content width: `gf-inner` → `width: 80%; max-width: 1100px; margin: 0 auto`
+- Full-bleed: all sections use `full-width` class to break out of skeleton grid
+- Alternating backgrounds: `#F7FAFC` (categories, features) / `#ffffff` (products, testimonials)
 
 **Built this phase:**
-- Entry screen (`sections/path-chooser.liquid`, `assets/path-chooser.css`, `assets/path-chooser.js`)
-  - "A long time ago..." (3.5s) → crawl (12s, Oswald, #FFD700) → split screen
-  - FOUC fix: `data-gf-side` set on `<body>` immediately on panel click
-- Homepage hero (`sections/homepage-hero.liquid`, `assets/homepage-hero.css`)
-  - **Needs redesign** — see DESIGN-BRIEF.md: Coruscant night image, left-aligned text, dark overlay, location credit
-  - Reference: `_design-refs/full-page-preview.html`, image: `_design-refs/coruscant_night.jpg`
-- Homepage categories (`sections/homepage-categories.liquid`, `assets/homepage-categories.css`)
-  - 3-column dark gradient cards, hover lift + blue border + "Shop Now" slide-up
-- Homepage featured products (`sections/homepage-products.liquid`, `assets/homepage-products.css`)
+- Entry screen (`sections/path-chooser.liquid`, `assets/path-chooser.css/js`)
+  - "A long time ago..." → crawl → split screen Light/Dark choice
+- Hero (`sections/homepage-hero.liquid`, `assets/homepage-hero.css`)
+  - Full-bleed Coruscant night image, dark overlay + Force glow, left-aligned text
+  - Location credit bottom-right, arrow CTA button
+- Categories (`sections/homepage-categories.liquid`, `assets/homepage-categories.css`)
+  - 3-column gradient cards, 3D hover lift, mobile always-visible Shop Now
+- Featured Products (`sections/homepage-products.liquid`, `assets/homepage-products.css`)
   - Horizontal scroll, pulls from `collections['light-side']`, 5 products
-- Homepage testimonials (`sections/homepage-testimonials.liquid`, `assets/homepage-testimonials.css`)
+- Features (`sections/homepage-features.liquid`, `assets/homepage-features.css`)
+  - 4-column "Why the Light Side?" grid — Cinzel titles, Inter descriptions
+- Testimonials (`sections/homepage-testimonials.liquid`, `assets/homepage-testimonials.css`)
   - 3 cards: Obi-Wan (blue), Yoda (green), Ren Talos (purple)
-  - Floating portrait -36px above card, Force ring glow on hover
+  - Floating portrait, lightsaber SVG, Force ring glow on hover
+- Section dividers (`sections/section-divider.liquid`, `assets/section-divider.css`)
+  - Lightsaber hilt SVG centered on two fading blue lines, between every section
 - Header (`sections/header.liquid`, `assets/header.css`, `assets/header.js`)
-  - Sticky via `.shopify-section-group-header-group { position: sticky; top: 0 }`
-  - Topbar hides on scroll, nav gains shadow, Shop By dropdown, mobile drawer
-  - Gold phone pill: `519-574-4734`, hover darkens gold (no fill)
+  - Sticky topbar hides on scroll, Shop By dropdown, mobile drawer
+  - Gold phone pill, dual lightsaber logo SVG
 - Footer (`sections/footer.liquid`, `assets/footer.css`)
-  - Wavy SVG divider, 4-col desktop grid, flex-column mobile stacking
-  - Newsletter form, social icons, gold border-top separating bottom bar
-
-**Font comparison in progress (not committed):**
-- Hero subtext → Crimson Pro (1.15rem)
-- Testimonial quotes → Inter (0.9rem), Yoda card pending Crimson Pro override for comparison
+  - Wavy SVG divider, 4-col grid, newsletter form, social icons
 
 **Teaching approach confirmed:** HTML structure first, then CSS one rule at a time with explanations; debug outlines added at the top of every new CSS file
+
+### Phase 5 — Final Polish
+- [ ] **Light/Dark Side toggle** — nav logo area, "Light Side" and "Dark Side" labels side by side
+  - Active side glows in its color (blue for Light, red for Dark), inactive is muted
+  - Clicking switches `data-gf-side` on `<body>` + updates localStorage — no page reload
+  - All section styles already gated on `body[data-gf-side]` so re-theming is instant
+  - Block or show placeholder for Dark Side until Sith sections are built
+  - Can be done before or after starting the Dark Side page
+- [ ] Lightsaber ignition animation — blades animate on scroll into view (Intersection Observer API)
+- [ ] Product images — upload to Shopify admin, slot in automatically via Liquid
+- [ ] Full page review and minor tweaks (Chaz-driven)
+- [ ] Dark Side (Sith) homepage sections
+- [ ] Remove dev reset button from footer before going live
 
 ## Technical Constraints
 

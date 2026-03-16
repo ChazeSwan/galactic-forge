@@ -1,0 +1,617 @@
+/* collection.css */
+/* Design A — "The Archive" */
+
+/* ─────────────────────────────────────────
+   PAGE BACKGROUND TEXTURE
+   Applied to the outer wrapper so the stripes
+   run edge to edge across the full page width.
+───────────────────────────────────────── */
+
+body[data-gf-side="light"] .gf-coll {
+  background-color: #dde4eb;
+  background-image: repeating-linear-gradient(
+    0deg,
+    #F7FAFC 0px,
+    #F7FAFC 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* ─────────────────────────────────────────
+   INNER CONTENT WIDTH
+   Controls the max-width container used
+   throughout this page — same values as
+   every other section on the site.
+───────────────────────────────────────── */
+
+/*
+  gf-inner — the centered content wrapper.
+  - width: 80%  never stretches to the full browser width
+  - max-width: 1100px  caps it on very wide screens
+  - margin: 0 auto  centers it horizontally
+  This is intentionally NOT applied to the banner's outer div —
+  the banner is full-bleed. Only the text content inside the banner
+  and the body below it get constrained.
+*/
+body[data-gf-side="light"] .gf-coll .gf-inner {
+  width: 80%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ─────────────────────────────────────────
+   BANNER
+───────────────────────────────────────── */
+
+/*
+  The banner is the hero image strip at the top.
+  - position: relative so the overlay and text can be positioned inside it
+  - height: 320px sets the strip height (same as Design A)
+  - overflow: hidden clips anything that bleeds out of the box
+  - background-image + size + position loads the photo and covers the full area
+  - filter: brightness(0.95) is the same subtle dimming we used on the homepage hero
+*/
+body[data-gf-side="light"] .gf-coll__banner {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+  background-image: url('collections_hero.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.95);
+}
+
+/*
+  The overlay sits on top of the photo (position: absolute, inset: 0 = all four edges).
+  Two gradients stacked:
+    1. linear-gradient — dark at the bottom (where text lives), fades to transparent at the top
+    2. radial-gradient — soft gold glow at the bottom-center, same warm Force atmosphere
+       we used on the homepage
+  display: flex + align-items: flex-end pushes the text content to the bottom of the banner.
+  padding-bottom gives it breathing room from the edge.
+*/
+body[data-gf-side="light"] .gf-coll__banner__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(201, 168, 76, 0.15) 0%, transparent 55%),
+    linear-gradient(to top, rgba(10, 8, 2, 0.82) 0%, rgba(10, 8, 2, 0.4) 45%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 2.25rem;
+}
+
+/*
+  Eyebrow — the small label above the title.
+  - font-size: 0.55rem  keeps it tiny, purely supporting text
+  - letter-spacing: 0.4em  wide tracking gives it that engraved/stamped feel
+  - text-transform: uppercase  all caps reinforces the formal tone
+  - color: #C9A84C  our locked-in gold accent
+  - margin-bottom: 0.4rem  small gap before the title
+*/
+body[data-gf-side="light"] .gf-coll__eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 0.4rem;
+}
+
+/*
+  Title — the large collection name ("Light Side").
+  - clamp(1.8rem, 3.5vw, 3rem)  fluid sizing: never smaller than 1.8rem,
+    never larger than 3rem, scales with viewport width in between
+  - font-weight: 700  boldest Cinzel weight for maximum presence
+  - letter-spacing: 0.1em  tight but not cramped — matches Design A
+  - text-transform: uppercase  all caps, same as the homepage hero title
+  - line-height: 1  no extra gap below the text baseline
+  - margin: 0 0 0.4rem  clears browser default margin, small gap before subtitle
+*/
+body[data-gf-side="light"] .gf-coll__title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  color: #F7FAFC;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 0 0 0.4rem;
+}
+
+/*
+  Subtitle — the soft descriptive line below the title.
+  - font-family: Inter  body font, lighter feel vs the Cinzel headings
+  - font-style: italic  adds elegance, matches Design A's Crimson Pro italic feel
+  - font-size: 0.95rem  slightly smaller than body — supporting text, not competing
+  - color: rgba(247,250,252,0.55)  near-white at 55% opacity — muted, not distracting
+  - margin: 0  clears browser default so spacing is controlled by the parent
+*/
+body[data-gf-side="light"] .gf-coll__sub {
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(247, 250, 252, 0.55);
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────
+   BODY — sidebar + grid side by side
+───────────────────────────────────────── */
+
+/*
+  The body wrapper creates a two-column layout using CSS Grid.
+  - grid-template-columns: 220px 1fr  left column is a fixed 220px sidebar,
+    right column (1fr) takes up all remaining space
+  - min-height: 600px  ensures the body never collapses too short even
+    if there are very few products
+*/
+body[data-gf-side="light"] .gf-coll__body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 600px;
+}
+
+/* ─────────────────────────────────────────
+   SIDEBAR
+───────────────────────────────────────── */
+
+/*
+  - border-right  a faint blue line separating sidebar from the grid
+  - padding  breathing room inside — no left padding since gf-inner already
+    provides the outer margin, right padding keeps text away from the border
+  - background-image: repeating-linear-gradient  creates the subtle ruled-paper
+    texture. Every 40px a 1px-tall faint blue line is drawn — it looks like
+    the lined pages of an old Jedi archive book. The gradient repeats
+    infinitely top to bottom.
+*/
+body[data-gf-side="light"] .gf-coll__sidebar {
+  border-right: 1px solid rgba(43, 108, 176, 0.1);
+  padding: 2rem 1.5rem 2rem 0;
+}
+
+/*
+  filter-group — wraps each block (Category, Price Range).
+  margin-bottom pushes the next group down so they don't crowd each other.
+*/
+body[data-gf-side="light"] .gf-coll__filter-group {
+  margin-bottom: 2rem;
+}
+
+/*
+  filter-title — the gold label ("Category", "Price Range").
+  Same treatment as our section eyebrows throughout the homepage —
+  tiny, tracked-out, all caps, gold. Visually consistent across the whole site.
+*/
+body[data-gf-side="light"] .gf-coll__filter-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 1rem;
+  /* Decorative gold line beneath the title for visual weight */
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+}
+
+/*
+  filter-options — the <ul> wrapper.
+  list-style: none  removes the default bullet points.
+  padding/margin: 0  clears browser defaults so we control all spacing.
+*/
+body[data-gf-side="light"] .gf-coll__filter-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/*
+  filter-opt — each individual row ("All 5", "Lightsabers 2", etc.)
+  - display: flex + justify-content: space-between  pushes the name to the
+    left and the count number to the right automatically
+  - padding: 0.5rem 0  vertical breathing room between rows
+  - border-bottom  a faint line under each row, like a table
+  - color: #4A5568  muted grey — these are filters, not headlines
+  - cursor: pointer  signals to the user these are clickable
+  - transition: color  smooth colour change on hover instead of a hard snap
+*/
+/* Links inside filter rows — strip default anchor styles */
+body[data-gf-side="light"] .gf-coll__filter-opt a {
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+}
+
+body[data-gf-side="light"] .gf-coll__filter-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(43, 108, 176, 0.07);
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4A5568;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+/* Hover — row turns Jedi blue */
+body[data-gf-side="light"] .gf-coll__filter-opt:hover {
+  color: #2B6CB0;
+}
+
+/*
+  is-active — the currently selected filter ("All" by default).
+  Full ink colour + bold weight so it stands out from the muted rows.
+  ::after injects a blue checkmark on the right without extra HTML.
+*/
+body[data-gf-side="light"] .gf-coll__filter-opt.is-active {
+  color: #1A1A2E;
+  font-weight: 700;
+}
+body[data-gf-side="light"] .gf-coll__filter-opt.is-active::after {
+  content: '✓';
+  color: #2B6CB0;
+  font-size: 0.6rem;
+}
+
+/*
+  filter-count — the number on the right ("5", "2", etc.)
+  - margin-left: auto  pushes the count all the way right before the checkmark
+  - margin-right: 0.5rem  gap between count and the right edge (or checkmark)
+*/
+body[data-gf-side="light"] .gf-coll__filter-count {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #4A5568;
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
+
+/*
+  price-track — the full-width bar representing the price range.
+  - height: 2px  very thin, purely decorative
+  - background: faint blue  the "unselected" range
+  - border-radius: 2px  softly rounded ends
+  - position: relative  so the filled portion inside can be absolutely positioned
+  - margin: 1rem 0  space above and below the bar
+*/
+body[data-gf-side="light"] .gf-coll__price-track {
+  width: 100%;
+  height: 2px;
+  background: rgba(43, 108, 176, 0.15);
+  border-radius: 2px;
+  position: relative;
+  margin: 1rem 0;
+}
+
+/*
+  price-fill — the blue "selected" portion of the range bar.
+  - position: absolute  sits inside the track
+  - left: 10%, right: 30%  simulates a range from ~$30 to ~$210
+  - background: #2B6CB0  solid Jedi blue, stands out against the faint track
+*/
+body[data-gf-side="light"] .gf-coll__price-fill {
+  position: absolute;
+  left: 10%;
+  right: 30%;
+  top: 0;
+  bottom: 0;
+  background: #2B6CB0;
+  border-radius: 2px;
+}
+
+/*
+  price-labels — the "$0" and "$300" text beneath the bar.
+  - justify-content: space-between  pushes $0 hard left, $300 hard right
+    so they align with the ends of the track above
+*/
+body[data-gf-side="light"] .gf-coll__price-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #4A5568;
+}
+
+/* ─────────────────────────────────────────
+   GRID AREA
+───────────────────────────────────────── */
+
+/*
+  The right-side container holding the toolbar and product cards.
+  - padding: 2rem 0 2rem 2rem  top and bottom breathing room, left padding
+    creates the gap between the sidebar border and the product content.
+    No right padding — gf-inner handles the outer edge.
+  - background-image  same subtle ruled-paper texture as the sidebar,
+    keeps the two columns visually unified.
+*/
+body[data-gf-side="light"] .gf-coll__grid-area {
+  padding: 2rem 0 2rem 2rem;
+}
+
+/*
+  toolbar — the row sitting above the product grid.
+  - display: flex + justify-content: space-between  count on the left,
+    sort dropdown on the right, automatically
+  - margin-bottom: 1.75rem  gap between toolbar and the first row of cards
+  - padding-bottom + border-bottom  a faint line under the toolbar that
+    visually separates it from the product grid below
+*/
+body[data-gf-side="light"] .gf-coll__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(43, 108, 176, 0.1);
+}
+
+/*
+  result-count — "5 items in the Archives"
+  - font-style: italic  soft and understated, not competing with headings
+  - color: #718096  muted grey, secondary information
+*/
+body[data-gf-side="light"] .gf-coll__result-count {
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #718096;
+}
+
+/*
+  sort dropdown — native <select> element, styled to match the design system.
+  - background: none  removes the browser's default white box
+  - border: 1px solid faint blue  subtle outline consistent with our card borders
+  - font-family: Cinzel  keeps it on-brand — browser inputs default to system font
+    so we have to explicitly override
+*/
+body[data-gf-side="light"] .gf-coll__sort {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #4A5568;
+  background: none;
+  border: 1px solid rgba(43, 108, 176, 0.15);
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+/*
+  The product grid — 3 equal columns with a gap between cards.
+  - repeat(3, 1fr)  creates 3 columns that each take an equal share of
+    the available space. 1fr means "1 fraction unit" — if there are 3
+    columns they each get 1/3 of the width.
+  - gap: 1.25rem  uniform spacing between all cards, both horizontal and vertical
+*/
+body[data-gf-side="light"] .gf-coll__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+/* ─────────────────────────────────────────
+   PRODUCT CARDS
+───────────────────────────────────────── */
+
+/*
+  The card is an <a> tag (a link to the product page) so we need to
+  reset some default anchor styles — no underline, inherit text colour.
+  - display: flex + flex-direction: column  stacks image, info, and footer
+    vertically inside the card
+  - border  the faint blue outline around each card
+  - background: #ffffff  white card face against the slightly off-white page
+  - transition  smooth animation for the hover effects below
+*/
+body[data-gf-side="light"] .gf-coll__card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(43, 108, 176, 0.1);
+  text-decoration: none;
+  color: inherit;
+  background: #ffffff;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+
+/*
+  Hover state — card lifts slightly and the border brightens.
+  - translateY(-2px)  moves the card 2px upward, giving the "lift" feeling
+  - box-shadow  a soft blue shadow appears beneath the lifted card
+  - border-color  the outline switches from faint to full Jedi blue
+*/
+body[data-gf-side="light"] .gf-coll__card:hover {
+  border-color: #2B6CB0;
+  box-shadow: 0 4px 20px rgba(43, 108, 176, 0.1);
+  transform: translateY(-2px);
+}
+
+/*
+  Card image area — square container for the product photo.
+  - aspect-ratio: 1  forces the box to always be a perfect square regardless
+    of how wide the card is. Much cleaner than hardcoding a height.
+  - background gradient  the light blue placeholder colour shown until real
+    product images are uploaded to Shopify admin
+  - position: relative  so the badge can be absolutely positioned inside it
+  - overflow: hidden  clips the image if it bleeds outside the square
+*/
+body[data-gf-side="light"] .gf-coll__card__img {
+  aspect-ratio: 1;
+  background: #e8e8e8;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+  When a real product image exists, it fills the square completely.
+  - object-fit: cover  scales the image to fill the box without stretching,
+    cropping the edges if needed — same as background-size: cover but for <img>
+*/
+body[data-gf-side="light"] .gf-coll__card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/*
+  Placeholder text shown when no image is uploaded yet.
+*/
+body[data-gf-side="light"] .gf-coll__card__placeholder {
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  font-size: 0.7rem;
+  color: #9aa5b4;
+}
+
+/*
+  Gold badge — pinned to the top-left corner of the image.
+  - position: absolute  places it inside the image box (which is position: relative)
+  - top/left  distance from the corner
+*/
+body[data-gf-side="light"] .gf-coll__card__badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: #C9A84C;
+  color: #1A1A2E;
+  padding: 0.2rem 0.5rem;
+  font-weight: 700;
+}
+
+/*
+  card info — the text block below the image.
+  - padding: 0.9rem 0.9rem 0  space on top and sides, no bottom padding
+    because the footer below has its own padding
+  - flex: 1  tells this block to grow and fill any leftover vertical space
+    in the card. This is what keeps all card footers aligned at the same
+    height even if product names are different lengths.
+*/
+body[data-gf-side="light"] .gf-coll__card__info {
+  padding: 0.9rem 0.9rem 0;
+  flex: 1;
+}
+
+/*
+  Product name — small, bold, all caps Cinzel.
+  transition: color so it smoothly turns blue on card hover.
+*/
+body[data-gf-side="light"] .gf-coll__card__name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1A1A2E;
+  margin-bottom: 0.3rem;
+  transition: color 0.2s;
+}
+body[data-gf-side="light"] .gf-coll__card:hover .gf-coll__card__name {
+  color: #2B6CB0;
+}
+
+/*
+  Product type — the category label ("Lightsaber", "Figure", etc.)
+  Italic Inter, muted grey — supporting info, not a headline.
+*/
+body[data-gf-side="light"] .gf-coll__card__type {
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #718096;
+  margin: 0;
+}
+
+/*
+  Card footer — price on the left, View button on the right.
+  - padding: 0.75rem 0.9rem  matches the horizontal padding of card info above
+    so price and name stay vertically aligned
+*/
+body[data-gf-side="light"] .gf-coll__card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.9rem;
+}
+
+/*
+  Price — Inter, full ink colour, slightly larger than the surrounding text
+  so it reads as the most important piece of info in the footer.
+*/
+body[data-gf-side="light"] .gf-coll__card__price {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #1A1A2E;
+}
+
+/*
+  View button — outline style at rest, fills blue on card hover.
+  Note: we use .gf-coll__card:hover .gf-coll__card__btn (parent hover triggers
+  child style) so the whole card hover activates the button fill —
+  not just hovering directly over the button.
+*/
+body[data-gf-side="light"] .gf-coll__card__btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #2B6CB0;
+  border: 1px solid #2B6CB0;
+  padding: 0.35rem 0.7rem;
+  transition: background 0.2s, color 0.2s;
+}
+body[data-gf-side="light"] .gf-coll__card:hover .gf-coll__card__btn {
+  background: #2B6CB0;
+  color: #ffffff;
+}
+
+/* ─────────────────────────────────────────
+   MOBILE
+───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  body[data-gf-side="light"] .gf-coll__body {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-gf-side="light"] .gf-coll__sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(43, 108, 176, 0.1);
+    padding: 1.5rem 0;
+  }
+
+  body[data-gf-side="light"] .gf-coll__grid-area {
+    padding: 1.5rem 0;
+  }
+
+  body[data-gf-side="light"] .gf-coll__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  body[data-gf-side="light"] .gf-coll__grid {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-gf-side="light"] .gf-coll__banner {
+    height: 240px;
+  }
+}
+

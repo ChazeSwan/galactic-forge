@@ -30,11 +30,18 @@
 <nav class="gf-nav full-width" id="gfNav" aria-label="Main navigation">
   <div class="gf-nav__inner">
 
-    {% comment %} Logo — two crossing lightsaber SVGs + store name {% endcomment %}
-    <a href="{{ routes.root_url }}" class="gf-nav__logo">
-      <div class="gf-nav__logo-sabers">
-        {% comment %} Blue saber — blade fills blue on logo hover {% endcomment %}
-        <svg class="gf-nav__saber gf-nav__saber--blue" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    {% comment %}
+      Logo — sabers on the left, text column on the right.
+      The text column stacks "Galactic Forge" above the side toggle so
+      the toggle can be naturally centered under the store name.
+      The toggle buttons cannot live inside <a> (nested interactives = invalid HTML),
+      so the anchor only wraps the store name text.
+    {% endcomment %}
+    <div class="gf-nav__logo-wrap">
+
+      {% comment %} Crossing sabers — decorative, hover handled on the wrapper {% endcomment %}
+      <div class="gf-nav__logo-sabers" aria-hidden="true">
+        <svg class="gf-nav__saber gf-nav__saber--blue" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg">
           <ellipse class="blade" cx="20" cy="8" rx="3" ry="5"/>
           <rect class="blade" x="17" y="8" width="6" height="112" rx="3"/>
           <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
@@ -44,8 +51,7 @@
           <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
           <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
         </svg>
-        {% comment %} Green saber — blade fills green on logo hover {% endcomment %}
-        <svg class="gf-nav__saber gf-nav__saber--green" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg class="gf-nav__saber gf-nav__saber--green" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg">
           <ellipse class="blade" cx="20" cy="8" rx="3" ry="5"/>
           <rect class="blade" x="17" y="8" width="6" height="112" rx="3"/>
           <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
@@ -56,11 +62,18 @@
           <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
         </svg>
       </div>
-      <div class="gf-nav__logo-text">
-        Galactic Forge
-        <span>Light Side</span>
+
+      {% comment %} Text column — store name + toggle stacked, toggle centered under name {% endcomment %}
+      <div class="gf-nav__logo-col">
+        <a href="{{ routes.root_url }}" class="gf-nav__logo-name">Galactic Forge</a>
+        <div class="gf-side-toggle" aria-label="Choose your side">
+          <button class="gf-side-toggle__btn" data-side="light" aria-pressed="false">Light Side</button>
+          <span class="gf-side-toggle__sep" aria-hidden="true">·</span>
+          <button class="gf-side-toggle__btn" data-side="dark" aria-pressed="false">Dark Side</button>
+        </div>
       </div>
-    </a>
+
+    </div>
 
     {% comment %} Desktop navigation links {% endcomment %}
     <ul class="gf-nav__links">

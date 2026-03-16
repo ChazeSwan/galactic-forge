@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galactic Forge — Collections Page Designs v2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Cinzel", serif; background: #e8eaf0; }
+    :root {
+      --bg: #F7FAFC; --ink: #1A1A2E; --blue: #2B6CB0;
+      --lblue: #90CDF4; --gold: #C9A84C; --dark: #2c5282;
+    }
+    .gf-inner { width: 80%; max-width: 1100px; margin: 0 auto; }
+
+    .design-label {
+      text-align: center; padding: 3rem 1rem 0;
+      font-family: "Cinzel", serif; font-size: 0.6rem;
+      letter-spacing: 0.4em; text-transform: uppercase; color: #4A5568;
+    }
+    .design-label strong { display: block; font-size: 1rem; color: #1A1A2E; margin-top: 0.3rem; letter-spacing: 0.15em; }
+    .design-label em { display: block; font-family: "Crimson Pro", serif; font-style: italic; font-size: 0.85rem; color: #718096; margin-top: 0.25rem; letter-spacing: 0; }
+    hr.sep { border: none; border-top: 2px dashed #cbd5e0; margin: 3rem 0 0; }
+
+    /* ═══════════════════════════════════════════════════
+       DESIGN A — "The Archive" (confirmed)
+       Council chamber banner + sidebar filter layout
+    ═══════════════════════════════════════════════════ */
+    .da { background: var(--bg); }
+
+    .da__banner {
+      width: 100%; height: 320px; position: relative; overflow: hidden;
+      /* Jedi Council chamber atmosphere — warm amber/slate */
+      background: linear-gradient(160deg, #1a1205 0%, #2a1e08 30%, #1a1a2e 70%, #0d1220 100%);
+    }
+    /* Simulated council chamber light rays */
+    .da__banner::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.22) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 100%, rgba(43,108,176,0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 100%, rgba(43,108,176,0.1) 0%, transparent 40%);
+    }
+    /* Council window arches */
+    .da__banner__arches {
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-end; justify-content: center; gap: 0;
+    }
+    .da__banner__arch {
+      border: 1px solid rgba(201,168,76,0.08);
+      border-bottom: none;
+      border-radius: 50% 50% 0 0 / 40% 40% 0 0;
+      flex-shrink: 0;
+    }
+    .da__banner__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,8,2,0.75) 0%, rgba(10,8,2,0.3) 50%, transparent 100%);
+    }
+    .da__banner__content {
+      position: absolute; bottom: 2rem; left: 0; right: 0;
+    }
+    .da__banner__eyebrow {
+      font-size: 0.55rem; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem;
+    }
+    .da__banner__title {
+      font-weight: 700; font-size: clamp(1.8rem, 3.5vw, 3rem);
+      color: #F7FAFC; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1;
+    }
+    .da__banner__sub {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 1rem; color: rgba(247,250,252,0.55); margin-top: 0.4rem;
+    }
+    .da__banner__prompt {
+      position: absolute; top: 0.75rem; right: 1rem;
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 0.6rem; color: rgba(247,250,252,0.2);
+      max-width: 280px; text-align: right; line-height: 1.4;
+    }
+
+    /* Body */
+    .da__body { display: grid; grid-template-columns: 220px 1fr; min-height: 600px; }
+    .da__sidebar {
+      border-right: 1px solid rgba(43,108,176,0.1);
+      padding: 2rem 1.5rem;
+      background-color: var(--bg);
+      background-image: repeating-linear-gradient(
+        0deg, transparent, transparent 39px,
+        rgba(43,108,176,0.055) 39px, rgba(43,108,176,0.055) 40px
+      );
+    }
+    .da__filter-group { margin-bottom: 2rem; }
+    .da__filter-title {
+      font-size: 0.55rem; font-weight: 700; letter-spacing: 0.35em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+    }
+    .da__filter-options { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .da__filter-opt {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 0; border-bottom: 1px solid rgba(43,108,176,0.07);
+      font-size: 0.65rem; letter-spacing: 0.08em; color: #4A5568;
+      cursor: pointer; transition: color 0.2s; text-transform: uppercase;
+    }
+    .da__filter-opt:hover { color: var(--blue); }
+    .da__filter-opt.is-active { color: var(--ink); font-weight: 700; }
+    .da__filter-opt.is-active::after { content: "✓"; color: var(--blue); font-size: 0.6rem; }
+    .da__filter-count { font-size: 0.55rem; color: #9aa5b4; }
+    .da__price-range {
+      width: 100%; height: 2px; background: rgba(43,108,176,0.15);
+      border-radius: 2px; position: relative; margin: 1rem 0;
+    }
+    .da__price-range::after {
+      content: ""; position: absolute; left: 10%; right: 30%;
+      top: 0; bottom: 0; background: var(--blue); border-radius: 2px;
+    }
+    .da__price-labels {
+      display: flex; justify-content: space-between;
+      font-family: "Crimson Pro", serif; font-size: 0.8rem; color: #4A5568;
+    }
+
+    .da__grid-area {
+      padding: 2rem;
+      background-color: var(--bg);
+      background-image: repeating-linear-gradient(
+        0deg, transparent, transparent 39px,
+        rgba(43,108,176,0.055) 39px, rgba(43,108,176,0.055) 40px
+      );
+    }
+    .da__toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.75rem; padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(43,108,176,0.1);
+    }
+    .da__result-count { font-family: "Crimson Pro", serif; font-style: italic; font-size: 0.9rem; color: #718096; }
+    .da__sort {
+      font-family: "Cinzel", serif; font-size: 0.58rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #4A5568; background: none;
+      border: 1px solid rgba(43,108,176,0.15); padding: 0.4rem 0.8rem; cursor: pointer;
+    }
+    .da__grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+    .da__card {
+      display: flex; flex-direction: column;
+      border: 1px solid rgba(43,108,176,0.1);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    .da__card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 20px rgba(43,108,176,0.1);
+      transform: translateY(-2px);
+    }
+    .da__card__img {
+      aspect-ratio: 1; background: linear-gradient(135deg, #e8f0ff, #dce8f5);
+      display: flex; align-items: center; justify-content: center;
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 0.7rem; color: #9aa5b4; position: relative; overflow: hidden;
+    }
+    .da__card__badge {
+      position: absolute; top: 0.75rem; left: 0.75rem;
+      font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase;
+      background: var(--gold); color: #1A1A2E; padding: 0.2rem 0.5rem; font-weight: 700;
+    }
+    .da__card__info { padding: 0.9rem 0.9rem 0; flex: 1; }
+    .da__card__name {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink); margin-bottom: 0.3rem;
+      transition: color 0.2s;
+    }
+    .da__card:hover .da__card__name { color: var(--blue); }
+    .da__card__type { font-family: "Crimson Pro", serif; font-style: italic; font-size: 0.8rem; color: #718096; margin-bottom: 0.5rem; }
+    .da__card__footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 0.9rem;
+    }
+    .da__card__price { font-family: "Crimson Pro", serif; font-size: 1rem; color: var(--ink); }
+    .da__card__btn {
+      font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--blue); background: none; border: 1px solid var(--blue);
+      padding: 0.35rem 0.7rem; cursor: pointer; font-family: "Cinzel", serif;
+      transition: background 0.2s, color 0.2s;
+    }
+    .da__card:hover .da__card__btn { background: var(--blue); color: #fff; }
+
+
+    /* ═══════════════════════════════════════════════════
+       DESIGN B — "The Holocron"
+       Dark Jedi Archives terminal interface.
+       Masonry staggered grid. Cards have a scan-line
+       reveal on hover — like pulling a record from the
+       Jedi Archives database.
+    ═══════════════════════════════════════════════════ */
+    .db { background: #080e1a; }
+
+    /* Scanline texture overlay */
+    .db::after {
+      content: ""; position: fixed; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+      z-index: 0;
+    }
+
+    .db__header {
+      padding: 3rem 0 0; position: relative; z-index: 1;
+      border-bottom: 1px solid rgba(144,205,244,0.1);
+    }
+    /* Terminal top bar */
+    .db__terminal-bar {
+      background: rgba(43,108,176,0.08);
+      border-bottom: 1px solid rgba(144,205,244,0.1);
+      padding: 0.6rem 0; margin-bottom: 2.5rem;
+    }
+    .db__terminal-bar__inner {
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .db__terminal-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(144,205,244,0.3);
+      box-shadow: 0 0 6px rgba(144,205,244,0.4);
+      animation: pulse 2s infinite;
+    }
+    .db__terminal-dot:nth-child(2) { animation-delay: 0.4s; background: rgba(201,168,76,0.3); box-shadow: 0 0 6px rgba(201,168,76,0.4); }
+    .db__terminal-dot:nth-child(3) { animation-delay: 0.8s; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .db__terminal-text {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 0.7rem; color: rgba(144,205,244,0.4); letter-spacing: 0.1em;
+    }
+    .db__terminal-status {
+      margin-left: auto; font-size: 0.55rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: rgba(56,161,105,0.6);
+    }
+
+    .db__eyebrow {
+      font-size: 0.55rem; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem; opacity: 0.8;
+    }
+    .db__title {
+      font-weight: 700; font-size: clamp(2rem, 4vw, 3.5rem);
+      color: #F7FAFC; letter-spacing: 0.12em; text-transform: uppercase;
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .db__title-accent { color: var(--lblue); font-weight: 400; }
+    .db__sub {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 1rem; color: rgba(247,250,252,0.4); margin-bottom: 2rem;
+    }
+
+    /* Filter row */
+    .db__filters {
+      display: flex; align-items: center; gap: 0.5rem;
+      flex-wrap: wrap; padding: 1.25rem 0;
+      border-top: 1px solid rgba(144,205,244,0.08);
+    }
+    .db__filter {
+      font-family: "Cinzel", serif; font-size: 0.55rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(247,250,252,0.4); background: transparent;
+      border: 1px solid rgba(144,205,244,0.15);
+      padding: 0.4rem 1rem; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .db__filter:hover { color: #F7FAFC; border-color: rgba(144,205,244,0.4); }
+    .db__filter.is-active {
+      color: var(--lblue); border-color: var(--lblue);
+      background: rgba(144,205,244,0.06);
+      box-shadow: 0 0 12px rgba(144,205,244,0.1);
+    }
+
+    /* Masonry-style staggered grid */
+    .db__grid {
+      padding: 2.5rem 0 4rem; position: relative; z-index: 1;
+      columns: 4; column-gap: 1rem;
+    }
+    .db__card {
+      break-inside: avoid; margin-bottom: 1rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(144,205,244,0.08);
+      cursor: pointer; position: relative; overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .db__card:hover { border-color: rgba(144,205,244,0.3); }
+
+    /* Scan-line reveal on hover */
+    .db__card::before {
+      content: ""; position: absolute; top: -100%; left: 0; right: 0;
+      height: 100%; background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(144,205,244,0.04) 50%,
+        transparent 100%
+      );
+      transition: top 0.6s ease;
+      z-index: 2; pointer-events: none;
+    }
+    .db__card:hover::before { top: 100%; }
+
+    /* Corner brackets */
+    .db__card::after {
+      content: ""; position: absolute; inset: 4px;
+      border: 1px solid rgba(144,205,244,0);
+      pointer-events: none; transition: border-color 0.3s;
+    }
+    .db__card:hover::after { border-color: rgba(144,205,244,0.12); }
+
+    .db__card__img {
+      width: 100%;
+      background: linear-gradient(135deg, #0d1a2e, #111f35);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .db__card--tall .db__card__img { aspect-ratio: 2/3; }
+    .db__card--short .db__card__img { aspect-ratio: 4/3; }
+    .db__card--sq .db__card__img { aspect-ratio: 1; }
+
+    .db__card__img-saber {
+      opacity: 0.12; transition: opacity 0.35s;
+    }
+    .db__card:hover .db__card__img-saber { opacity: 0.25; }
+
+    .db__card__body { padding: 1rem; }
+    .db__card__id {
+      font-size: 0.5rem; letter-spacing: 0.3em; color: rgba(144,205,244,0.3);
+      text-transform: uppercase; margin-bottom: 0.4rem; font-family: "Crimson Pro", serif;
+    }
+    .db__card__name {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(247,250,252,0.8);
+      margin-bottom: 0.25rem; transition: color 0.2s;
+    }
+    .db__card:hover .db__card__name { color: var(--lblue); }
+    .db__card__type {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 0.8rem; color: rgba(247,250,252,0.3);
+    }
+    .db__card__footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 0.75rem; padding-top: 0.75rem;
+      border-top: 1px solid rgba(144,205,244,0.07);
+    }
+    .db__card__price { font-family: "Crimson Pro", serif; font-size: 0.95rem; color: var(--gold); }
+    .db__card__access {
+      font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(144,205,244,0.4); transition: color 0.2s;
+    }
+    .db__card:hover .db__card__access { color: var(--lblue); }
+
+
+    /* ═══════════════════════════════════════════════════
+       DESIGN C — "The Path"
+       Split-screen: left = changing atmospheric
+       location panel per selected category.
+       Right = product list. Location changes the
+       mood. Inspired by Jedi choosing their path.
+    ═══════════════════════════════════════════════════ */
+    .dc { background: var(--bg); }
+
+    .dc__hero {
+      background: var(--ink); padding: 2.5rem 0;
+      border-bottom: 1px solid rgba(144,205,244,0.1);
+    }
+    .dc__hero__eyebrow {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.55rem; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem;
+    }
+    .dc__hero__eyebrow::before { content: ""; width: 20px; height: 1px; background: var(--gold); opacity: 0.6; }
+    .dc__hero__title {
+      font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.5rem);
+      color: #F7FAFC; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .dc__hero__sub {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 1rem; color: rgba(247,250,252,0.45); margin-top: 0.4rem;
+    }
+
+    /* Split layout */
+    .dc__split {
+      display: grid; grid-template-columns: 340px 1fr;
+      min-height: 700px;
+    }
+
+    /* Left: location panel */
+    .dc__panel {
+      position: sticky; top: 0; height: 700px;
+      overflow: hidden; background: #080e1a;
+    }
+
+    /* Each category location */
+    .dc__location {
+      position: absolute; inset: 0;
+      opacity: 0; transition: opacity 0.8s ease;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 2rem;
+    }
+    .dc__location.is-active { opacity: 1; }
+
+    .dc__location--all {
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.18) 0%, transparent 55%),
+        linear-gradient(160deg, #1a1205, #2a1e08 40%, #0d1220);
+    }
+    .dc__location--sabers {
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(144,205,244,0.2) 0%, transparent 55%),
+        linear-gradient(160deg, #0a1220, #1a2a4a, #0d1b35);
+    }
+    .dc__location--figures {
+      background:
+        radial-gradient(ellipse at 60% 40%, rgba(56,161,105,0.15) 0%, transparent 50%),
+        linear-gradient(160deg, #0d1f1a, #1a2e20, #0d1b2a);
+    }
+    .dc__location--collectibles {
+      background:
+        radial-gradient(ellipse at 40% 30%, rgba(201,168,76,0.2) 0%, transparent 50%),
+        linear-gradient(160deg, #1a1408, #2a2010, #1a1a2e);
+    }
+
+    /* Atmospheric SVG illustration in panel */
+    .dc__location__art {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .dc__location__art svg { width: 65%; opacity: 0.07; }
+
+    .dc__location__tag {
+      position: relative; z-index: 1;
+    }
+    .dc__location__planet {
+      font-size: 0.5rem; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--gold); opacity: 0.7;
+      margin-bottom: 0.25rem;
+    }
+    .dc__location__name {
+      font-weight: 700; font-size: 1.6rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #F7FAFC; line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .dc__location__desc {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 0.85rem; color: rgba(247,250,252,0.45);
+    }
+    .dc__location__count {
+      margin-top: 1.25rem;
+      font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(247,250,252,0.25);
+    }
+    .dc__location__count strong { color: var(--gold); font-size: 1.5rem; letter-spacing: 0; display: block; }
+
+    /* Category nav in panel */
+    .dc__panel__nav {
+      position: absolute; top: 2rem; left: 0; right: 0;
+      padding: 0 2rem; z-index: 2;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .dc__panel__tab {
+      font-family: "Cinzel", serif; font-size: 0.58rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(247,250,252,0.35); background: none; border: none;
+      cursor: pointer; text-align: left; padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(247,250,252,0.06);
+      display: flex; align-items: center; gap: 0.75rem;
+      transition: color 0.2s;
+    }
+    .dc__panel__tab:hover { color: rgba(247,250,252,0.7); }
+    .dc__panel__tab.is-active { color: #F7FAFC; }
+    .dc__panel__tab.is-active::before {
+      content: ""; width: 3px; height: 3px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+      box-shadow: 0 0 6px var(--gold);
+    }
+    .dc__panel__tab:not(.is-active)::before {
+      content: ""; width: 3px; height: 3px; border-radius: 50%;
+      background: rgba(247,250,252,0.15); flex-shrink: 0;
+    }
+    .dc__panel__tab-count { margin-left: auto; color: rgba(247,250,252,0.2); font-size: 0.5rem; }
+
+    /* Right: product list — tall single-column on left, 2-col on right */
+    .dc__products { padding: 2rem 2rem; background: var(--bg); }
+    .dc__products__toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem; padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(43,108,176,0.1);
+    }
+    .dc__products__count {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 0.9rem; color: #718096;
+    }
+    .dc__products__view {
+      display: flex; gap: 0.35rem;
+    }
+    .dc__view-btn {
+      padding: 0.3rem 0.5rem; background: none;
+      border: 1px solid rgba(43,108,176,0.15);
+      color: #9aa5b4; cursor: pointer; font-size: 0.7rem;
+      transition: all 0.2s;
+    }
+    .dc__view-btn.is-active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    /* Two-column product list */
+    .dc__products__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* List-style card — horizontal */
+    .dc__product-row {
+      display: grid; grid-template-columns: 100px 1fr;
+      border: 1px solid rgba(43,108,176,0.1);
+      text-decoration: none; cursor: pointer;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      background: #fff;
+    }
+    .dc__product-row:hover {
+      border-color: var(--blue);
+      box-shadow: 0 2px 16px rgba(43,108,176,0.08);
+    }
+    .dc__product-row__img {
+      background: linear-gradient(135deg, #e8f0ff, #dce8f5);
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .dc__product-row__img svg { width: 32px; height: 60px; opacity: 0.25; }
+    .dc__product-row__info {
+      padding: 0.85rem; display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .dc__product-row__name {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--ink); transition: color 0.2s;
+    }
+    .dc__product-row:hover .dc__product-row__name { color: var(--blue); }
+    .dc__product-row__type {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 0.78rem; color: #718096; margin-top: 0.15rem;
+    }
+    .dc__product-row__bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 0.5rem;
+    }
+    .dc__product-row__price { font-family: "Crimson Pro", serif; font-size: 0.95rem; color: var(--ink); }
+    .dc__product-row__arrow {
+      font-size: 0.65rem; color: var(--blue);
+      opacity: 0; transform: translateX(-4px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .dc__product-row:hover .dc__product-row__arrow { opacity: 1; transform: translateX(0); }
+
+    /* Featured tall card spanning rows */
+    .dc__product-featured {
+      grid-row: span 3; border: 1px solid rgba(43,108,176,0.12);
+      display: flex; flex-direction: column; cursor: pointer;
+      text-decoration: none; background: #fff;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .dc__product-featured:hover {
+      border-color: var(--blue); box-shadow: 0 4px 24px rgba(43,108,176,0.1);
+    }
+    .dc__product-featured__img {
+      flex: 1; background: linear-gradient(135deg, #e8f0ff, #dce8f5);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .dc__product-featured__img svg { width: 60px; height: 120px; opacity: 0.2; }
+    .dc__product-featured__badge {
+      position: absolute; top: 1rem; left: 1rem;
+      font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase;
+      background: var(--gold); color: #1A1A2E; padding: 0.2rem 0.5rem; font-weight: 700;
+    }
+    .dc__product-featured__info { padding: 1.25rem; border-top: 1px solid rgba(43,108,176,0.08); }
+    .dc__product-featured__label {
+      font-size: 0.5rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.4rem;
+    }
+    .dc__product-featured__name {
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink); margin-bottom: 0.3rem;
+      transition: color 0.2s;
+    }
+    .dc__product-featured:hover .dc__product-featured__name { color: var(--blue); }
+    .dc__product-featured__type {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 0.85rem; color: #718096; margin-bottom: 0.75rem;
+    }
+    .dc__product-featured__footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .dc__product-featured__price { font-family: "Crimson Pro", serif; font-size: 1.1rem; color: var(--ink); }
+    .dc__product-featured__btn {
+      font-family: "Cinzel", serif; font-size: 0.55rem; letter-spacing: 0.2em;
+      text-transform: uppercase; background: var(--blue); color: #fff;
+      border: none; padding: 0.5rem 0.9rem; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .dc__product-featured:hover .dc__product-featured__btn { background: var(--dark); }
+
+    /* ═══════════════════════════════════════════════════
+       DESIGN D — "The Temple Walk"
+       Full-width cinematic alternating strips.
+    ═══════════════════════════════════════════════════ */
+    .dd { background: var(--bg); }
+
+    .dd__header {
+      background: var(--ink); padding: 3rem 0 2rem;
+      border-bottom: 1px solid rgba(144,205,244,0.1);
+    }
+    .dd__header__inner {
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+    }
+    .dd__eyebrow {
+      font-size: 0.55rem; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.6rem;
+    }
+    .dd__title {
+      font-weight: 700; font-size: clamp(1.8rem, 3.5vw, 3rem);
+      color: #F7FAFC; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .dd__sub {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 1rem; color: rgba(247,250,252,0.45); margin-top: 0.4rem;
+    }
+    .dd__header__filters {
+      display: flex; gap: 0.4rem; flex-shrink: 0;
+    }
+    .dd__filter {
+      font-family: "Cinzel", serif; font-size: 0.55rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(247,250,252,0.4); background: none;
+      border: 1px solid rgba(144,205,244,0.15);
+      padding: 0.4rem 0.9rem; cursor: pointer; transition: all 0.2s;
+    }
+    .dd__filter:hover { color: #F7FAFC; border-color: rgba(144,205,244,0.4); }
+    .dd__filter.is-active {
+      color: #F7FAFC; border-color: var(--blue);
+      background: rgba(43,108,176,0.12);
+    }
+
+    .dd__bar {
+      background: var(--bg); border-bottom: 1px solid rgba(43,108,176,0.1);
+      padding: 0.8rem 0;
+    }
+    .dd__bar__inner {
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .dd__bar__count {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 0.85rem; color: #9aa5b4; white-space: nowrap;
+    }
+    .dd__bar__line {
+      flex: 1; height: 1px;
+      background: rgba(43,108,176,0.1);
+    }
+    .dd__bar__sort {
+      font-family: "Cinzel", serif; font-size: 0.55rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: #9aa5b4; white-space: nowrap; cursor: pointer;
+    }
+
+    /* Full-width strip */
+    .dd__strip {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 360px;
+      border-bottom: 1px solid rgba(43,108,176,0.07);
+      transition: background 0.3s;
+    }
+    .dd__strip:hover { background: rgba(43,108,176,0.015); }
+    .dd__strip--flip { direction: rtl; }
+    .dd__strip--flip > * { direction: ltr; }
+
+    /* Image panel */
+    .dd__strip__img {
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 320px;
+    }
+    .dd__strip__img--blue {
+      background: linear-gradient(135deg, #0a1628, #1a2a4a, #0d1b35);
+    }
+    .dd__strip__img--blue::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(144,205,244,0.15) 0%, transparent 60%);
+    }
+    .dd__strip__img--green {
+      background: linear-gradient(135deg, #0d1f1a, #1a3028, #0d2018);
+    }
+    .dd__strip__img--green::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(56,161,105,0.15) 0%, transparent 60%);
+    }
+    .dd__strip__img--purple {
+      background: linear-gradient(135deg, #150d28, #251540, #150d28);
+    }
+    .dd__strip__img--purple::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(159,122,234,0.15) 0%, transparent 60%);
+    }
+    .dd__strip__img--gold {
+      background: linear-gradient(135deg, #1a1205, #2a1e08, #1a1208);
+    }
+    .dd__strip__img--gold::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(201,168,76,0.15) 0%, transparent 60%);
+    }
+
+    .dd__strip__saber {
+      width: 28px; height: 180px;
+      position: relative; z-index: 1;
+      filter: drop-shadow(0 0 12px currentColor);
+      transition: transform 0.5s ease, filter 0.5s;
+    }
+    .dd__strip:hover .dd__strip__saber {
+      transform: translateY(-8px);
+      filter: drop-shadow(0 0 24px currentColor) brightness(1.3);
+    }
+
+    .dd__strip__badge {
+      position: absolute; bottom: 1.25rem; left: 1.25rem;
+      font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase;
+      background: var(--blue); color: #fff;
+      padding: 0.25rem 0.6rem; font-weight: 700; font-family: "Cinzel", serif;
+      z-index: 2;
+    }
+    .dd__strip__badge--gold { background: var(--gold); color: #1A1A2E; }
+
+    /* Info panel */
+    .dd__strip__info {
+      padding: 3rem 3.5rem; display: flex; flex-direction: column;
+      justify-content: center; gap: 1rem; background: var(--bg);
+    }
+    .dd__strip__meta {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .dd__strip__num {
+      font-size: 2.5rem; font-weight: 700; line-height: 1;
+      color: rgba(43,108,176,0.12); letter-spacing: -0.02em;
+    }
+    .dd__strip__type {
+      font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .dd__strip__name {
+      font-weight: 700; font-size: clamp(1.3rem, 2.5vw, 2rem);
+      color: var(--ink); letter-spacing: 0.08em; text-transform: uppercase;
+      line-height: 1.1; transition: color 0.2s;
+    }
+    .dd__strip:hover .dd__strip__name { color: var(--blue); }
+    .dd__strip__desc {
+      font-family: "Crimson Pro", serif; font-style: italic;
+      font-size: 1.05rem; color: #4A5568; line-height: 1.7;
+      max-width: 420px;
+    }
+    .dd__strip__footer {
+      display: flex; align-items: center; gap: 2rem; margin-top: 0.5rem;
+    }
+    .dd__strip__price {
+      font-family: "Crimson Pro", serif; font-size: 1.3rem; color: var(--ink);
+    }
+    .dd__strip__btn {
+      font-family: "Cinzel", serif; font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none;
+      color: var(--blue); border-bottom: 1px solid rgba(43,108,176,0.3);
+      padding-bottom: 2px; transition: color 0.2s, border-color 0.2s, letter-spacing 0.3s;
+    }
+    .dd__strip__btn:hover {
+      color: var(--dark); border-color: var(--dark); letter-spacing: 0.25em;
+    }
+
+    /* Inline divider */
+    .dd__divider {
+      padding: 0.5rem 0; background: var(--bg);
+    }
+    .dd__divider__inner {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .dd__divider__line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(43,108,176,0.2));
+    }
+    .dd__divider__line--r {
+      background: linear-gradient(to left, transparent, rgba(43,108,176,0.2));
+    }
+    .dd__divider__hilt svg { width: 10px; height: 52px; display: block; }
+
+    /* Load more */
+    .dd__load-more { padding: 2.5rem 0; background: var(--bg); }
+    .dd__load-more__inner {
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .dd__load-more__line {
+      flex: 1; height: 1px; background: rgba(43,108,176,0.1);
+    }
+    .dd__load-more__btn {
+      font-family: "Cinzel", serif; font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap;
+      color: var(--ink); background: none;
+      border: 1.5px solid rgba(43,108,176,0.25);
+      padding: 0.75rem 2rem; cursor: pointer;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+    }
+    .dd__load-more__btn:hover {
+      background: var(--blue); color: #fff; border-color: var(--blue);
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ════════ DESIGN A ════════ -->
+<div class="design-label">
+  Design A (Confirmed)
+  <strong>The Archive — Sidebar Filter + Council Chamber Banner</strong>
+  <em>Background: Jedi Council chamber, Coruscant Temple — where Anakin was denied the rank of Master.</em>
+</div>
+
+<div class="da">
+  <div class="da__banner">
+    <!-- Council chamber arch windows -->
+    <div class="da__banner__arches">
+      <div class="da__banner__arch" style="width:180px;height:280px"></div>
+      <div class="da__banner__arch" style="width:160px;height:260px"></div>
+      <div class="da__banner__arch" style="width:200px;height:300px"></div>
+      <div class="da__banner__arch" style="width:160px;height:260px"></div>
+      <div class="da__banner__arch" style="width:180px;height:280px"></div>
+    </div>
+    <div class="da__banner__overlay"></div>
+    <div class="da__banner__content">
+      <div class="gf-inner">
+        <p class="da__banner__eyebrow">Light Side Collection</p>
+        <h1 class="da__banner__title">The Archive</h1>
+        <p class="da__banner__sub">Every artifact. Every path. Every legacy.</p>
+      </div>
+    </div>
+    <p class="da__banner__prompt">Image prompt: "Jedi council chamber Coruscant Temple interior, circular room, tall arched windows, golden hour light shafts, empty seats, cinematic Star Wars, warm amber, photorealistic"</p>
+  </div>
+
+  <div class="gf-inner">
+    <div class="da__body">
+      <aside class="da__sidebar">
+        <div class="da__filter-group">
+          <p class="da__filter-title">Category</p>
+          <ul class="da__filter-options">
+            <li class="da__filter-opt is-active">All <span class="da__filter-count">48</span></li>
+            <li class="da__filter-opt">Lightsabers <span class="da__filter-count">18</span></li>
+            <li class="da__filter-opt">Figures <span class="da__filter-count">22</span></li>
+            <li class="da__filter-opt">Collectibles <span class="da__filter-count">8</span></li>
+          </ul>
+        </div>
+        <div class="da__filter-group">
+          <p class="da__filter-title">Price Range</p>
+          <div class="da__price-range"></div>
+          <div class="da__price-labels"><span>$0</span><span>$500</span></div>
+        </div>
+        <div class="da__filter-group">
+          <p class="da__filter-title">Era</p>
+          <ul class="da__filter-options">
+            <li class="da__filter-opt">Clone Wars <span class="da__filter-count">14</span></li>
+            <li class="da__filter-opt">Galactic Republic <span class="da__filter-count">9</span></li>
+            <li class="da__filter-opt">Old Republic <span class="da__filter-count">7</span></li>
+          </ul>
+        </div>
+      </aside>
+      <div class="da__grid-area">
+        <div class="da__toolbar">
+          <p class="da__result-count">48 artifacts found</p>
+          <button class="da__sort">Sort: Featured ▾</button>
+        </div>
+        <div class="da__grid">
+          <div class="da__card"><div class="da__card__img">Product<div class="da__card__badge">New</div></div><div class="da__card__info"><p class="da__card__name">Obi-Wan's Hilt</p><p class="da__card__type">Lightsaber Replica</p></div><div class="da__card__footer"><span class="da__card__price">$249.99</span><button class="da__card__btn">View</button></div></div>
+          <div class="da__card"><div class="da__card__img">Product</div><div class="da__card__info"><p class="da__card__name">Yoda Figure</p><p class="da__card__type">Collector Figure</p></div><div class="da__card__footer"><span class="da__card__price">$89.99</span><button class="da__card__btn">View</button></div></div>
+          <div class="da__card"><div class="da__card__img">Product<div class="da__card__badge">Limited</div></div><div class="da__card__info"><p class="da__card__name">Council Seal</p><p class="da__card__type">Collectible</p></div><div class="da__card__footer"><span class="da__card__price">$129.99</span><button class="da__card__btn">View</button></div></div>
+          <div class="da__card"><div class="da__card__img">Product</div><div class="da__card__info"><p class="da__card__name">Mace Windu's Hilt</p><p class="da__card__type">Lightsaber Replica</p></div><div class="da__card__footer"><span class="da__card__price">$219.99</span><button class="da__card__btn">View</button></div></div>
+          <div class="da__card"><div class="da__card__img">Product</div><div class="da__card__info"><p class="da__card__name">R2-D2 Unit</p><p class="da__card__type">Collector Figure</p></div><div class="da__card__footer"><span class="da__card__price">$49.99</span><button class="da__card__btn">View</button></div></div>
+          <div class="da__card"><div class="da__card__img">Product</div><div class="da__card__info"><p class="da__card__name">Temple Guard</p><p class="da__card__type">Collector Figure</p></div><div class="da__card__footer"><span class="da__card__price">$79.99</span><button class="da__card__btn">View</button></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ════════ DESIGN B ════════ -->
+<div class="design-label">
+  Design B — New
+  <strong>The Holocron — Dark Jedi Archives Terminal</strong>
+  <em>Masonry staggered grid. Cards scan-reveal on hover like pulling records from the Jedi Archives database.</em>
+</div>
+
+<div class="db">
+  <div class="db__header">
+    <div class="gf-inner">
+      <div class="db__terminal-bar">
+        <div class="db__terminal-bar__inner">
+          <div class="db__terminal-dot"></div>
+          <div class="db__terminal-dot"></div>
+          <div class="db__terminal-dot"></div>
+          <span class="db__terminal-text">Jedi Archives — Record Retrieval Interface v4.7</span>
+          <span class="db__terminal-status">● System Active</span>
+        </div>
+      </div>
+      <p class="db__eyebrow">Light Side Collection</p>
+      <h1 class="db__title">The Holocron <span class="db__title-accent">/ Archives</span></h1>
+      <p class="db__sub">Access restricted. Jedi clearance required. Browsing 48 classified artifacts.</p>
+      <div class="db__filters">
+        <button class="db__filter is-active">All Records</button>
+        <button class="db__filter">Lightsabers</button>
+        <button class="db__filter">Figures</button>
+        <button class="db__filter">Collectibles</button>
+        <button class="db__filter">Under &#x20;$100</button>
+        <button class="db__filter">Limited Edition</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="gf-inner">
+    <div class="db__grid">
+      <!-- Tall -->
+      <div class="db__card db__card--tall">
+        <div class="db__card__img"><svg class="db__card__img-saber" width="20" height="140" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#90CDF4"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#90CDF4"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+        <div class="db__card__body"><p class="db__card__id">RECORD #JA-0041</p><p class="db__card__name">Obi-Wan's Hilt</p><p class="db__card__type">Episode III Replica</p><div class="db__card__footer"><span class="db__card__price">$249.99</span><span class="db__card__access">Access →</span></div></div>
+      </div>
+      <!-- Short -->
+      <div class="db__card db__card--short">
+        <div class="db__card__img"><svg class="db__card__img-saber" width="20" height="100" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#38A169"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#38A169"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+        <div class="db__card__body"><p class="db__card__id">RECORD #JA-0019</p><p class="db__card__name">Yoda Figure</p><p class="db__card__type">Collector Grade</p><div class="db__card__footer"><span class="db__card__price">$89.99</span><span class="db__card__access">Access →</span></div></div>
+      </div>
+      <!-- Square -->
+      <div class="db__card db__card--sq">
+        <div class="db__card__img"><svg class="db__card__img-saber" width="20" height="110" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#C9A84C"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#C9A84C"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+        <div class="db__card__body"><p class="db__card__id">RECORD #JA-0007</p><p class="db__card__name">Council Seal</p><p class="db__card__type">Collectible</p><div class="db__card__footer"><span class="db__card__price">$129.99</span><span class="db__card__access">Access →</span></div></div>
+      </div>
+      <!-- Short -->
+      <div class="db__card db__card--short">
+        <div class="db__card__img"><svg class="db__card__img-saber" width="20" height="100" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#9F7AEA"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#9F7AEA"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+        <div class="db__card__body"><p class="db__card__id">RECORD #JA-0033</p><p class="db__card__name">Mace Windu's Hilt</p><p class="db__card__type">Purple Crystal</p><div class="db__card__footer"><span class="db__card__price">$219.99</span><span class="db__card__access">Access →</span></div></div>
+      </div>
+      <!-- Tall -->
+      <div class="db__card db__card--tall">
+        <div class="db__card__img"><svg class="db__card__img-saber" width="20" height="140" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#90CDF4"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#90CDF4"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+        <div class="db__card__body"><p class="db__card__id">RECORD #JA-0055</p><p class="db__card__name">Kyber Crystal Set</p><p class="db__card__type">Raw / Uncut</p><div class="db__card__footer"><span class="db__card__price">$59.99</span><span class="db__card__access">Access →</span></div></div>
+      </div>
+      <!-- Sq -->
+      <div class="db__card db__card--sq">
+        <div class="db__card__img"><svg class="db__card__img-saber" width="20" height="110" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#38A169"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#38A169"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+        <div class="db__card__body"><p class="db__card__id">RECORD #JA-0022</p><p class="db__card__name">Temple Guard</p><p class="db__card__type">Collector Figure</p><div class="db__card__footer"><span class="db__card__price">$79.99</span><span class="db__card__access">Access →</span></div></div>
+      </div>
+      <!-- Short -->
+      <div class="db__card db__card--short">
+        <div class="db__card__img"><svg class="db__card__img-saber" width="20" height="100" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#C9A84C"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#C9A84C"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+        <div class="db__card__body"><p class="db__card__id">RECORD #JA-0011</p><p class="db__card__name">R2-D2 Unit</p><p class="db__card__type">Astromech Replica</p><div class="db__card__footer"><span class="db__card__price">$49.99</span><span class="db__card__access">Access →</span></div></div>
+      </div>
+      <!-- Tall -->
+      <div class="db__card db__card--tall">
+        <div class="db__card__img"><svg class="db__card__img-saber" width="20" height="140" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#90CDF4"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#90CDF4"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+        <div class="db__card__body"><p class="db__card__id">RECORD #JA-0048</p><p class="db__card__name">Order Medallion</p><p class="db__card__type">Limited Edition</p><div class="db__card__footer"><span class="db__card__price">$39.99</span><span class="db__card__access">Access →</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ════════ DESIGN C ════════ -->
+<div class="design-label">
+  Design C — New
+  <strong>The Path — Sticky Location Panel + Product List</strong>
+  <em>Left panel = atmospheric Jedi location that changes per category. Right = product list. Like choosing your path through the Force.</em>
+</div>
+
+<div class="dc">
+  <div class="dc__hero">
+    <div class="gf-inner">
+      <p class="dc__hero__eyebrow">Light Side Collection</p>
+      <h1 class="dc__hero__title">Choose Your Path</h1>
+      <p class="dc__hero__sub">Every artifact is a step on the journey. Where does yours begin?</p>
+    </div>
+  </div>
+
+  <div class="dc__split">
+
+    <!-- Left sticky panel -->
+    <div class="dc__panel">
+
+      <!-- Category nav -->
+      <div class="dc__panel__nav">
+        <button class="dc__panel__tab is-active" data-loc="all">All Artifacts <span class="dc__panel__tab-count">48</span></button>
+        <button class="dc__panel__tab" data-loc="sabers">Lightsabers <span class="dc__panel__tab-count">18</span></button>
+        <button class="dc__panel__tab" data-loc="figures">Figures <span class="dc__panel__tab-count">22</span></button>
+        <button class="dc__panel__tab" data-loc="collectibles">Collectibles <span class="dc__panel__tab-count">8</span></button>
+      </div>
+
+      <!-- Locations -->
+      <div class="dc__location dc__location--all is-active" data-location="all">
+        <div class="dc__location__art">
+          <svg viewBox="0 0 200 200" fill="rgba(255,255,255,1)">
+            <ellipse cx="100" cy="22" rx="6" ry="9"/>
+            <path d="M97 16 L103 16 L104 184 L100 192 L96 184 Z"/>
+            <path d="M100 58 C78 44 42 46 16 60 C42 54 76 64 100 78 Z"/>
+            <path d="M100 58 C122 44 158 46 184 60 C158 54 124 64 100 78 Z"/>
+          </svg>
+        </div>
+        <div class="dc__location__tag">
+          <p class="dc__location__planet">Collection</p>
+          <h3 class="dc__location__name">Full Archive</h3>
+          <p class="dc__location__desc">All Light Side artifacts</p>
+          <div class="dc__location__count"><strong>48</strong>Relics available</div>
+        </div>
+      </div>
+
+      <div class="dc__location dc__location--sabers" data-location="sabers">
+        <div class="dc__location__art">
+          <svg viewBox="0 0 200 200" fill="rgba(144,205,244,1)">
+            <ellipse cx="100" cy="22" rx="6" ry="9"/>
+            <path d="M97 16 L103 16 L104 184 L100 192 L96 184 Z"/>
+            <path d="M100 58 C78 44 42 46 16 60 C42 54 76 64 100 78 Z"/>
+            <path d="M100 58 C122 44 158 46 184 60 C158 54 124 64 100 78 Z"/>
+          </svg>
+        </div>
+        <div class="dc__location__tag">
+          <p class="dc__location__planet">Planet — Coruscant</p>
+          <h3 class="dc__location__name">Lightsabers</h3>
+          <p class="dc__location__desc">The weapon of a Jedi Knight</p>
+          <div class="dc__location__count"><strong>18</strong>Hilts in the Archive</div>
+        </div>
+      </div>
+
+      <div class="dc__location dc__location--figures" data-location="figures">
+        <div class="dc__location__art">
+          <svg viewBox="0 0 200 200" fill="rgba(56,161,105,1)">
+            <ellipse cx="100" cy="160" rx="70" ry="18"/>
+            <ellipse cx="100" cy="145" rx="50" ry="13"/>
+            <rect x="85" y="80" width="30" height="55" rx="3"/>
+            <rect x="92" y="60" width="16" height="25" rx="2"/>
+            <polygon points="100,40 108,60 92,60"/>
+          </svg>
+        </div>
+        <div class="dc__location__tag">
+          <p class="dc__location__planet">Planet — Ahch-To</p>
+          <h3 class="dc__location__name">Figures</h3>
+          <p class="dc__location__desc">Every hero of the Republic</p>
+          <div class="dc__location__count"><strong>22</strong>Figures in the Archive</div>
+        </div>
+      </div>
+
+      <div class="dc__location dc__location--collectibles" data-location="collectibles">
+        <div class="dc__location__art">
+          <svg viewBox="0 0 200 200" fill="rgba(201,168,76,1)">
+            <polygon points="100,30 120,80 80,80"/>
+            <rect x="60" y="90" width="80" height="70" rx="2"/>
+            <rect x="75" y="110" width="12" height="50" rx="1"/>
+            <rect x="113" y="110" width="12" height="50" rx="1"/>
+          </svg>
+        </div>
+        <div class="dc__location__tag">
+          <p class="dc__location__planet">Moon — Jedha</p>
+          <h3 class="dc__location__name">Collectibles</h3>
+          <p class="dc__location__desc">Kyber relics from the holy city</p>
+          <div class="dc__location__count"><strong>8</strong>Rare pieces available</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right product list -->
+    <div class="dc__products">
+      <div class="dc__products__toolbar">
+        <p class="dc__products__count">Showing 48 artifacts</p>
+        <div class="dc__products__view">
+          <button class="dc__view-btn is-active">▦</button>
+          <button class="dc__view-btn">≡</button>
+        </div>
+      </div>
+
+      <div class="dc__products__grid">
+
+        <!-- Featured tall card -->
+        <a href="#" class="dc__product-featured">
+          <div class="dc__product-featured__img">
+            <svg width="60" height="120" viewBox="0 0 40 200" fill="none">
+              <ellipse cx="20" cy="8" rx="3" ry="5" fill="#90CDF4" opacity="0.6"/>
+              <rect x="17" y="8" width="6" height="112" rx="3" fill="#90CDF4" opacity="0.6"/>
+              <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+              <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+              <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+            </svg>
+            <div class="dc__product-featured__badge">Staff Pick</div>
+          </div>
+          <div class="dc__product-featured__info">
+            <p class="dc__product-featured__label">Featured Relic</p>
+            <p class="dc__product-featured__name">Obi-Wan Kenobi's Hilt</p>
+            <p class="dc__product-featured__type">Episode III — Master's Replica</p>
+            <div class="dc__product-featured__footer">
+              <span class="dc__product-featured__price">$249.99</span>
+              <button class="dc__product-featured__btn">View Relic</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- Right column: horizontal list cards -->
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <a href="#" class="dc__product-row">
+            <div class="dc__product-row__img"><svg width="20" height="50" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#38A169"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#38A169"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+            <div class="dc__product-row__info"><div><p class="dc__product-row__name">Yoda Figure</p><p class="dc__product-row__type">Grand Master Series</p></div><div class="dc__product-row__bottom"><span class="dc__product-row__price">$89.99</span><span class="dc__product-row__arrow">→</span></div></div>
+          </a>
+          <a href="#" class="dc__product-row">
+            <div class="dc__product-row__img"><svg width="20" height="50" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#9F7AEA"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#9F7AEA"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+            <div class="dc__product-row__info"><div><p class="dc__product-row__name">Mace Windu's Hilt</p><p class="dc__product-row__type">Purple Crystal Replica</p></div><div class="dc__product-row__bottom"><span class="dc__product-row__price">$219.99</span><span class="dc__product-row__arrow">→</span></div></div>
+          </a>
+          <a href="#" class="dc__product-row">
+            <div class="dc__product-row__img"><svg width="20" height="50" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#C9A84C"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#C9A84C"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+            <div class="dc__product-row__info"><div><p class="dc__product-row__name">Jedi Council Seal</p><p class="dc__product-row__type">Limited Collectible</p></div><div class="dc__product-row__bottom"><span class="dc__product-row__price">$129.99</span><span class="dc__product-row__arrow">→</span></div></div>
+          </a>
+          <a href="#" class="dc__product-row">
+            <div class="dc__product-row__img"><svg width="20" height="50" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#90CDF4"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#90CDF4"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+            <div class="dc__product-row__info"><div><p class="dc__product-row__name">R2-D2 Unit</p><p class="dc__product-row__type">Astromech Replica</p></div><div class="dc__product-row__bottom"><span class="dc__product-row__price">$49.99</span><span class="dc__product-row__arrow">→</span></div></div>
+          </a>
+          <a href="#" class="dc__product-row">
+            <div class="dc__product-row__img"><svg width="20" height="50" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#38A169"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#38A169"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+            <div class="dc__product-row__info"><div><p class="dc__product-row__name">Temple Guard</p><p class="dc__product-row__type">Collector Figure</p></div><div class="dc__product-row__bottom"><span class="dc__product-row__price">$79.99</span><span class="dc__product-row__arrow">→</span></div></div>
+          </a>
+          <a href="#" class="dc__product-row">
+            <div class="dc__product-row__img"><svg width="20" height="50" viewBox="0 0 40 200" fill="none"><ellipse cx="20" cy="8" rx="3" ry="5" fill="#C9A84C"/><rect x="17" y="8" width="6" height="112" rx="3" fill="#C9A84C"/><rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/><rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/><ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/></svg></div>
+            <div class="dc__product-row__info"><div><p class="dc__product-row__name">Kyber Crystal Set</p><p class="dc__product-row__type">Raw / Uncut</p></div><div class="dc__product-row__bottom"><span class="dc__product-row__price">$59.99</span><span class="dc__product-row__arrow">→</span></div></div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Design C — location panel switching
+  document.querySelectorAll(".dc__panel__tab").forEach(function(tab) {
+    tab.addEventListener("click", function() {
+      document.querySelectorAll(".dc__panel__tab").forEach(function(t) { t.classList.remove("is-active"); });
+      document.querySelectorAll(".dc__location").forEach(function(l) { l.classList.remove("is-active"); });
+      tab.classList.add("is-active");
+      document.querySelector(".dc__location[data-location='" + tab.dataset.loc + "']").classList.add("is-active");
+    });
+  });
+</script>
+
+
+<hr class="sep"/>
+
+<div class="design-label">
+  Design D — New
+  <strong>The Temple Walk — Cinematic Scroll Strips</strong>
+  <em>Each product is a full-width cinematic band. Alternating image/text sides. Like moving through rooms of the Jedi Temple.</em>
+</div>
+
+<div class="dd">
+
+  <!-- Header -->
+  <div class="dd__header">
+    <div class="gf-inner">
+      <div class="dd__header__inner">
+        <div>
+          <p class="dd__eyebrow">Light Side Collection</p>
+          <h1 class="dd__title">The Temple Walk</h1>
+          <p class="dd__sub">Move through the archive at your own pace. Each relic tells a story.</p>
+        </div>
+        <div class="dd__header__filters">
+          <button class="dd__filter is-active">All</button>
+          <button class="dd__filter">Lightsabers</button>
+          <button class="dd__filter">Figures</button>
+          <button class="dd__filter">Collectibles</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Count bar -->
+  <div class="dd__bar">
+    <div class="gf-inner">
+      <div class="dd__bar__inner">
+        <p class="dd__bar__count">48 artifacts in the collection</p>
+        <div class="dd__bar__line"></div>
+        <p class="dd__bar__sort">Sort: Featured</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product strips -->
+
+  <!-- Strip 1 — image left -->
+  <div class="dd__strip">
+    <div class="dd__strip__img dd__strip__img--blue">
+      <svg class="dd__strip__saber" viewBox="0 0 40 200" fill="none">
+        <ellipse cx="20" cy="8" rx="3" ry="5" fill="#90CDF4"/>
+        <rect x="17" y="8" width="6" height="112" rx="3" fill="#90CDF4"/>
+        <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+        <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+        <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+        <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+      </svg>
+      <div class="dd__strip__badge">Staff Pick</div>
+    </div>
+    <div class="dd__strip__info">
+      <div class="dd__strip__meta">
+        <span class="dd__strip__num">01</span>
+        <span class="dd__strip__type">Lightsaber Replica</span>
+      </div>
+      <h2 class="dd__strip__name">Obi-Wan Kenobi's Hilt</h2>
+      <p class="dd__strip__desc">The weapon carried by the Old Ben through the Clone Wars and into exile on Tatooine. Hand-finished grip, weighted pommel.</p>
+      <div class="dd__strip__footer">
+        <span class="dd__strip__price">$249.99</span>
+        <a href="#" class="dd__strip__btn">View Relic →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="dd__divider"><div class="gf-inner"><div class="dd__divider__inner"><div class="dd__divider__line"></div><div class="dd__divider__hilt"><svg viewBox="0 0 40 200" fill="none"><rect x="6" y="0" width="28" height="6" rx="2" fill="rgba(43,108,176,0.45)"/><rect x="14" y="6" width="12" height="52" rx="2" fill="rgba(74,85,104,0.5)"/><rect x="12" y="17" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)"/><rect x="12" y="30" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)"/><rect x="12" y="43" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)"/><ellipse cx="20" cy="63" rx="9" ry="5" fill="rgba(85,85,85,0.4)"/></svg></div><div class="dd__divider__line dd__divider__line--r"></div></div></div></div>
+
+  <!-- Strip 2 — info left, image right -->
+  <div class="dd__strip dd__strip--flip">
+    <div class="dd__strip__info">
+      <div class="dd__strip__meta">
+        <span class="dd__strip__num">02</span>
+        <span class="dd__strip__type">Collector Figure</span>
+      </div>
+      <h2 class="dd__strip__name">Grand Master Yoda</h2>
+      <p class="dd__strip__desc">Nine hundred years of wisdom, captured in meticulous detail. Limited run of 500. Certificate of authenticity included.</p>
+      <div class="dd__strip__footer">
+        <span class="dd__strip__price">$89.99</span>
+        <a href="#" class="dd__strip__btn">View Relic →</a>
+      </div>
+    </div>
+    <div class="dd__strip__img dd__strip__img--green">
+      <svg class="dd__strip__saber" viewBox="0 0 40 200" fill="none">
+        <ellipse cx="20" cy="8" rx="3" ry="5" fill="#38A169"/>
+        <rect x="17" y="8" width="6" height="112" rx="3" fill="#38A169"/>
+        <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+        <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+        <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+        <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+      </svg>
+      <div class="dd__strip__badge dd__strip__badge--gold">Limited — 500</div>
+    </div>
+  </div>
+
+  <div class="dd__divider"><div class="gf-inner"><div class="dd__divider__inner"><div class="dd__divider__line"></div><div class="dd__divider__hilt"><svg viewBox="0 0 40 200" fill="none"><rect x="6" y="0" width="28" height="6" rx="2" fill="rgba(43,108,176,0.45)"/><rect x="14" y="6" width="12" height="52" rx="2" fill="rgba(74,85,104,0.5)"/><rect x="12" y="17" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)"/><rect x="12" y="30" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)"/><rect x="12" y="43" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)"/><ellipse cx="20" cy="63" rx="9" ry="5" fill="rgba(85,85,85,0.4)"/></svg></div><div class="dd__divider__line dd__divider__line--r"></div></div></div></div>
+
+  <!-- Strip 3 — image left -->
+  <div class="dd__strip">
+    <div class="dd__strip__img dd__strip__img--purple">
+      <svg class="dd__strip__saber" viewBox="0 0 40 200" fill="none">
+        <ellipse cx="20" cy="8" rx="3" ry="5" fill="#9F7AEA"/>
+        <rect x="17" y="8" width="6" height="112" rx="3" fill="#9F7AEA"/>
+        <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+        <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+        <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+        <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+      </svg>
+    </div>
+    <div class="dd__strip__info">
+      <div class="dd__strip__meta">
+        <span class="dd__strip__num">03</span>
+        <span class="dd__strip__type">Lightsaber Replica</span>
+      </div>
+      <h2 class="dd__strip__name">Mace Windu's Hilt</h2>
+      <p class="dd__strip__desc">One of a kind in the Order — an amethyst kyber crystal, a weapon that reflects the wielder's mastery of Vaapad.</p>
+      <div class="dd__strip__footer">
+        <span class="dd__strip__price">$219.99</span>
+        <a href="#" class="dd__strip__btn">View Relic →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dd__divider"><div class="gf-inner"><div class="dd__divider__inner"><div class="dd__divider__line"></div><div class="dd__divider__hilt"><svg viewBox="0 0 40 200" fill="none"><rect x="6" y="0" width="28" height="6" rx="2" fill="rgba(43,108,176,0.45)"/><rect x="14" y="6" width="12" height="52" rx="2" fill="rgba(74,85,104,0.5)"/><rect x="12" y="17" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)"/><rect x="12" y="30" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)"/><rect x="12" y="43" width="16" height="2.5" rx="1" fill="rgba(153,153,153,0.45)"/><ellipse cx="20" cy="63" rx="9" ry="5" fill="rgba(85,85,85,0.4)"/></svg></div><div class="dd__divider__line dd__divider__line--r"></div></div></div></div>
+
+  <!-- Strip 4 — info left -->
+  <div class="dd__strip dd__strip--flip">
+    <div class="dd__strip__info">
+      <div class="dd__strip__meta">
+        <span class="dd__strip__num">04</span>
+        <span class="dd__strip__type">Collectible</span>
+      </div>
+      <h2 class="dd__strip__name">Jedi Council Seal</h2>
+      <p class="dd__strip__desc">Cast from the original temple archive molds. Engraved with the names of all twelve council seats. A piece of history.</p>
+      <div class="dd__strip__footer">
+        <span class="dd__strip__price">$129.99</span>
+        <a href="#" class="dd__strip__btn">View Relic →</a>
+      </div>
+    </div>
+    <div class="dd__strip__img dd__strip__img--gold">
+      <svg class="dd__strip__saber" viewBox="0 0 40 200" fill="none">
+        <ellipse cx="20" cy="8" rx="3" ry="5" fill="#C9A84C"/>
+        <rect x="17" y="8" width="6" height="112" rx="3" fill="#C9A84C"/>
+        <rect x="6" y="118" width="28" height="6" rx="2" fill="#888"/>
+        <rect x="14" y="124" width="12" height="52" rx="2" fill="#666"/>
+        <rect x="12" y="135" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="148" width="16" height="2.5" rx="1" fill="#999"/>
+        <rect x="12" y="161" width="16" height="2.5" rx="1" fill="#999"/>
+        <ellipse cx="20" cy="179" rx="9" ry="5" fill="#555"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Load more -->
+  <div class="dd__load-more">
+    <div class="gf-inner">
+      <div class="dd__load-more__inner">
+        <div class="dd__load-more__line"></div>
+        <button class="dd__load-more__btn">Load More Relics</button>
+        <div class="dd__load-more__line"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

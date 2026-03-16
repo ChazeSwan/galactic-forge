@@ -12,9 +12,14 @@
     "main": {
       "type": "collection",
       "settings": {}
+    },
+    "divider": {
+      "type": "section-divider",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "divider"
   ]
 }

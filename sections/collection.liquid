@@ -1,47 +1,163 @@
 {% comment %}
-  This section is used in the collection template to render collection page
-  listing all products within a collection.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+  collection.liquid
+  Design A — "The Archive"
+  Banner + sidebar filter + 3-column product grid
 {% endcomment %}
 
-<h1>{{ collection.title }}</h1>
+{{ 'collection.css' | asset_url | stylesheet_tag }}
 
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
-    {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
+<div class="full-width gf-coll">
+
+  {%- comment -%} ── BANNER ── {%- endcomment -%}
+  {%- comment -%}
+    The outer div holds the background image (set in CSS).
+    The overlay div sits on top with two gradients:
+      1. Dark gradient rising from the bottom — heaviest where text lives
+      2. Soft radial gold glow at bottom-center for warmth
+    Text is anchored to the bottom-left inside gf-inner.
+  {%- endcomment -%}
+  <div class="gf-coll__banner">
+    <div class="gf-coll__banner__overlay">
+      <div class="gf-inner">
+        <div class="gf-coll__banner__content">
+          <p class="gf-coll__eyebrow">The Galactic Forge</p>
+          <h1 class="gf-coll__title">{{ collection.title }}</h1>
+          {%- if collection.description != blank -%}
+            <p class="gf-coll__sub">{{ collection.description }}</p>
+          {%- else -%}
+            <p class="gf-coll__sub">Artifacts of the Force, forged for those who dare to seek them.</p>
+          {%- endif -%}
         </div>
       </div>
-    {% endfor %}
+    </div>
+  </div>
 
-    {{ paginate | default_pagination }}
-  {% endpaginate %}
+  {%- comment -%} ── BODY — sidebar + grid ── {%- endcomment -%}
+  <div class="gf-inner">
+    <div class="gf-coll__body">
+
+      {%- comment -%} Sidebar filters {%- endcomment -%}
+      <aside class="gf-coll__sidebar">
+
+        <div class="gf-coll__filter-group">
+          <p class="gf-coll__filter-title">Category</p>
+          <ul class="gf-coll__filter-options">
+            <li class="gf-coll__filter-opt is-active">
+              All
+              <span class="gf-coll__filter-count">{{ collection.products_count }}</span>
+            </li>
+            <li class="gf-coll__filter-opt">
+              Lightsabers
+              <span class="gf-coll__filter-count">2</span>
+            </li>
+            <li class="gf-coll__filter-opt">
+              Figures
+              <span class="gf-coll__filter-count">3</span>
+            </li>
+            <li class="gf-coll__filter-opt">
+              Collectibles
+              <span class="gf-coll__filter-count">{{ collection.products_count | minus: 5 }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="gf-coll__filter-group">
+          <p class="gf-coll__filter-title">Price Range</p>
+          <div class="gf-coll__price-track">
+            <div class="gf-coll__price-fill"></div>
+          </div>
+          <div class="gf-coll__price-labels">
+            <span>$0</span>
+            <span>$300</span>
+          </div>
+        </div>
+
+      </aside>
+
+      {%- comment -%} Grid area {%- endcomment -%}
+      <div class="gf-coll__grid-area">
+
+        {%- comment -%} Toolbar — result count + sort dropdown {%- endcomment -%}
+        <div class="gf-coll__toolbar">
+          <p class="gf-coll__result-count">
+            {{ collection.products_count }}
+            {%- if collection.products_count == 1 -%} item {%- else -%} items {%- endif %}
+             in the Archives
+          </p>
+          <select class="gf-coll__sort" onchange="location.href=this.value">
+            <option
+              value="{{ collection.url }}?sort_by=manual"
+              {%- if collection.sort_by == 'manual' %} selected{%- endif -%}
+            >Featured</option>
+            <option
+              value="{{ collection.url }}?sort_by=price-ascending"
+              {%- if collection.sort_by == 'price-ascending' %} selected{%- endif -%}
+            >Price — Low to High</option>
+            <option
+              value="{{ collection.url }}?sort_by=price-descending"
+              {%- if collection.sort_by == 'price-descending' %} selected{%- endif -%}
+            >Price — High to Low</option>
+            <option
+              value="{{ collection.url }}?sort_by=title-ascending"
+              {%- if collection.sort_by == 'title-ascending' %} selected{%- endif -%}
+            >Name — A to Z</option>
+          </select>
+        </div>
+
+        {%- comment -%} Product grid {%- endcomment -%}
+        <div class="gf-coll__grid">
+          {%- paginate collection.products by 12 -%}
+            {%- for product in collection.products -%}
+              <a class="gf-coll__card" href="{{ product.url }}">
+
+                <div class="gf-coll__card__img">
+                  {%- if product.featured_image -%}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 400 }}"
+                      alt="{{ product.featured_image.alt | escape }}"
+                      width="400"
+                      height="400"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    <span class="gf-coll__card__placeholder">No image yet</span>
+                  {%- endif -%}
+
+                  {%- if forloop.first -%}
+                    <span class="gf-coll__card__badge">Popular</span>
+                  {%- endif -%}
+                </div>
+
+                <div class="gf-coll__card__info">
+                  <p class="gf-coll__card__name">{{ product.title }}</p>
+                  <p class="gf-coll__card__type">{{ product.type }}</p>
+                </div>
+
+                <div class="gf-coll__card__footer">
+                  <span class="gf-coll__card__price">{{ product.price | money }}</span>
+                  <span class="gf-coll__card__btn">View</span>
+                </div>
+
+              </a>
+            {%- endfor -%}
+
+            {%- if paginate.pages > 1 -%}
+              <div class="gf-coll__pagination">
+                {{ paginate | default_pagination }}
+              </div>
+            {%- endif -%}
+          {%- endpaginate -%}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </div>
-
-{% stylesheet %}
-  .collection-products {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:general.collection",
+  "name": "Collection",
   "settings": []
 }
 {% endschema %}
