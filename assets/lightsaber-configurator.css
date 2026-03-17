@@ -1,0 +1,647 @@
+/* ============================================================
+   lightsaber-configurator.css
+   Full-screen overlay configurator for lightsaber products.
+   ============================================================ */
+
+/* debug outline — remove when done */
+/* * { outline: 1px solid red; } */
+
+
+/* ── Overlay ────────────────────────────────────────────── */
+
+/*
+  The overlay covers the full viewport using position: fixed + inset: 0.
+  It starts invisible (opacity: 0, pointer-events: none) so it doesn't
+  block clicks when it's not open.
+  JS adds .is-open to fade it in when the Customize button is clicked.
+*/
+.gf-cfg {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.gf-cfg.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+
+/* ── Backdrop ───────────────────────────────────────────── */
+
+/*
+  The backdrop fills the entire overlay behind the panel.
+  rgba(0,0,0,0.85) = black at 85% opacity — dark enough to focus
+  attention on the panel but lets the user know there's a page behind it.
+  cursor: pointer signals to the user that clicking closes the overlay.
+*/
+.gf-cfg__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+}
+
+
+/* ── Panel ──────────────────────────────────────────────── */
+
+/*
+  The panel is the content card that sits above the backdrop.
+  position: relative + z-index: 1 lifts it above the backdrop.
+  The background is a dark blue-black with a subtle radial glow at the
+  top — like torchlight from a Jedi temple ceiling.
+  max-height: 90vh + overflow-y: auto lets it scroll on small screens.
+*/
+.gf-cfg__panel {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 860px;
+  max-height: 96vh;
+  overflow-y: auto;
+  background:
+    radial-gradient(ellipse 60% 30% at 50% 0%, rgba(43, 108, 176, 0.18) 0%, transparent 70%),
+    linear-gradient(180deg, #0a0e1a 0%, #0d1117 60%, #0a0e1a 100%);
+  border: 1px solid rgba(144, 205, 244, 0.15);
+  border-radius: 4px;
+  padding: 32px 40px 40px;
+  text-align: center;
+}
+
+/* Close button — top-right corner of the panel */
+.gf-cfg__close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: rgba(144, 205, 244, 0.5);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.gf-cfg__close:hover {
+  color: #90CDF4;
+}
+
+
+/* ── Header ─────────────────────────────────────────────── */
+
+/*
+  Eyebrow — flex row so ::before and ::after lines sit on each side of the text.
+  Same pattern used on "From The Vault" and other section eyebrows sitewide.
+*/
+.gf-cfg__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #A07C2A;
+  margin: 0 0 10px;
+}
+
+/* The two decorative lines flanking the eyebrow text */
+.gf-cfg__eyebrow::before,
+.gf-cfg__eyebrow::after {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: #A07C2A;
+  opacity: 0.5;
+}
+
+
+.gf-cfg__title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #F7FAFC;
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.gf-cfg__subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(226, 232, 240, 0.6);
+  margin: 0 0 24px;
+}
+
+
+/* ── Parts layout ───────────────────────────────────────── */
+
+/*
+  Three columns side by side — each one is a part (Emitter, Hilt, Pommel).
+  flex: 1 on each column means they share the available width equally.
+  max-width: 220px caps them so they don't get too wide on large screens.
+*/
+.gf-cfg__parts {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+/* Each column stacks its children vertically and centres them */
+.gf-cfg__part {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 220px;
+}
+
+/* Part label — "Emitter", "Hilt", "Pommel" */
+.gf-cfg__part-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(144, 205, 244, 0.7);
+  margin: 0 0 12px;
+}
+
+/* Option name below the SVG — e.g. "Standard", "Flanged" */
+.gf-cfg__part-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #F7FAFC;
+  margin: 12px 0 0;
+  min-height: 1.2em;
+}
+
+
+/* ── Part stage ─────────────────────────────────────────── */
+
+/*
+  The stage is a flex row: [arrow] [svg-wrap] [arrow]
+  align-items: center keeps the arrows vertically centred against the SVG box.
+*/
+.gf-cfg__part-stage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.gf-cfg__arrow {
+  background: none;
+  border: 1px solid rgba(144, 205, 244, 0.25);
+  border-radius: 2px;
+  color: rgba(144, 205, 244, 0.6);
+  font-size: 1.4rem;
+  width: 32px;
+  height: 44px;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.gf-cfg__arrow:hover {
+  border-color: #90CDF4;
+  color: #90CDF4;
+  background: rgba(144, 205, 244, 0.08);
+}
+
+/*
+  The SVG wrap is the display box — fixed height so swapping SVGs
+  never causes a layout shift. The subtle border and background
+  give it a "display case" feel.
+*/
+.gf-cfg__svg-wrap {
+  flex: 1;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(144, 205, 244, 0.03);
+  border: 1px solid rgba(144, 205, 244, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.gf-cfg__svg-wrap:hover {
+  border-color: rgba(144, 205, 244, 0.25);
+}
+
+/* SVGs injected by JS — constrain their size */
+.gf-cfg__svg-wrap svg {
+  width: auto;
+  height: 100px;
+  display: block;
+  transition: opacity 0.15s ease;
+}
+
+/* JS adds this class during the swap — fades the old SVG out before the new one swaps in */
+.gf-cfg__svg-wrap.is-swapping svg {
+  opacity: 0;
+}
+
+
+/* ── Assemble button ────────────────────────────────────── */
+
+.gf-cfg__assemble-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: #1A1A2E;
+  background: linear-gradient(135deg, #C9A84C 0%, #e8c96a 50%, #C9A84C 100%);
+  border: none;
+  border-radius: 2px;
+  padding: 14px 40px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.gf-cfg__assemble-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+
+/* ── Assembled view ─────────────────────────────────────── */
+
+/*
+  Hidden by default — JS adds .is-visible when the assemble button is clicked.
+  The configure view hides at the same time.
+*/
+.gf-cfg__assembled {
+  display: none;
+}
+
+.gf-cfg__assembled.is-visible {
+  display: block;
+}
+
+/*
+  Two-column grid — saber on the left, crystal picker on the right.
+  The left column is narrower since it just holds the saber SVG.
+*/
+.gf-cfg__assembled-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 40px;
+  align-items: center;
+  text-align: center;
+}
+
+/* Left col — centres the saber vertically and horizontally */
+.gf-cfg__assembled-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 340px;
+}
+
+
+/* ── Assembly stage ─────────────────────────────────────── */
+
+/*
+  Stacks the three floating part containers vertically so they
+  form a complete lightsaber. gap: 0 so the parts touch seamlessly.
+*/
+.gf-cfg__assembly-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 36px;
+}
+
+/*
+  Each part starts invisible — opacity: 0.
+  The animation will bring them in once JS adds .is-assembled to the stage.
+*/
+.gf-cfg__floating-part {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+/*
+  Fixed width on all floating SVGs so the connector points line up.
+  Height is auto — each part's height is determined by its cropped viewBox.
+  Larger now that the saber has a dedicated column.
+*/
+.gf-cfg__floating-part svg {
+  width: 56px;
+  height: auto;
+  display: block;
+}
+
+/*
+  Negative margins close the gaps between parts.
+  Adjust the px values here if you want them closer or further apart.
+  position: relative + z-index controls which part appears on top at each joint.
+  Emitter and pommel cap the hilt, so they sit above it (z-index 2 vs 1).
+*/
+.gf-cfg__floating-emitter { position: relative; z-index: 1; }
+.gf-cfg__floating-hilt    { position: relative; z-index: 2; margin-top: -17px; }
+.gf-cfg__floating-pommel  { position: relative; z-index: 1; margin-top: -28px; }
+
+/*
+  When JS adds .is-assembled to the stage, each part plays partFloat.
+  Staggered delays make them arrive one at a time — emitter first,
+  then hilt, then pommel — like the Force is assembling them in sequence.
+*/
+.gf-cfg__assembly-stage.is-assembled .gf-cfg__floating-emitter {
+  animation: partFloat 0.6s ease forwards;
+  animation-delay: 0s;
+}
+.gf-cfg__assembly-stage.is-assembled .gf-cfg__floating-hilt {
+  animation: partFloat 0.6s ease forwards;
+  animation-delay: 0.25s;
+}
+.gf-cfg__assembly-stage.is-assembled .gf-cfg__floating-pommel {
+  animation: partFloat 0.6s ease forwards;
+  animation-delay: 0.5s;
+}
+
+/* Part rises from below and fades in to its resting position */
+@keyframes partFloat {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Assembled saber bobs gently — suspended by the Force */
+@keyframes saberHover {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/*
+  Applied to all three parts AND the blade simultaneously so they
+  move as one unit. JS adds .is-hovering to the stage.
+  opacity: 1 ensures parts stay visible after partFloat finishes.
+*/
+/* Parts get opacity: 1 to stay visible after partFloat */
+.gf-cfg__assembly-stage.is-hovering .gf-cfg__floating-part {
+  animation: saberHover 3s ease-in-out infinite;
+  opacity: 1;
+}
+
+/* Blade hover — no opacity override, transition handles visibility */
+.gf-cfg__assembly-stage.is-hovering .gf-cfg__blade {
+  animation: saberHover 3s ease-in-out infinite;
+}
+
+
+/* ── Crystal picker ─────────────────────────────────────── */
+
+.gf-cfg__crystals {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+/*
+  Each crystal is a coloured circle. --swatch is set inline in the HTML.
+  The glow ring on hover/active uses box-shadow in that same colour.
+*/
+.gf-cfg__crystal {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: var(--swatch);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.gf-cfg__crystal:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 10px 2px var(--swatch);
+}
+
+.gf-cfg__crystal.is-active {
+  border-color: #fff;
+  box-shadow: 0 0 12px 3px var(--swatch);
+  transform: scale(1.1);
+}
+
+/* Crystal name label below the swatches */
+.gf-cfg__crystal-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: rgba(226, 232, 240, 0.65);
+  margin: 0 0 28px;
+  min-height: 1.2em;
+}
+
+
+/* ── Blade ──────────────────────────────────────────────── */
+
+/*
+  The blade is a thin vertical bar with a white core and colored outer glow.
+  --blade-color is set inline and updated by JS when a crystal is clicked.
+  It starts at height: 0 and scaleY(0), then ignites upward via animation.
+*/
+/*
+  Blade uses transitions instead of keyframes for ignition so the
+  hover animation can run simultaneously without conflict.
+  height + opacity transition = ignition effect.
+  filter + background transition = live crystal color update.
+*/
+.gf-cfg__blade {
+  width: 6px;
+  height: 0;
+  opacity: 0;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.95) 0%,
+    var(--blade-color) 40%,
+    var(--blade-color) 100%
+  );
+  filter: drop-shadow(0 0 6px var(--blade-color)) drop-shadow(0 0 14px var(--blade-color));
+  transition: height 0.4s ease-out, opacity 0.3s ease-out, filter 0.4s ease;
+}
+
+/* JS adds this — transition handles the visual ignition */
+.gf-cfg__blade.is-ignited {
+  height: 160px;
+  opacity: 1;
+}
+
+
+/* ── Summary row ────────────────────────────────────────── */
+
+/*
+  Shows "Standard · Ridged · Smooth" — a quick confirmation
+  of the customer's choices before they add to cart.
+*/
+.gf-cfg__summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.gf-cfg__summary-item {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(144, 205, 244, 0.8);
+}
+
+.gf-cfg__summary-sep {
+  color: rgba(144, 205, 244, 0.35);
+  font-size: 0.75rem;
+}
+
+
+/* ── Add to Cart + Reconfigure ──────────────────────────── */
+
+.gf-cfg__add-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  color: #1A1A2E;
+  background: linear-gradient(135deg, #C9A84C 0%, #e8c96a 50%, #C9A84C 100%);
+  border: none;
+  border-radius: 2px;
+  padding: 14px 40px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  display: block;
+  width: 100%;
+  margin: 0 0 16px;
+}
+
+.gf-cfg__add-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.gf-cfg__reconfigure-btn {
+  background: none;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(144, 205, 244, 0.5);
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 8px 0;
+  display: block;
+}
+
+.gf-cfg__reconfigure-btn:hover {
+  color: #90CDF4;
+}
+
+
+/* ── Customize button (product page) ───────────────────── */
+
+/*
+  Replaces the variant pills on lightsaber product pages.
+  Styled as a ghost button — transparent with a Force-blue border —
+  so it sits comfortably next to the gold Add to Cart button below it.
+*/
+.gf-product__customize-btn {
+  width: 100%;
+  padding: 14px 24px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: #2B6CB0;
+  background: transparent;
+  border: 1px solid rgba(43, 108, 176, 0.4);
+  border-radius: 2px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.gf-product__customize-btn:hover {
+  border-color: #2B6CB0;
+  background: rgba(43, 108, 176, 0.06);
+  color: #2B6CB0;
+}
+
+
+/* ── Mobile ─────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+
+  /* Panel takes full screen on mobile */
+  .gf-cfg__panel {
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    padding: 40px 20px 48px;
+  }
+
+  /* Part columns stack vertically */
+  .gf-cfg__parts {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .gf-cfg__part {
+    max-width: 280px;
+    width: 100%;
+  }
+
+  /* Shorter display boxes on mobile so all 3 parts + button fit */
+  .gf-cfg__svg-wrap {
+    height: 110px;
+  }
+
+  .gf-cfg__svg-wrap svg {
+    height: 100px;
+  }
+
+  /* Assembled grid stacks — saber on top, crystal picker below */
+  .gf-cfg__assembled-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gf-cfg__assembled-left {
+    min-height: 260px;
+  }
+
+  .gf-cfg__title {
+    font-size: 1.25rem;
+  }
+
+  .gf-cfg__subtitle {
+    margin-bottom: 16px;
+  }
+
+  .gf-cfg__parts {
+    margin-bottom: 16px;
+  }
+
+  .gf-cfg__add-btn {
+    padding: 14px 24px;
+  }
+
+}
+

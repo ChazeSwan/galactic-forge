@@ -1,5 +1,5 @@
 # Galactic Forge — Session Handoff
-**Date:** 2026-03-16
+**Date:** 2026-03-17
 
 ---
 
@@ -7,103 +7,71 @@
 
 ### Phases 1–4 — Done
 - All homepage sections, header, footer, path-chooser, Light/Dark toggle — complete
+- Collection page — complete
+- Product page — complete
 - See previous handoffs for full detail
 
-### This Session — Collection Page + Product Page Start
+### This Session — Lightsaber Configurator
 
-#### Collection Page — Complete
+#### Lightsaber Configurator — Complete
 | Element | Status |
 |---|---|
-| Full-bleed banner — `collections_hero.jpg` + darkened overlay | ✅ |
-| Sidebar — category tag filters with dynamic counts + active state | ✅ |
-| Sidebar — price range bar (decorative) | ✅ |
-| 3-column product grid pulling from light-side collection | ✅ |
-| Sort dropdown wired to Shopify URL params | ✅ |
-| Dense stripe texture background edge to edge | ✅ |
-| Card hover — lift + blue border + View button fill | ✅ |
-| Mobile — sidebar stacks above grid at 768px, single column at 480px | ✅ |
-| Section divider above footer | ✅ |
+| Customize button on product page (lightsaber detection via Emitter option) | ✅ |
+| Full-screen overlay — dark Jedi temple atmosphere, backdrop click + Escape to close | ✅ |
+| SVG parts — 6 shapes (Standard/Flanged emitter, Ridged/Wrapped hilt, Smooth/Vented pommel) | ✅ |
+| Arrow switching with fade transition, part name updates | ✅ |
+| Staggered float-in assembly animation (emitter → hilt → pommel) | ✅ |
+| Gentle hover loop after assembly — all parts + blade move as one unit | ✅ |
+| Blade ignition after assembly — extends upward, glows in crystal color | ✅ |
+| Crystal picker — 5 kyber crystals, live blade color update, name label | ✅ |
+| Variant lookup from baked-in JSON — correct variant ID set on Add to Cart | ✅ |
+| Summary row — shows selected configuration (e.g. Standard · Ridged · Smooth) | ✅ |
+| 2-column assembled view — saber left, crystal picker right | ✅ |
+| Reconfigure — returns to configure view, resets all animations | ✅ |
+| Mobile — stacked layout, constrained display boxes, no scroll | ✅ |
 
-**Files:** `sections/collection.liquid`, `assets/collection.css`
+**Files:** `snippets/lightsaber-configurator.liquid`, `assets/lightsaber-configurator.css`, `assets/lightsaber-configurator.js`, `sections/product.liquid`
 
-#### Product Page — In Progress
-| Element | Status |
-|---|---|
-| HTML structure — full page | ✅ |
-| Breadcrumb (Home / Collection / Product) | ✅ |
-| Section divider snippet (`snippets/section-divider.liquid`) | ✅ |
-| Page background + gf-inner width | ✅ |
-| Breadcrumb CSS — gold active, weighted links | ✅ |
-| Two-column grid layout | ✅ |
-| Image gallery (main img + 4 thumbnails) | ⬜ next |
-| Info column — all right-side elements | ⬜ |
-| Lore section (dark navy) | ⬜ |
-| Related products section | ⬜ |
-| JavaScript — thumbnail swap, qty +/-, accordion, variant pills | ⬜ |
-| Metafields — lore_tagline, lore_body, dimensions, whats_included | ⬜ |
-
-**Files:** `sections/product.liquid`, `assets/product.css`, `assets/product.js` (not yet created)
+#### Variant Names Updated in Shopify Admin
+| Part | Option A | Option B |
+|---|---|---|
+| Emitter | Standard | Flanged |
+| Hilt | Ridged | Wrapped |
+| Pommel | Smooth | Vented |
+Updated for both Luke's Lightsaber and Vader's Lightsaber.
 
 ---
 
 ## Decisions That Are Locked In
 
-### Product Page Design
-- **Design 1 — "The Archives"** — clean two-column, image left sticky, info right
-- **No stripe texture** — solid `#F7FAFC` background on the product section
-- **Section flow:** product (off-white) → divider → lore (dark navy) → divider → related (off-white) → divider → footer
-- **Variant selector:** pill buttons (not dropdown) — sits between price row and qty
-- **Lore content:** stored as Shopify metafields (`custom.lore_tagline`, `custom.lore_body`)
-- **Accordion fields:** `custom.dimensions`, `custom.whats_included`
-- **Breadcrumb:** Home / Collection / Product — active product name in gold `#C9A84C`
-- **Related products:** pulls from `product.collections.first`, excludes current product, limit 3
-
-### Lore Copy (ready to paste into metafields)
-| Product | Tagline | Body |
-|---|---|---|
-| Clone Trooper (501st) | Vader's Fist. Born on Kamino, branded in blue. | The 501st Legion stood at the center... (see below) |
-| Clone Trooper (212th) | Loyalty doesn't ask for glory. It shows up anyway. | Commander Cody's battalion... |
-| R2-D2 | He never spoke a word anyone fully understood. He never needed to. | R2-D2 carried the plans... |
-| Jedi Poster | Some relics were never meant for glass cases. They were made for walls. | Sourced from the original illustration archives... |
-
-**Full lore body copy** saved separately — ask Chaz to paste from the session history when populating metafields.
-
-### Trust Badges
-- **Top 3 pills:** ⚡ Hyperdrive Delivery · ✦ Display-Ready · ◈ Limited Run
-- **Feature badges:** ⚔ Lifetime Guarantee / ◈ Lightweight Design
-- Design review of badge icons/styling still pending — Chaz flagged this
-
-### LESSONS.md
-- Created at project root — tracks known mistakes. Check it at session start.
-- Entry 1: `asset_url` not needed for background images in CSS files
+- Configurator is a full-screen overlay (not a separate page)
+- SVG parts — no product photos, built in code
+- Blade ignites after assembly, defaults to Force Blue (#90CDF4)
+- Crystal colors: Force Blue, Saber Green, Golden Yellow, Violet, Warm White
+- 2-column assembled view on desktop, stacked on mobile
+- Variant lookup uses baked-in JSON on the overlay data attribute (zero API calls)
+- Dark Side configurator (slam animation + crystal bleed) — deferred to future session
 
 ---
 
 ## What Is Up Next
 
-1. **Product page CSS** — continue rule by rule:
-   - Image column (main img square, badge, thumbnails)
-   - Info column (eyebrow, title, subtitle, price row, badges, variants, form, accordions)
-   - Lore section (dark navy background, two-column text layout)
-   - Related products grid
-2. **product.js** — thumbnail swap, qty +/-, accordion toggles, variant pill → hidden input
-3. **Metafields setup** — create metafield definitions in Shopify admin, populate lore copy
-4. **Product type field** — fill in Shopify admin for each product (shows in eyebrow + related cards)
-5. **Lightsaber product page** — special configurator after standard page is done
-6. **Dark Side (Sith) homepage sections**
-7. **Phase 5 polish**
+1. **Product images** — upload to Shopify admin for all 5 Light Side products
+2. **Dark Side (Sith) homepage sections**
+3. **Phase 5 polish** — lightsaber scroll animation, dev reset button removal, Light/Dark toggle
+4. **Dark Side configurator** — slam assembly animation, random crystal → bleeds to red
 
 ---
 
 ## Key Reference Files
-- `_design-refs/product-page-designs.html` — all 4 product page concepts, we are using Design 1
-- `_design-refs/collections-design.html` — collection page reference
+- `snippets/lightsaber-configurator.liquid` — overlay HTML
+- `assets/lightsaber-configurator.css` — all configurator styles
+- `assets/lightsaber-configurator.js` — all configurator logic
 - `LESSONS.md` — known mistakes, check at session start
 
 ---
 
 ## Unresolved Questions
-- Badge icon/style design review — Chaz wants to revisit before finalising
-- Lightsaber product page configurator — build after standard page is complete
-- Product type field in Shopify admin — needs populating for each product
-- Luke Skywalker product — no lore copy written yet (only Clone Trooper, R2-D2, Jedi Poster provided)
+- Product type field in Shopify admin — needs populating for each product (shows in eyebrow)
+- Luke Skywalker product — no lore copy for lightsaber page yet
+- Badge icon/style design review — flagged for final review

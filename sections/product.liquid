@@ -9,6 +9,22 @@
 {{ 'section-divider.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'product.js' | asset_url }}" defer></script>
 
+{%- comment -%}
+  Detect if this is a lightsaber product by checking for an "Emitter" option.
+  We use this flag throughout the template to swap in the configurator experience.
+{%- endcomment -%}
+{%- assign is_lightsaber = false -%}
+{%- for option in product.options -%}
+  {%- if option == 'Emitter' -%}
+    {%- assign is_lightsaber = true -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if is_lightsaber -%}
+  {{ 'lightsaber-configurator.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'lightsaber-configurator.js' | asset_url }}" defer></script>
+{%- endif -%}
+
 <div class="full-width gf-product">
   {%- comment -%}
     Breadcrumb — shows the path: Home / Collection / Product
@@ -130,7 +146,19 @@
           Clone Trooper has 2 variants (501st Legion, 212th Attack Battalion).
           Clicking a pill updates the hidden input inside the form below.
         {%- endcomment -%}
-        {%- if product.variants.size > 1 -%}
+        {%- if is_lightsaber -%}
+          {%- comment -%}
+            Lightsaber products skip the standard variant pills entirely.
+            The configurator overlay handles part selection and variant lookup.
+          {%- endcomment -%}
+          <button
+            class="gf-product__customize-btn"
+            id="gf-open-configurator"
+            type="button"
+          >
+            ✦ Customize Your Lightsaber
+          </button>
+        {%- elsif product.variants.size > 1 -%}
           <div class="gf-product__variants">
             <p class="gf-product__variants-label">Edition</p>
             <div class="gf-product__variant-pills" id="gf-variant-pills">
@@ -331,6 +359,15 @@
   {%- endif -%}
 
 </div>{%- comment -%} end gf-product {%- endcomment -%}
+
+{%- comment -%}
+  Lightsaber configurator overlay — only rendered for lightsaber products.
+  Passes all variant data to the snippet so JS can look up IDs without
+  making any API calls.
+{%- endcomment -%}
+{%- if is_lightsaber -%}
+  {%- render 'lightsaber-configurator', product: product -%}
+{%- endif -%}
 
 {% schema %}
 {

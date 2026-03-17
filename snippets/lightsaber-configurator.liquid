@@ -1,0 +1,188 @@
+{%- comment -%}
+  lightsaber-configurator.liquid
+  Full-screen overlay configurator for lightsaber products.
+  Receives: product — the current product object.
+
+  Structure:
+  1. Overlay backdrop
+  2. Temple background
+  3. Header (eyebrow + title)
+  4. Three part columns (Emitter, Hilt, Pommel) — each with prev/next arrows and SVG display
+  5. Confirm / Assemble button
+  6. Assembled view (hidden until confirmed) — crystal picker + Add to Cart
+
+  Variant data is serialised into a data attribute on the overlay so the JS
+  can find the correct variant ID from the three selected option values without
+  any Shopify API calls.
+{%- endcomment -%}
+
+{%- comment -%}
+  Build a JSON array of all variants with their option values and IDs.
+  The JS reads this once on load and uses it for all lookups.
+{%- endcomment -%}
+{%- assign variant_data = '[]' -%}
+{%- capture variant_json -%}
+  [
+    {%- for variant in product.variants -%}
+      {
+        "id": {{ variant.id }},
+        "price": "{{ variant.price | money }}",
+        "emitter": {{ variant.option1 | json }},
+        "hilt": {{ variant.option2 | json }},
+        "pommel": {{ variant.option3 | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+{%- endcapture -%}
+
+<div
+  class="gf-cfg"
+  id="gf-cfg"
+  aria-hidden="true"
+  aria-label="Lightsaber configurator"
+  data-variants="{{ variant_json | escape }}"
+  data-product-id="{{ product.id }}"
+>
+
+  {%- comment -%} Semi-transparent backdrop — clicking it closes the overlay {%- endcomment -%}
+  <div class="gf-cfg__backdrop" id="gf-cfg-backdrop"></div>
+
+  {%- comment -%} Main panel {%- endcomment -%}
+  <div class="gf-cfg__panel" role="dialog" aria-modal="true">
+
+    {%- comment -%} Close button — top-right corner {%- endcomment -%}
+    <button class="gf-cfg__close" id="gf-cfg-close" aria-label="Close configurator">✕</button>
+
+    {%- comment -%} ── CONFIGURE VIEW — shown first ── {%- endcomment -%}
+    <div class="gf-cfg__configure" id="gf-cfg-configure">
+
+      <p class="gf-cfg__eyebrow">The Forge</p>
+      <h2 class="gf-cfg__title">Configure Your Lightsaber</h2>
+      <p class="gf-cfg__subtitle">Choose each component. The Force will do the rest.</p>
+
+      {%- comment -%}
+        Three part columns. Each has:
+        - A label (part name)
+        - Prev/next arrow buttons
+        - An SVG display area (swapped by JS)
+        - The current option name below
+        data-part ties the buttons to the right column in JS.
+      {%- endcomment -%}
+      <div class="gf-cfg__parts">
+
+        {%- comment -%} ── EMITTER ── {%- endcomment -%}
+        <div class="gf-cfg__part" data-part="emitter">
+          <p class="gf-cfg__part-label">Emitter</p>
+          <div class="gf-cfg__part-stage">
+            <button class="gf-cfg__arrow gf-cfg__arrow--prev" data-part="emitter" aria-label="Previous emitter">‹</button>
+            <div class="gf-cfg__svg-wrap" id="cfg-emitter-display">
+              {%- comment -%} JS swaps the SVG here based on current selection {%- endcomment -%}
+            </div>
+            <button class="gf-cfg__arrow gf-cfg__arrow--next" data-part="emitter" aria-label="Next emitter">›</button>
+          </div>
+          <p class="gf-cfg__part-name" id="cfg-emitter-name">Standard</p>
+        </div>
+
+        {%- comment -%} ── HILT ── {%- endcomment -%}
+        <div class="gf-cfg__part" data-part="hilt">
+          <p class="gf-cfg__part-label">Hilt</p>
+          <div class="gf-cfg__part-stage">
+            <button class="gf-cfg__arrow gf-cfg__arrow--prev" data-part="hilt" aria-label="Previous hilt">‹</button>
+            <div class="gf-cfg__svg-wrap" id="cfg-hilt-display">
+            </div>
+            <button class="gf-cfg__arrow gf-cfg__arrow--next" data-part="hilt" aria-label="Next hilt">›</button>
+          </div>
+          <p class="gf-cfg__part-name" id="cfg-hilt-name">Ridged</p>
+        </div>
+
+        {%- comment -%} ── POMMEL ── {%- endcomment -%}
+        <div class="gf-cfg__part" data-part="pommel">
+          <p class="gf-cfg__part-label">Pommel</p>
+          <div class="gf-cfg__part-stage">
+            <button class="gf-cfg__arrow gf-cfg__arrow--prev" data-part="pommel" aria-label="Previous pommel">‹</button>
+            <div class="gf-cfg__svg-wrap" id="cfg-pommel-display">
+            </div>
+            <button class="gf-cfg__arrow gf-cfg__arrow--next" data-part="pommel" aria-label="Next pommel">›</button>
+          </div>
+          <p class="gf-cfg__part-name" id="cfg-pommel-name">Smooth</p>
+        </div>
+
+      </div>{%- comment -%} end parts {%- endcomment -%}
+
+      {%- comment -%}
+        Assemble button — triggers the floating assembly animation.
+        JS listens for this click to move into the assembled view.
+      {%- endcomment -%}
+      <button class="gf-cfg__assemble-btn" id="gf-cfg-assemble">
+        Assemble by the Force
+      </button>
+
+    </div>{%- comment -%} end configure view {%- endcomment -%}
+
+    {%- comment -%} ── ASSEMBLED VIEW — hidden until animation completes ── {%- endcomment -%}
+    <div class="gf-cfg__assembled" id="gf-cfg-assembled" aria-hidden="true">
+
+      <div class="gf-cfg__assembled-grid">
+
+        {%- comment -%}
+          Left column — the lightsaber assembly stage.
+          Parts float in here and hover once assembled.
+        {%- endcomment -%}
+        <div class="gf-cfg__assembled-left">
+          <div class="gf-cfg__assembly-stage" id="gf-cfg-assembly-stage">
+            {%- comment -%}
+              Blade sits above the emitter. Hidden until assembly completes.
+              JS adds .is-ignited to trigger the ignition animation.
+              --blade-color is updated by JS when a crystal is selected.
+            {%- endcomment -%}
+            <div class="gf-cfg__blade" id="gf-cfg-blade" style="--blade-color: #90CDF4;"></div>
+            <div class="gf-cfg__floating-part gf-cfg__floating-emitter" id="gf-float-emitter"></div>
+            <div class="gf-cfg__floating-part gf-cfg__floating-hilt" id="gf-float-hilt"></div>
+            <div class="gf-cfg__floating-part gf-cfg__floating-pommel" id="gf-float-pommel"></div>
+          </div>
+        </div>
+
+        {%- comment -%}
+          Right column — crystal picker and add to cart.
+        {%- endcomment -%}
+        <div class="gf-cfg__assembled-right">
+
+          <p class="gf-cfg__eyebrow">Final Step</p>
+          <h2 class="gf-cfg__title">Choose Your Kyber Crystal</h2>
+          <p class="gf-cfg__subtitle">The crystal is the heart of the blade.</p>
+
+          <div class="gf-cfg__crystals" id="gf-cfg-crystals">
+            <button class="gf-cfg__crystal is-active" data-color="#90CDF4" data-name="Adegan — Force Blue" aria-label="Force Blue crystal" style="--swatch: #90CDF4;"></button>
+            <button class="gf-cfg__crystal" data-color="#48BB78" data-name="Ilum — Saber Green" aria-label="Saber Green crystal" style="--swatch: #48BB78;"></button>
+            <button class="gf-cfg__crystal" data-color="#F6E05E" data-name="Pontite — Golden Yellow" aria-label="Golden Yellow crystal" style="--swatch: #F6E05E;"></button>
+            <button class="gf-cfg__crystal" data-color="#9F7AEA" data-name="Hurrikaine — Violet" aria-label="Violet crystal" style="--swatch: #9F7AEA;"></button>
+            <button class="gf-cfg__crystal" data-color="#FFF8EE" data-name="Mephite — Warm White" aria-label="Warm White crystal" style="--swatch: #FFF8EE;"></button>
+          </div>
+          <p class="gf-cfg__crystal-name" id="gf-crystal-name">Adegan — Force Blue</p>
+
+          <div class="gf-cfg__summary" id="gf-cfg-summary">
+            <span class="gf-cfg__summary-item" id="gf-sum-emitter"></span>
+            <span class="gf-cfg__summary-sep">·</span>
+            <span class="gf-cfg__summary-item" id="gf-sum-hilt"></span>
+            <span class="gf-cfg__summary-sep">·</span>
+            <span class="gf-cfg__summary-item" id="gf-sum-pommel"></span>
+          </div>
+
+          {%- form 'product', product, id: 'gf-cfg-form' -%}
+            <input type="hidden" name="id" id="gf-cfg-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="gf-cfg__add-btn" id="gf-cfg-add">
+              Add to Cart — <span id="gf-cfg-price">{{ product.selected_or_first_available_variant.price | money }}</span>
+            </button>
+          {%- endform -%}
+
+          <button class="gf-cfg__reconfigure-btn" id="gf-cfg-reconfigure">← Reconfigure</button>
+
+        </div>{%- comment -%} end right col {%- endcomment -%}
+
+      </div>{%- comment -%} end assembled-grid {%- endcomment -%}
+
+    </div>{%- comment -%} end assembled view {%- endcomment -%}
+
+  </div>{%- comment -%} end panel {%- endcomment -%}
+</div>{%- comment -%} end gf-cfg {%- endcomment -%}
