@@ -145,12 +145,9 @@
           Variant selector — only renders if the product has more than one variant.
           Clone Trooper has 2 variants (501st Legion, 212th Attack Battalion).
           Clicking a pill updates the hidden input inside the form below.
+          Lightsaber products skip this entirely — the configurator handles selection.
         {%- endcomment -%}
         {%- if is_lightsaber -%}
-          {%- comment -%}
-            Lightsaber products skip the standard variant pills entirely.
-            The configurator overlay handles part selection and variant lookup.
-          {%- endcomment -%}
           <button
             class="gf-product__customize-btn"
             id="gf-open-configurator"
@@ -360,11 +357,6 @@
 
 </div>{%- comment -%} end gf-product {%- endcomment -%}
 
-{%- comment -%}
-  Lightsaber configurator overlay — only rendered for lightsaber products.
-  Passes all variant data to the snippet so JS can look up IDs without
-  making any API calls.
-{%- endcomment -%}
 {%- if is_lightsaber -%}
   {%- render 'lightsaber-configurator', product: product -%}
 {%- endif -%}

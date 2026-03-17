@@ -1,0 +1,615 @@
+/* ============================================================
+   cart.css
+   "The Census" cart page — two-tone split layout.
+   ============================================================ */
+
+/* debug outline — remove when done */
+/* * { outline: 1px solid red; } */
+
+
+/* ── Page wrapper ───────────────────────────────────────── */
+
+.gf-cart {
+  background: #F7FAFC;
+  padding-bottom: 0;
+}
+
+/* Centers and constrains content — same 80%/1100px pattern as every other page */
+body[data-gf-side="light"] .gf-cart .gf-inner {
+  width: 80%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+
+/* ── Page header ────────────────────────────────────────── */
+
+.gf-cart__head {
+  padding: 48px 0 40px;
+}
+
+.gf-cart__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #A07C2A;
+  margin: 0 0 10px;
+}
+
+.gf-cart__eyebrow::before,
+.gf-cart__eyebrow::after {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: #A07C2A;
+  opacity: 0.5;
+}
+
+.gf-cart__title {
+  font-family: 'Cinzel', serif;
+  font-size: 3rem;
+  font-weight: 500;
+  color: #1A1A2E;
+  margin: 0;
+  line-height: 1.1;
+}
+
+
+/* ── Two-column layout ──────────────────────────────────── */
+
+/*
+  Left column takes all available space (1fr).
+  Right summary panel is fixed at 380px — matches The Census spec.
+  gap: 0 so the dark panel runs flush against the items column.
+  align-items: stretch makes both columns the same height.
+*/
+.gf-cart__layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 0;
+  align-items: stretch;
+  min-height: 500px;
+  margin-bottom: 0;
+}
+
+
+/* ── Items column ───────────────────────────────────────── */
+
+.gf-cart__items-col {
+  padding-right: 52px;
+  padding-bottom: 72px;
+}
+
+/* Column headers — "Product" and "Price" */
+.gf-cart__items-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+  margin-bottom: 4px;
+}
+
+.gf-cart__col-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #bbb;
+}
+
+
+/* ── Cart items ─────────────────────────────────────────── */
+
+/*
+  Each item is a grid: 96px image on the left, details filling the rest.
+  border-bottom separates items with a subtle line.
+*/
+.gf-cart__item {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Product thumbnail */
+.gf-cart__item-img {
+  display: block;
+  width: 96px;
+  height: 96px;
+  background: #e8e4dc;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.gf-cart__item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gf-cart__item-img-ph {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Item body — stacks title row on top, controls on bottom */
+.gf-cart__item-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Title + price on same row */
+.gf-cart__item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.gf-cart__item-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #1A1A2E;
+  margin: 0 0 4px;
+}
+
+.gf-cart__item-variant {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #aaa;
+  margin: 0;
+}
+
+.gf-cart__item-price {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #1A1A2E;
+  margin: 0;
+  white-space: nowrap;
+}
+
+
+/* ── Item foot — qty + remove ───────────────────────────── */
+
+.gf-cart__item-foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Qty stepper — minus / count / plus */
+.gf-cart__qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+}
+
+.gf-cart__qty-btn {
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #1A1A2E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.gf-cart__qty-btn:hover {
+  color: #2B6CB0;
+}
+
+.gf-cart__qty-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  min-width: 24px;
+  text-align: center;
+  color: #1A1A2E;
+}
+
+/* Remove link — text only, glows gold on hover */
+.gf-cart__item-remove {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.gf-cart__item-remove:hover {
+  color: #C9A84C;
+  text-decoration: underline;
+}
+
+/* Remove is now a button inside its own form — strip button defaults */
+button.gf-cart__item-remove {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+
+/* ── Summary panel ──────────────────────────────────────── */
+
+/*
+  Dark navy panel — the cinematic right sidebar.
+  flex column so the quote can be pushed to the bottom with flex: 1 spacer.
+*/
+.gf-cart__summary {
+  background: #0a0e1a;
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+}
+
+.gf-cart__sum-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin: 0 0 10px;
+}
+
+.gf-cart__sum-eyebrow::before,
+.gf-cart__sum-eyebrow::after {
+  content: '';
+  width: 16px;
+  height: 1px;
+  background: #C9A84C;
+  opacity: 0.5;
+}
+
+.gf-cart__sum-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #F7FAFC;
+  margin: 0 0 28px;
+}
+
+/* Gradient rule — gold fades to transparent */
+.gf-cart__sum-rule {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(201, 168, 76, 0.5), transparent);
+  margin-bottom: 28px;
+}
+
+
+/* ── Summary rows ───────────────────────────────────────── */
+
+.gf-cart__sum-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.gf-cart__sum-key {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.gf-cart__sum-val {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Total row — larger, bordered above and below */
+.gf-cart__sum-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 14px 0;
+  margin: 6px 0 18px;
+}
+
+.gf-cart__sum-total-key {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.gf-cart__sum-total-val {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 300;
+  color: #F7FAFC;
+}
+
+
+/* ── Summary actions ────────────────────────────────────── */
+
+.gf-cart__sum-note {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  margin: 0 0 20px;
+  line-height: 1.6;
+}
+
+.gf-cart__checkout-btn {
+  width: 100%;
+  padding: 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: #F7FAFC;
+  background: linear-gradient(120deg, #1a3b8f, #2B6CB0);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+
+.gf-cart__checkout-btn:hover {
+  border-color: rgba(201, 168, 76, 0.5);
+}
+
+.gf-cart__continue-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.3);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.gf-cart__continue-btn:hover {
+  color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Pushes the quote seal to the bottom of the panel */
+.gf-cart__sum-spacer {
+  flex: 1;
+}
+
+.gf-cart__sum-seal {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+  line-height: 1.6;
+  margin: 24px 0 0;
+}
+
+
+/* ── Empty cart state ───────────────────────────────────── */
+
+.gf-cart__empty {
+  text-align: center;
+  padding: 100px 0;
+}
+
+.gf-cart__empty-rune {
+  font-family: 'Cinzel', serif;
+  font-size: 3.5rem;
+  color: rgba(0, 0, 0, 0.08);
+  margin: 0 0 24px;
+  line-height: 1;
+}
+
+.gf-cart__empty-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2.2rem;
+  font-weight: 300;
+  color: #1A1A2E;
+  margin: 0 0 16px;
+}
+
+.gf-cart__empty-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #4A5568;
+  max-width: 380px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+}
+
+.gf-cart__empty-btn {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: #F7FAFC;
+  background: linear-gradient(120deg, #1a3b8f, #2B6CB0);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  padding: 14px 36px;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+
+.gf-cart__empty-btn:hover {
+  border-color: rgba(201, 168, 76, 0.5);
+}
+
+
+/* ── Upsell section ─────────────────────────────────────── */
+
+.gf-cart__upsell {
+  background: #eeeae0;
+  padding: 64px 0;
+}
+
+body[data-gf-side="light"] .gf-cart__upsell .gf-inner {
+  width: 80%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.gf-cart__upsell-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 32px;
+}
+
+.gf-cart__upsell-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #1A1A2E;
+  margin: 0;
+}
+
+.gf-cart__upsell-all {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: #C9A84C;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.gf-cart__upsell-all:hover {
+  color: #a8862e;
+}
+
+/* 3-column product grid */
+.gf-cart__upsell-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.gf-cart__upsell-card {
+  background: #fff;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.2s;
+}
+
+.gf-cart__upsell-card:hover {
+  transform: translateY(-3px);
+}
+
+.gf-cart__upsell-img {
+  aspect-ratio: 1;
+  background: #e4e0d8;
+  overflow: hidden;
+}
+
+.gf-cart__upsell-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gf-cart__upsell-body {
+  padding: 14px;
+}
+
+.gf-cart__upsell-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1A1A2E;
+  margin: 0 0 6px;
+}
+
+.gf-cart__upsell-price {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0 0 12px;
+}
+
+.gf-cart__upsell-btn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #F7FAFC;
+  background: #2B6CB0;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gf-cart__upsell-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.gf-cart__upsell-card:hover .gf-cart__upsell-btn {
+  background: #1a3b8f;
+}
+
+
+/* ── Mobile ─────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+
+  /* Stack columns vertically — summary below items */
+  .gf-cart__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gf-cart__items-col {
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+
+  .gf-cart__title {
+    font-size: 2rem;
+  }
+
+  /* Upsell drops to single column */
+  .gf-cart__upsell-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .gf-cart__upsell {
+    padding: 40px 0;
+  }
+
+}

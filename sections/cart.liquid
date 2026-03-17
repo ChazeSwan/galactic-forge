@@ -1,37 +1,228 @@
 {% comment %}
-  This section is used in the cart template to render /cart page with an
-  overview of the items in customer's cart.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
+  cart.liquid
+  "The Census" design — two-tone split cart page.
+  Left: cart items on warm light background.
+  Right: dark navy order summary panel.
+  Below: upsell row from the Light Side collection.
 {% endcomment %}
 
-<h1>{{ 'cart.title' | t }}</h1>
+{{ 'cart.css' | asset_url | stylesheet_tag }}
+{{ 'section-divider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart.js' | asset_url }}" defer></script>
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
+<div class="full-width gf-cart">
+  <div class="gf-inner">
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-</form>
+    {%- comment -%} Page header — eyebrow + title {%- endcomment -%}
+    <div class="gf-cart__head">
+      <p class="gf-cart__eyebrow">The Order</p>
+      <h1 class="gf-cart__title">Your Order</h1>
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+
+      {%- comment -%}
+        Cart form — wraps both columns.
+        The only submit action here is the Checkout button.
+        Qty and Remove are handled via AJAX in cart.js.
+      {%- endcomment -%}
+      <form action="{{ routes.cart_url }}" method="post" class="gf-cart__layout" id="gf-cart-form">
+
+        {%- comment -%} ── LEFT — Cart items ── {%- endcomment -%}
+        <div class="gf-cart__items-col">
+
+          {%- comment -%} Column headers {%- endcomment -%}
+          <div class="gf-cart__items-header">
+            <span class="gf-cart__col-label">Product</span>
+            <span class="gf-cart__col-label">Price</span>
+          </div>
+
+          {%- for item in cart.items -%}
+            <div class="gf-cart__item">
+
+              {%- comment -%} Product thumbnail {%- endcomment -%}
+              <a class="gf-cart__item-img" href="{{ item.url }}">
+                {%- if item.image -%}
+                  <img
+                    src="{{ item.image | image_url: width: 200 }}"
+                    alt="{{ item.image.alt | escape }}"
+                    width="96"
+                    height="96"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  <span class="gf-cart__item-img-ph"></span>
+                {%- endif -%}
+              </a>
+
+              {%- comment -%} Item details {%- endcomment -%}
+              <div class="gf-cart__item-body">
+
+                <div class="gf-cart__item-top">
+                  <div>
+                    <p class="gf-cart__item-title">{{ item.product.title }}</p>
+                    {%- unless item.variant.title == 'Default Title' -%}
+                      <p class="gf-cart__item-variant">{{ item.variant.title }}</p>
+                    {%- endunless -%}
+                  </div>
+                  <p class="gf-cart__item-price">{{ item.line_price | money }}</p>
+                </div>
+
+                <div class="gf-cart__item-foot">
+                  {%- comment -%}
+                    Qty stepper — data-variant-id is read by cart.js to POST
+                    to /cart/change.js and update the line price + totals live.
+                  {%- endcomment -%}
+                  <div class="gf-cart__qty" data-variant-id="{{ item.variant_id }}">
+                    <button type="button" class="gf-cart__qty-btn gf-cart__qty-minus" aria-label="Decrease quantity">−</button>
+                    <span class="gf-cart__qty-count">{{ item.quantity }}</span>
+                    <button type="button" class="gf-cart__qty-btn gf-cart__qty-plus" aria-label="Increase quantity">+</button>
+                  </div>
+
+                  {%- comment -%}
+                    Remove button — data-variant-id is read by cart.js to POST
+                    quantity: 0 to /cart/change.js and remove the item from the DOM.
+                  {%- endcomment -%}
+                  <button
+                    type="button"
+                    class="gf-cart__item-remove"
+                    data-variant-id="{{ item.variant_id }}"
+                  >Remove</button>
+                </div>
+
+              </div>
+            </div>
+          {%- endfor -%}
+
+        </div>{%- comment -%} end items-col {%- endcomment -%}
+
+        {%- comment -%} ── RIGHT — Order summary panel ── {%- endcomment -%}
+        <div class="gf-cart__summary">
+
+          <p class="gf-cart__sum-eyebrow">Order Summary</p>
+          <p class="gf-cart__sum-title">Review & Confirm</p>
+          <div class="gf-cart__sum-rule"></div>
+
+          <div class="gf-cart__sum-rows">
+            <div class="gf-cart__sum-row">
+              <span class="gf-cart__sum-key">Subtotal</span>
+              <span class="gf-cart__sum-val" id="gf-cart-subtotal">{{ cart.total_price | money }}</span>
+            </div>
+            <div class="gf-cart__sum-row">
+              <span class="gf-cart__sum-key">Shipping</span>
+              <span class="gf-cart__sum-val">Free</span>
+            </div>
+            <div class="gf-cart__sum-row">
+              <span class="gf-cart__sum-key">Taxes</span>
+              <span class="gf-cart__sum-val">At checkout</span>
+            </div>
+          </div>
+
+          <div class="gf-cart__sum-total">
+            <span class="gf-cart__sum-total-key">Total</span>
+            <span class="gf-cart__sum-total-val" id="gf-cart-total">{{ cart.total_price | money }}</span>
+          </div>
+
+          <p class="gf-cart__sum-note">
+            Free interstellar shipping on all orders.
+            Taxes calculated at checkout.
+          </p>
+
+          <button type="submit" name="checkout" class="gf-cart__checkout-btn">
+            Proceed to Checkout
+          </button>
+
+          <a href="{{ routes.all_products_collection_url }}" class="gf-cart__continue-btn">
+            ← Continue Shopping
+          </a>
+
+          <div class="gf-cart__sum-spacer"></div>
+
+          <p class="gf-cart__sum-seal">
+            "May your order reach you safely, and the Force be with its delivery."
+          </p>
+
+        </div>{%- comment -%} end summary {%- endcomment -%}
+
+      </form>
+
+    {%- else -%}
+
+      {%- comment -%}
+        Empty cart state — shown when cart.item_count is 0.
+        Lore copy + CTA back to the collection.
+      {%- endcomment -%}
+      <div class="gf-cart__empty">
+        <p class="gf-cart__empty-rune">⊕</p>
+        <h2 class="gf-cart__empty-title">The Archive Awaits</h2>
+        <p class="gf-cart__empty-body">
+          Your order manifest is empty. The relics of the galaxy
+          will not collect themselves, Padawan.
+        </p>
+        <a href="/collections/light-side" class="gf-cart__empty-btn">
+          Return to the Collection
+        </a>
+      </div>
+
+    {%- endif -%}
+
+  </div>{%- comment -%} end gf-inner {%- endcomment -%}
+</div>{%- comment -%} end gf-cart {%- endcomment -%}
+
+{% render 'section-divider' %}
+
+{%- comment -%}
+  Upsell row — pulls up to 3 products from the Light Side collection.
+  Shown regardless of cart state.
+{%- endcomment -%}
+{%- assign upsell_collection = collections['light-side'] -%}
+{%- if upsell_collection != blank -%}
+  <div class="full-width gf-cart__upsell">
+    <div class="gf-inner">
+      <div class="gf-cart__upsell-header">
+        <h2 class="gf-cart__upsell-title">You May Also Seek</h2>
+        <a href="/collections/light-side" class="gf-cart__upsell-all">View All →</a>
+      </div>
+      <div class="gf-cart__upsell-grid">
+        {%- assign upsell_count = 0 -%}
+        {%- for product in upsell_collection.products -%}
+          {%- if product.has_only_default_variant and upsell_count < 3 -%}
+            <a class="gf-cart__upsell-card" href="{{ product.url }}">
+              <div class="gf-cart__upsell-img">
+                {%- if product.featured_image -%}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 400 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    width="400"
+                    height="400"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+              </div>
+              <div class="gf-cart__upsell-body">
+                <p class="gf-cart__upsell-name">{{ product.title }}</p>
+                <p class="gf-cart__upsell-price">{{ product.price | money }}</p>
+                <button
+                  type="button"
+                  class="gf-cart__upsell-btn"
+                  data-variant-id="{{ product.variants.first.id }}"
+                >Add to Order</button>
+              </div>
+            </a>
+            {%- assign upsell_count = upsell_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
 
 {% schema %}
 {
-  "name": "t:general.cart",
-  "settings": []
+  "name": "Cart",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
 }
 {% endschema %}

@@ -484,7 +484,7 @@
 
 /* JS adds this — transition handles the visual ignition */
 .gf-cfg__blade.is-ignited {
-  height: 160px;
+  height: 190px;
   opacity: 1;
 }
 
@@ -624,9 +624,14 @@
   }
 
   .gf-cfg__assembled-left {
-    min-height: 260px;
+    min-height: 240px;
   }
 
+  .gf-cfg__blade.is-ignited {
+    height: 100px;
+  }
+
+  .gf-cfg__floating-hilt svg { height: 70px; width: auto; }                
   .gf-cfg__title {
     font-size: 1.25rem;
   }
