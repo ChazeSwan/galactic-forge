@@ -41,23 +41,55 @@
 
         <div class="gf-coll__filter-group">
           <p class="gf-coll__filter-title">Category</p>
+
+          {%- comment -%}
+            current_tags is a Shopify array of the tags currently active in the URL.
+            e.g. /collections/light-side/Figures sets current_tags = ['Figures']
+            We use it to mark the correct filter as is-active.
+          {%- endcomment -%}
+
           <ul class="gf-coll__filter-options">
-            <li class="gf-coll__filter-opt is-active">
-              All
-              <span class="gf-coll__filter-count">{{ collection.products_count }}</span>
+
+            {%- comment -%} All — links to the base collection URL, no tag filter {%- endcomment -%}
+            {%- comment -%}
+              Use collections[handle] to always get the full unfiltered collection.
+              When a tag filter is active, collection.products only returns filtered
+              products — so counts and totals would be wrong without this.
+            {%- endcomment -%}
+            {%- assign full_collection = collections[collection.handle] -%}
+
+            <li class="gf-coll__filter-opt{% if current_tags == blank %} is-active{% endif %}">
+              <a href="{{ collection.url }}">
+                All
+                <span class="gf-coll__filter-count">{{ full_collection.products_count }}</span>
+              </a>
             </li>
-            <li class="gf-coll__filter-opt">
-              Lightsabers
-              <span class="gf-coll__filter-count">2</span>
-            </li>
-            <li class="gf-coll__filter-opt">
-              Figures
-              <span class="gf-coll__filter-count">3</span>
-            </li>
-            <li class="gf-coll__filter-opt">
-              Collectibles
-              <span class="gf-coll__filter-count">{{ collection.products_count | minus: 5 }}</span>
-            </li>
+
+            {%- assign filter_tags = 'Lightsabers,Figures,Collectibles' | split: ',' -%}
+            {%- for tag in filter_tags -%}
+              {%- comment -%}
+                Loop through the full unfiltered collection to get accurate counts.
+                Downcase both the tag and product tags so capitalisation doesn't
+                cause a mismatch ("Lightsabers" vs "lightsabers").
+              {%- endcomment -%}
+              {%- assign tag_count = 0 -%}
+              {%- assign tag_lower = tag | downcase -%}
+              {%- for product in full_collection.products -%}
+                {%- for product_tag in product.tags -%}
+                  {%- assign product_tag_lower = product_tag | downcase -%}
+                  {%- if product_tag_lower == tag_lower -%}
+                    {%- assign tag_count = tag_count | plus: 1 -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endfor -%}
+              <li class="gf-coll__filter-opt{% if current_tags contains tag_lower %} is-active{% endif %}">
+                <a href="{{ collection.url }}/{{ tag }}">
+                  {{ tag }}
+                  <span class="gf-coll__filter-count">{{ tag_count }}</span>
+                </a>
+              </li>
+            {%- endfor -%}
+
           </ul>
         </div>
 

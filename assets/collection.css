@@ -219,17 +219,9 @@ body[data-gf-side="light"] .gf-coll__filter-options {
   - cursor: pointer  signals to the user these are clickable
   - transition: color  smooth colour change on hover instead of a hard snap
 */
-/* Links inside filter rows — strip default anchor styles */
-body[data-gf-side="light"] .gf-coll__filter-opt a {
-  text-decoration: none;
-  color: inherit;
-  flex: 1;
-}
-
 body[data-gf-side="light"] .gf-coll__filter-opt {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0.5rem 0;
   border-bottom: 1px solid rgba(43, 108, 176, 0.07);
   font-family: 'Cinzel', serif;
@@ -239,6 +231,19 @@ body[data-gf-side="light"] .gf-coll__filter-opt {
   color: #4A5568;
   cursor: pointer;
   transition: color 0.2s;
+}
+
+/*
+  The <a> tag inside each row takes up the full width and handles
+  the space-between layout — label left, count right.
+*/
+body[data-gf-side="light"] .gf-coll__filter-opt a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
 }
 
 /* Hover — row turns Jedi blue */

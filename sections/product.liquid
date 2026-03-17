@@ -267,14 +267,11 @@
           <div class="gf-product__lore-left">
             <p class="gf-product__lore-from">From The Archives</p>
             {%- comment -%}
-              Line breaks are intentional — the tagline is designed to stack
-              across 3 lines at full width for visual impact.
+              newline_to_br converts line breaks added in Shopify admin
+              into <br> tags — lets us control tagline line breaks per product
+              without hardcoding anything in Liquid.
             {%- endcomment -%}
-            <h2 class="gf-product__lore-quote">
-              Forged in the Kamino<br>
-              Vats, Remembered<br>
-              Forever.
-            </h2>
+            <h2 class="gf-product__lore-quote">{{ product.metafields.custom.lore_tagline | newline_to_br }}</h2>
           </div>
           <div class="gf-product__lore-right">
             <p class="gf-product__lore-body">{{ product.metafields.custom.lore_body | newline_to_br }}</p>
